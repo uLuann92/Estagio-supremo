@@ -1,0 +1,81 @@
+int INDICE = 13, SOMA = 0, K = 0;
+while (K < INDICE) {
+    K = K + 1;
+    SOMA = SOMA + K;
+}
+System.out.println(SOMA);
+
+
+def is_fibonacci(number):
+    a, b = 0, 1
+    while b < number:
+        a, b = b, a + b
+    return b == number or number == 0
+
+# Testando com um número
+number = int(input("Informe um número: "))
+if is_fibonacci(number):
+    print(f"O número {number} pertence à sequência de Fibonacci.")
+else:
+    print(f"O número {number} não pertence à sequência de Fibonacci.")
+
+
+import json
+
+# Carregando dados do faturamento diário
+with open('faturamento.json', 'r') as file:
+    dados = json.load(file)
+
+faturamentos = [dia['valor'] for dia in dados if dia['valor'] > 0]
+
+menor_valor = min(faturamentos)
+maior_valor = max(faturamentos)
+media_mensal = sum(faturamentos) / len(faturamentos)
+
+dias_acima_da_media = sum(1 for valor in faturamentos if valor > media_mensal)
+
+print(f"Menor valor de faturamento: {menor_valor}")
+print(f"Maior valor de faturamento: {maior_valor}")
+print(f"Dias com faturamento acima da média: {dias_acima_da_media}")
+
+
+import json
+
+# Carregando dados do faturamento diário
+with open('faturamento.json', 'r') as file:
+    dados = json.load(file)
+
+faturamentos = [dia['valor'] for dia in dados if dia['valor'] > 0]
+
+menor_valor = min(faturamentos)
+maior_valor = max(faturamentos)
+media_mensal = sum(faturamentos) / len(faturamentos)
+
+dias_acima_da_media = sum(1 for valor in faturamentos if valor > media_mensal)
+
+print(f"Menor valor de faturamento: {menor_valor}")
+print(f"Maior valor de faturamento: {maior_valor}")
+print(f"Dias com faturamento acima da média: {dias_acima_da_media}")
+
+
+faturamento = {
+    "SP": 67836.43,
+    "RJ": 36678.66,
+    "MG": 29229.88,
+    "ES": 27165.48,
+    "Outros": 19849.53
+}
+
+total = sum(faturamento.values())
+
+for estado, valor in faturamento.items():
+    percentual = (valor / total) * 100
+    print(f"{estado}: {percentual:.2f}%")
+
+
+def inverter_string(texto):
+    return texto[::-1]
+
+# Testando com uma string
+texto = input("Digite uma string: ")
+print(f"String invertida: {inverter_string(texto)}")
