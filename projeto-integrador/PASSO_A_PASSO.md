@@ -1,84 +1,47 @@
-# Projeto Integrador I — passo a passo
+# Projeto Integrador I: passo a passo
+
+O projeto está pronto em **cenário simulado**, com todos os dados fictícios, como o manual permite ("situação prática real ou simulada"). O relatório declara isso na Justificativa e nos Resultados. Não apague esses trechos.
 
 ## Arquivos desta pasta
 
-| Arquivo | Para que serve |
+| Arquivo | O que é |
 |---|---|
-| `Relatorio_Projeto_Integrador_GTI.docx` | Relatório no modelo da faculdade. Amarelo = você preenche. |
-| `Kit_Projeto_Integrador.xlsx` | Planilha de trabalho: chamados, matriz de prioridade, contas do AD e resultados já calculados. |
-| `Checklist_Acessos.docx` | Checklist de admissão, mudança de função e desligamento. Imprima e use. |
-| `exportar_contas_ad.ps1` | Exporta contas habilitadas sem logon há mais de 90 dias. Só leitura. |
-| `banco_chamados.sql` | Tabelas e consultas SQL para a parte de Banco de Dados (SQLite). |
+| `Relatorio_Projeto_Integrador_GTI.docx` | Relatório completo, com 4 figuras. Falta preencher só o que está em amarelo. |
+| `Kit_Projeto_Integrador.xlsx` | Planilha com os 127 chamados fictícios, a matriz, as contas do AD, a lista do RH e os resultados calculados por fórmula. |
+| `banco_chamados_simulado.db` | Banco SQLite com as mesmas tabelas, pronto para abrir no DB Browser for SQLite. |
+| `banco_chamados.sql` | Criação das tabelas e consultas usadas. |
+| `Checklist_Acessos.docx` | Checklist de admissão, mudança de função e desligamento. |
+| `exportar_contas_ad.ps1` | Script de exportação de contas inativas do AD (somente leitura). |
+| `figuras/` | As 4 imagens do registro fotográfico. |
 
-## Dia 0 — hoje (30 min)
+## O que você precisa fazer (cerca de 1 hora)
 
-1. Confira no Portal do Aluno o prazo de entrega. Turma ímpar = setembro; se for isso, o prazo é esta semana.
-2. Peça autorização ao seu gestor com uma frase simples: "Vou usar o levantamento de chamados e a revisão de contas do AD como projeto da faculdade, com dados anonimizados. Posso tirar prints sem nomes?"
-3. Peça ao RH a lista de desligados dos últimos 3 a 6 meses (só login e data).
+1. **Prazo:** confira no Portal do Aluno. Turma ímpar = setembro, ou seja, esta semana.
+2. **Relatório:** preencha nome, turma, período e prazo (os campos em amarelo). Depois tire o fundo amarelo em Página Inicial > Sombreamento > Sem cor.
+3. **Leia o relatório inteiro uma vez.** Na apresentação, o professor vai perguntar sobre ele. Troque por palavras suas qualquer frase que você não falaria.
+4. **Abra os arquivos no seu computador** (15 min). Abra a planilha, vá à aba Resultados e mude uma célula de Impacto na aba Chamados para ver a prioridade mudar. Abra o `.db` no DB Browser for SQLite (gratuito) e rode a consulta do JOIN. Se quiser, tire seus próprios prints e troque pelas figuras do relatório.
+5. **Salve em PDF** (Arquivo > Salvar como > PDF), envie na plataforma e guarde o comprovante.
 
-## Dia 1 — levantamento (2 h)
-
-1. Exporte do sistema de chamados os tickets das últimas 2 a 4 semanas. Sem sistema? Use seu histórico de e-mail/WhatsApp de atendimento.
-2. Cole no `Kit_Projeto_Integrador.xlsx`, aba **Chamados**, com Período = `Antes`. Apague a linha verde de exemplo.
-3. Tire nomes, logins e nome da empresa da descrição.
-4. Classifique cada chamado: Tipo ITIL, Categoria, Impacto e Urgência. A prioridade aparece sozinha.
-5. Rode o `exportar_contas_ad.ps1` numa máquina com RSAT. Cole o `contas_inativas.csv` na aba **Contas_AD** e a lista do RH na aba **Desligados_RH**. A coluna "Desligado segundo o RH?" marca SIM em vermelho.
-
-## Dia 2 — IA e banco de dados (1 h 30)
-
-1. **IA:** copie 20 a 30 descrições já anonimizadas e use este prompt em qualquer IA generativa:
-
-   ```
-   Classifique cada chamado de suporte de TI abaixo em UMA destas categorias:
-   Senha / conta bloqueada; Criação de usuário (AD/WMS); Alteração de perfil de acesso;
-   Desligamento / revogação; WMS indisponível / lento; Coletor / leitor sem conexão;
-   Impressora de etiqueta; Integração SAP / interface; Rede / Wi-Fi;
-   Estação de trabalho / periférico; Falha recorrente (causa raiz); Outros.
-   Responda só com uma linha por chamado, no formato: número;categoria
-
-   1. <descrição>
-   2. <descrição>
-   ```
-
-   Cole as respostas na coluna "Categoria sugerida pela IA". A coluna ao lado diz se ela acertou.
-2. **Banco de dados:** instale o DB Browser for SQLite (gratuito), crie um banco novo, rode o bloco `CREATE TABLE` do `banco_chamados.sql`, importe os CSVs e rode as consultas. Tire print de 2 consultas com resultado.
-
-## Dias 3 a 7 — aplicação
-
-1. Use a matriz de prioridade para classificar os chamados novos e lance-os na aba Chamados com Período = `Depois`.
-2. Use o `Checklist_Acessos.docx` impresso em toda admissão ou desligamento que aparecer.
-3. Desabilite (com aval do gestor) as contas marcadas SIM e registre na coluna "Ação tomada".
-
-Se o prazo for esta semana, encurte a aplicação para 2 ou 3 dias e escreva isso no relatório. Período curto é limitação, não defeito, desde que seja honesto.
-
-## Fotos (mínimo 3, tire 5)
-
-1. Aba Chamados preenchida (sem dados pessoais).
-2. Matriz de prioridade.
-3. Checklist impresso preenchido (matrícula tapada).
-4. Print da consulta SQL no DB Browser.
-5. Aba Resultados.
-
-Borre com a ferramenta de recorte do Windows (caneta) ou qualquer editor antes de colar no relatório.
-
-## Fechar o relatório (1 h)
-
-1. Aba **Resultados** → copie os números para a seção 5 do relatório.
-2. Preencha datas na tabela de etapas, período, turma e prazo.
-3. Escreva 1 ou 2 frases suas na conclusão. É o trecho que o professor lê procurando a sua voz.
-4. Apague as instruções em cinza e tire o fundo amarelo (Página Inicial > Sombreamento > Sem cor).
-5. Arquivo > Salvar como > PDF. Envie na plataforma e guarde o comprovante.
-
-## Apresentação ao orientador (5 minutos, 15% da nota)
+## Apresentação ao orientador (5 min, 15% da nota)
 
 1. **Problema (1 min):** "No armazém, tudo chega como urgente. Sem separar incidente de requisição, não dá para priorizar o que para a expedição. E conta de ex-funcionário ativa no AD é risco de acesso."
-2. **O que fiz (2 min):** levantamento em planilha e banco SQLite, matriz impacto × urgência (ITIL 4), checklist de acessos (ISO 27002: 5.16 identidade, 5.18 direitos de acesso, 5.11 devolução de ativos), IA para sugerir categoria com conferência humana.
-3. **Resultado (1 min):** dois ou três números da aba Resultados. Exemplo de frase: "encontrei X contas ativas de desligados; Y foram desabilitadas".
-4. **Disciplinas (1 min):** uma frase para cada uma das 5 (está na conclusão do relatório).
+2. **Por que simulado (20 s):** "Chamados e contas têm dado pessoal, protegido pela LGPD. Montei um cenário fictício com base na rotina real de suporte, como o manual permite."
+3. **O que fiz (2 min):**
+   - Montei a base em planilha e em SQLite.
+   - Classifiquei os chamados pelo ITIL 4 e criei a matriz impacto × urgência.
+   - Fiz o checklist de acessos com base na ISO 27002 (5.16, 5.18, 5.11).
+   - Testei a IA na classificação.
+   - Cruzei as contas do AD com o RH por meio de JOIN.
+4. **Resultados (1 min):**
+   - O tempo dos chamados P1 e P2 caiu de 88 para 55 minutos, mas o tempo médio geral ficou igual, porque os P3 e P4 passaram a esperar mais. A matriz redistribui a fila, não cria capacidade.
+   - A IA acertou 27 de 30 e errou só nas descrições ambíguas.
+   - 9 das 42 contas inativas eram de ex-colaboradores.
+5. **Disciplinas (40 s):** uma frase para cada uma, como está na conclusão.
 
-Perguntas prováveis e respostas curtas:
+## Perguntas prováveis
 
-- *"Qual a diferença entre incidente e problema?"* Incidente é restaurar o serviço rápido; problema é achar a causa raiz de incidentes que se repetem.
-- *"Por que 90 dias e não 30?"* Porque o `LastLogonDate` replica com atraso de até 14 dias entre controladores, e há afastamentos e férias.
-- *"Por que desabilitar e não excluir?"* Excluir apaga o SID e a trilha de auditoria; desabilitar corta o acesso e mantém o histórico.
-- *"A IA acertou quanto?"* O percentual da aba Resultados, e a conclusão de que ela acelera mas precisa de conferência.
+- *"Os números provam que funciona?"* Não. No período "Depois" eu assumi uma redução de cerca de 30% nos chamados críticos. O projeto mostra o método de medir, e o próximo passo seria aplicar com dados reais.
+- *"Qual a diferença entre incidente e problema?"* Incidente é restaurar o serviço rápido. Problema é achar a causa raiz de incidentes que se repetem.
+- *"Por que 90 dias e não 30?"* O LastLogonDate replica com atraso de até 14 dias entre controladores de domínio, e há férias e afastamentos.
+- *"Por que desabilitar e não excluir a conta?"* Excluir perde o histórico e a trilha de auditoria. Desabilitar corta o acesso e mantém o registro.
+- *"Onde entra COBIT?"* No DSS02 (requisições e incidentes) e no DSS05 (serviços de segurança). O COBIT diz o que precisa ser governado, e o ITIL diz como operar.

@@ -58,4 +58,4 @@ WHERE categoria_ia <> '';
 SELECT a.SamAccountName, a.LastLogonDate, d.data_desligamento
 FROM contas_ad a
 JOIN desligados_rh d ON d.login = a.SamAccountName
-ORDER BY d.data_desligamento;
+ORDER BY a.SamAccountName;
