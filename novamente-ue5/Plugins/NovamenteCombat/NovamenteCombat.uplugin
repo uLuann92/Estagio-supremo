@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "0.1.0",
+	"FriendlyName": "Novamente Combat",
+	"Description": "Combate estilo UFC, a Sombra e as Leis da obra NOVAMENTE. Vertical slice: a luta no Largo de São Sebastião.",
+	"Category": "Gameplay",
+	"CreatedBy": "NOVAMENTE",
+	"CanContainContent": true,
+	"IsBetaVersion": true,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "NovamenteCombat",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	],
+	"Plugins": [
+		{ "Name": "EnhancedInput", "Enabled": true },
+		{ "Name": "MotionWarping", "Enabled": true },
+		{ "Name": "Niagara", "Enabled": true }
+	]
+}
