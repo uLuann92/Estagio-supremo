@@ -1,5 +1,6 @@
 ﻿#include "NovSombraSubsystem.h"
 #include "NovCombatComponent.h"
+#include "NovCombatDirectorSubsystem.h"
 #include "NovDamageComponent.h"
 #include "NovFightGameMode.h"
 #include "NovFighterCharacter.h"
@@ -55,10 +56,27 @@ ANovFightGameMode* UNovSombraSubsystem::GetFightMode() const
 	return World ? World->GetAuthGameMode<ANovFightGameMode>() : nullptr;
 }
 
+UNovCombatDirectorSubsystem* UNovSombraSubsystem::GetDirector() const
+{
+	const UWorld* World = GetWorld();
+	return World ? World->GetSubsystem<UNovCombatDirectorSubsystem>() : nullptr;
+}
+
 ANovFighterCharacter* UNovSombraSubsystem::GetPlayerFighter() const
 {
-	const ANovFightGameMode* Mode = GetFightMode();
-	return Mode ? Mode->GetPlayerFighter() : nullptr;
+	const UNovCombatDirectorSubsystem* Director = GetDirector();
+	return Director ? Director->GetPlayerFighter() : nullptr;
+}
+
+bool UNovSombraSubsystem::IsCombatOn() const
+{
+	// Na arena, só durante o round. No mundo aberto, quando o jogador está brigando.
+	if (const ANovFightGameMode* Mode = GetFightMode())
+	{
+		return Mode->IsFighting();
+	}
+	const UNovCombatDirectorSubsystem* Director = GetDirector();
+	return Director && Director->IsPlayerInCombat();
 }
 
 void UNovSombraSubsystem::Play2D(const TSoftObjectPtr<USoundBase>& Sound, float Volume) const
@@ -107,8 +125,8 @@ void UNovSombraSubsystem::PickColor()
 void UNovSombraSubsystem::SayLine(float Duration)
 {
 	const TArray<FText>& Lines = UNovamenteSettings::Get()->SombraLines;
-	ANovFightGameMode* Mode = GetFightMode();
-	if (!Mode || Lines.Num() == 0)
+	UNovCombatDirectorSubsystem* Director = GetDirector();
+	if (!Director || Lines.Num() == 0)
 	{
 		return;
 	}
@@ -118,7 +136,7 @@ void UNovSombraSubsystem::SayLine(float Duration)
 		Index = (Index + 1) % Lines.Num();
 	}
 	LastLineIndex = Index;
-	Mode->Say(LOCTEXT("Sombra", "Sombra"), Lines[Index], ENovLineStyle::Sombra, Duration);
+	Director->Say(LOCTEXT("Sombra", "Sombra"), Lines[Index], ENovLineStyle::Sombra, Duration);
 }
 
 void UNovSombraSubsystem::AddMeter(float Amount)
@@ -128,8 +146,7 @@ void UNovSombraSubsystem::AddMeter(float Amount)
 
 bool UNovSombraSubsystem::TryActivate()
 {
-	const ANovFightGameMode* Mode = GetFightMode();
-	if (!IsReady() || !Mode || !Mode->IsFighting())
+	if (!IsReady() || !IsCombatOn())
 	{
 		return false;
 	}
@@ -168,9 +185,9 @@ void UNovSombraSubsystem::BeginSombra()
 	}
 	TinnitusAudio = nullptr;
 	ApplyBoost(GetPlayerFighter(), true);
-	if (ANovFightGameMode* Mode = GetFightMode())
+	if (UNovCombatDirectorSubsystem* Director = GetDirector())
 	{
-		Mode->Banner(LOCTEXT("SombraTitle", "A Sombra"), LOCTEXT("SombraSub", "ela fala mais alto que a dor"));
+		Director->Banner(LOCTEXT("SombraTitle", "A Sombra"), LOCTEXT("SombraSub", "ela fala mais alto que a dor"));
 	}
 	SayLine(3.f);
 	OnSombraChanged.Broadcast(true);
@@ -186,9 +203,9 @@ void UNovSombraSubsystem::EndSombra()
 		Player->ApplyTremble(TrembleAfter);
 		Player->GetDamage()->CapStamina(StaminaCapAfter);
 	}
-	if (ANovFightGameMode* Mode = GetFightMode())
+	if (UNovCombatDirectorSubsystem* Director = GetDirector())
 	{
-		Mode->Say(FText::GetEmpty(), LOCTEXT("Tremble", "As mãos tremem. Sempre tremem depois."), ENovLineStyle::Inner, 3.f);
+		Director->Say(FText::GetEmpty(), LOCTEXT("Tremble", "As mãos tremem. Sempre tremem depois."), ENovLineStyle::Inner, 3.f);
 	}
 	OnSombraChanged.Broadcast(false);
 }
@@ -221,9 +238,9 @@ void UNovSombraSubsystem::SetReality2(bool bOn)
 	bReality2 = bOn;
 	if (bOn)
 	{
-		if (ANovFightGameMode* Mode = GetFightMode())
+		if (UNovCombatDirectorSubsystem* Director = GetDirector())
 		{
-			Mode->Banner(LOCTEXT("R2", "Realidade 2"), LOCTEXT("R2Sub", "o mundo está sem cor"));
+			Director->Banner(LOCTEXT("R2", "Realidade 2"), LOCTEXT("R2Sub", "o mundo está sem cor"));
 		}
 	}
 }
@@ -238,11 +255,13 @@ void UNovSombraSubsystem::Tick(float DeltaTime)
 
 	// DeltaTime já vem com a câmera lenta; a tela e o som usam o tempo real.
 	const float RealDelta = FMath::Min(static_cast<float>(FApp::GetDeltaTime()), 0.05f);
-	ANovFightGameMode* Mode = GetFightMode();
+	const ANovFightGameMode* Mode = GetFightMode();
+	const UNovCombatDirectorSubsystem* Director = GetDirector();
 	ANovFighterCharacter* Player = GetPlayerFighter();
-	const bool bFighting = Mode && Mode->IsFighting();
-	// A Sombra atravessa o intervalo (como no protótipo); acaba no fim da luta ou numa revanche.
-	const bool bInFight = Mode && (Mode->GetPhase() == ENovFightPhase::Fight || Mode->GetPhase() == ENovFightPhase::Break);
+	const bool bFighting = IsCombatOn();
+	// A Sombra atravessa o intervalo (como no protótipo); na arena acaba no fim da luta ou numa revanche.
+	// No mundo aberto dura o tempo dela.
+	const bool bInFight = !Mode || Mode->GetPhase() == ENovFightPhase::Fight || Mode->GetPhase() == ENovFightPhase::Break;
 
 	// 2ª Lei, depois a Sombra.
 	if (TriggerLeft > 0.f)
@@ -339,10 +358,10 @@ void UNovSombraSubsystem::Tick(float DeltaTime)
 	Flash = FMath::Max(0.f, Flash - RealDelta * 1.8f);
 	Muffle = NovDamp(Muffle, 0.f, 1.3f, RealDelta);
 	Desat = NovDamp(Desat, bReality2 ? 1.f : 0.f, 3.f, RealDelta);
-	Caos = NovDamp(Caos, Mode && Mode->IsCaosActive() ? 1.f : 0.f, 6.f, RealDelta);
+	Caos = NovDamp(Caos, Director && Director->IsCaosActive() ? 1.f : 0.f, 6.f, RealDelta);
 
 	UpdateAudio();
-	WriteParameters(Mode ? Mode->GetShake() : 0.f, Mode ? Mode->GetCrowdExcitement() : 0.f);
+	WriteParameters(Director ? Director->GetShake() : 0.f, Director ? Director->GetCrowdExcitement() : 0.f);
 }
 
 void UNovSombraSubsystem::UpdateAudio()

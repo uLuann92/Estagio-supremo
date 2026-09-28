@@ -40,6 +40,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Lutador")
 	FText Team;
 
+	/**
+	 * Lado do lutador. Dois lutadores são inimigos a não ser que tenham o mesmo lado preenchido
+	 * (Luan, Emma e Mateus podem ficar em "Luan"; a rua deixa vazio).
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Lutador")
+	FName Faction;
+
 	/** Multiplica o alcance dos golpes (braços e pernas mais longos). */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Lutador")
 	float ReachScale = 1.f;
@@ -53,6 +60,13 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Lutador|Movimento", meta = (Units = "cm/s"))
 	float StrafeSpeed = 135.f;
+
+	/** Andando livre pelo mundo (sem alvo): velocidade de trote e rapidez para virar na direção do passo. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Lutador|Movimento", meta = (Units = "cm/s"))
+	float FreeMoveSpeed = 420.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Lutador|Movimento")
+	float FreeTurnRate = 10.f;
 
 	/** Rapidez com que vira para o adversário. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Lutador|Movimento")
@@ -126,6 +140,13 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Lutador") UMotionWarpingComponent* GetMotionWarping() const { return MotionWarping; }
 
 	UFUNCTION(BlueprintCallable, Category = "Lutador") void SetMoveInput(FVector2D Input) { MoveInput = Input.GetClampedToMaxSize(1.f); }
+	/** Sem alvo, o analógico anda em relação à câmera: este é o rumo (yaw) dela. */
+	UFUNCTION(BlueprintCallable, Category = "Lutador") void SetMoveBasisYaw(float Yaw) { MoveBasisYaw = Yaw; }
+	UFUNCTION(BlueprintPure, Category = "Lutador") bool CanBeTargeted() const { return FightState != ENovFighterState::KnockedOut; }
+	UFUNCTION(BlueprintPure, Category = "Lutador") bool IsHostileTo(const ANovFighterCharacter* Other) const
+	{
+		return Other && Other != this && (Faction.IsNone() || Faction != Other->Faction);
+	}
 	UFUNCTION(BlueprintCallable, Category = "Lutador") void SetOpponent(ANovFighterCharacter* InOpponent) { Opponent = InOpponent; }
 	UFUNCTION(BlueprintPure, Category = "Lutador") ANovFighterCharacter* GetOpponent() const { return Opponent.Get(); }
 	UFUNCTION(BlueprintPure, Category = "Lutador") float GetDistanceToOpponent() const;
@@ -183,6 +204,7 @@ private:
 	TWeakObjectPtr<ANovFighterCharacter> Opponent;
 	FTransform Home;
 	float StateTime = 0.f;
+	float MoveBasisYaw = 0.f;
 
 	UPROPERTY() TArray<TObjectPtr<UMaterialInstanceDynamic>> BodyMaterials;
 	UPROPERTY() TObjectPtr<UMaterialInstanceDynamic> FaceMaterial;

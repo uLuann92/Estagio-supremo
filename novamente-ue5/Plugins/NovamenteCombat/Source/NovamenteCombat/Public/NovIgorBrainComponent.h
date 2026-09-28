@@ -7,6 +7,7 @@
 
 class ANovFighterCharacter;
 class ANovFightGameMode;
+class UNovCombatDirectorSubsystem;
 class USoundBase;
 
 /**
@@ -40,6 +41,13 @@ public:
 	/** Espera antes de castigar um golpe no vazio. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "IA") FVector2D CounterDelay = FVector2D(0.06f, 0.16f);
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "IA") FVector2D CircleSwitch = FVector2D(1.1f, 3.2f);
+	/** Mundo aberto: distância em que ele percebe o Luan e vem brigar. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "IA", meta = (Units = "cm")) float AggroRadius = 1500.f;
+	/** Em grupo, quem está sem ficha de ataque espera mais longe, rodeando. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "IA", meta = (Units = "cm")) float WaitingDistanceBonus = 140.f;
+	/** Quanto tempo uma ficha de ataque dura (um golpe ou uma sequência curta). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "IA", meta = (Units = "s")) float AttackTokenTime = 1.4f;
+
 	/** Perto da grade, circula para voltar ao centro. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "IA", meta = (Units = "cm")) float CageMargin = 60.f;
 
@@ -70,6 +78,10 @@ private:
 
 	ANovFighterCharacter* GetFighter() const;
 	ANovFightGameMode* GetFightMode() const;
+	UNovCombatDirectorSubsystem* GetDirector() const;
+	void AcquireOpponent();
+	/** Pede ficha ao diretor; sem diretor (ou na arena com um só inimigo), sempre pode. */
+	bool MayAttack(ANovFighterCharacter* Me, ANovFighterCharacter* Them, float Seconds) const;
 	void BindToOpponent();
 	void UnbindFromOpponent();
 

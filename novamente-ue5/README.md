@@ -22,9 +22,14 @@ novamente-ue5/
       NovCombatComponent          preparação, janela ativa, recuperação, combos, buffer, guarda, esquiva, Motion Warping
       NovDamageComponent          vida por zona, fôlego, 1ª Lei (dor atrasada), Lei de Goggins (hematomas)
       NovFighterCharacter         lutador: movimento em relação ao adversário, reações com física, suor, vapor, queda
-      NovFightGameMode            rounds, relógio, quedas, nocaute, decisão, Visão do Caos, hit-stop, falas, save
+      NovCombatDirectorSubsystem  regras de cada golpe em qualquer mapa: queda, nocaute, hit-stop, Visão do Caos,
+                                  medidor da Sombra, fichas de ataque para grupos, legendas
+      NovFightGameMode            a arena do Largo: rounds, relógio, decisão, falas da cena, tela final, save
+      NovTargetingComponent       travamento de alvo do mundo aberto: soft-lock, trava, troca no analógico
+      NovCombatCamera             câmera de ombro do mundo aberto: enquadra o alvo e o grupo, não atravessa parede
       NovSombraSubsystem          a Sombra, a 2ª Lei, Realidade 2, relâmpago, coração, sussurros, parâmetros de tela
-      NovIgorBrainComponent       IA do Igor (contra-ataque, lê o golpe, castiga golpe no vazio, tique-taque)
+      NovIgorBrainComponent       IA do Igor (contra-ataque, lê o golpe, castiga golpe no vazio, tique-taque);
+                                  no mundo aberto percebe o Luan, respeita as fichas de ataque e desiste de longe
       NovFightCamera              câmera de transmissão com o teatro ao fundo
       NovPlayerController         controles (teclado e controle) criados em tempo de execução
       NovHUDWidget                interface montada em C++ (barras, relógio, legendas, abertura, pausa, fim)
@@ -77,7 +82,10 @@ novamente-ue5/
 | Chute baixo / alto | U / O | A / LB (X / L1) |
 | Guarda (segurar) | Shift | LT (L2) |
 | Esquiva de pêndulo | Espaço (+ lado) | RT (R2) |
-| Ouvir a Sombra (barra cheia) | Q | R3 |
+| Ouvir a Sombra (barra cheia) | Q | L3 |
+| Câmera (mundo aberto) | mouse | analógico direito |
+| Travar e soltar o alvo (mundo aberto) | Tab / botão do meio | R3 |
+| Trocar de alvo com a trava | Z / C ou puxão do mouse | toque do analógico direito para o lado |
 | Realidade 2 | R | D-pad cima |
 | Pausa e controles | Esc / H | Start / Options |
 | Tela final: revanche / curar e lutar | J / K | X / Y |
@@ -103,6 +111,21 @@ Soco com o Igor caído e perto vira ground and pound. Esquiva no último instant
 - **Golpes.** Crie um `NovMoveSet` (Data Asset), clique em "Fill With Prototype Values" e coloque uma montagem em cada golpe. A montagem é tocada na velocidade que casa com Preparação + Ativo + Recuperação, então o tempo de jogo manda, não o tamanho do clipe. Coloque uma janela de Motion Warping chamada `Strike` durante a preparação: o golpe se alinha com a cabeça, o corpo ou a coxa do adversário.
 - **Reações.** `Hit Reactions` por zona, `Block Reaction`, `Get Up Montage` e `Victory Montage` no lutador. Sem elas, a física parcial já dá a reação.
 - **Mocap.** Para golpes de MMA com peso real: captura com Move.ai, Rokoko ou Xsens (ou pacotes do Fab), limpeza em Control Rig, rosto com MetaHuman Animator.
+
+## Usando no mundo aberto (Mutirão)
+
+O plugin funciona fora da arena. Em qualquer modo de jogo que não seja o `NovFightGameMode`:
+- o `NovPlayerController` usa a câmera de combate e põe um `NovTargetingComponent` no Luan (se o Blueprint dele ainda não tiver);
+- o Luan anda em relação à câmera e, perto de um inimigo, entra em postura e passa a encará-lo;
+- a trava prende no alvo até ele cair nocauteado, sumir de vista ou ficar longe.
+
+Os inimigos são Blueprints filhos de `NovFighterCharacter` com o `NovIgorBrainComponent`:
+- percebem o Luan a até 15 m (`Aggro Radius`) e desistem se ele fugir para além de 22,5 m;
+- no máximo dois atacam o mesmo alvo ao mesmo tempo (`Max Attackers Per Target` no diretor); os outros rodeiam mais longe esperando a vez.
+
+Quem luta do mesmo lado usa o mesmo `Faction` (por exemplo, `Luan` para Luan, Emma e Mateus). Com o lado vazio, todo mundo é inimigo de todo mundo.
+
+Queda e nocaute valem em qualquer mapa. O modo de jogo do mundo aberto escuta `OnKnocked` do diretor para decidir o que acontece quando o Luan é nocauteado (voltar ao último ponto, cena, etc.).
 
 ## Parâmetros de tela (MPC_Novamente)
 

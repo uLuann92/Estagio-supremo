@@ -15,12 +15,51 @@ Você é o diretor de arte técnico deste projeto. A tarefa agora não é criar 
   - na maior parte do dia o céu é branco-azulado de umidade;
   - chove forte de repente, principalmente à tarde.
 
-  Troque a regra fixa por luz por cena (seção 5, fase E). O dourado vira exceção de fim de tarde, não padrão.
+  Troque a regra fixa por luz por cena (seção 6, fase E). O dourado vira exceção de fim de tarde, não padrão.
 
 - **Ghost of Tsushima é só o método visual.** Luz, vento, partículas, céu, silhueta, paleta por lugar e peso da animação. Nada de japonês no conteúdo.
 - **O tom é realismo sujo.** A cor pode ser forte, mas tudo tem idade, umidade, barro, poeira e uso. Nada fica limpo nem novo.
 
-## 3. Diagnóstico: por que hoje parece argila (prompt negativo)
+## 3. Regras de arquitetura (não negociáveis)
+
+Estas regras existem para nenhuma IA desviar NOVAMENTE para fórmulas genéricas. Qualquer exceção precisa de ADR com o motivo e da aprovação do autor.
+
+- **Zero assets orientais.**
+  - Nada de pacotes "oriental", "japanese", "asian village", "samurai", "shrine", "torii", "bamboo forest", "feudal" ou parecidos. Nem como provisório.
+  - Do Ghost of Tsushima vem só o método (direção de arte, luz, vento, física, peso). O conteúdo é Manaus.
+- **Mixamo está descartado.** Não serve para o rigor físico de MMA: não tem transferência de peso nem contato firme no solo, e o pé desliza.
+  - O pipeline de animação é captura de movimento (Rokoko, Move.ai ou estúdio) refinada no Control Rig e aplicada em MetaHumans.
+  - Para testar lógica antes da captura, use as animações do Game Animation Sample.
+- **A base de movimento é o Game Animation Sample (Motion Matching), não o Lyra.** O Lyra traz rede e sistemas de tiro multiplayer que só poluem um jogo de luta para um jogador.
+- **O combate é mão e pé, estilo UFC.** Não existe espada nem sistema de troca de armas. A fonte do combate é o plugin NovamenteCombat (C++):
+  - preparação, janela ativa e recuperação de cada golpe;
+  - esquiva e Visão do Caos;
+  - Motion Warping para o golpe chegar no alvo certo;
+  - diretor de combate (queda, nocaute, hit-stop, fichas de ataque em grupo);
+  - travamento de alvo e câmera de combate.
+- **GAS só com ADR.**
+  - Para os tempos exatos de um golpe, janelas curtas de esquiva e acerto preciso, o componente próprio em C++ é mais rápido e confiável.
+  - O Gameplay Ability System entra quando o mundo aberto exigir sistemas paralelos de RPG (fôlego, buffs da Sombra, ferimentos, itens). Aí migram só os atributos e efeitos; o golpe continua no plugin.
+- **Linguagens.**
+
+  | Linguagem | Para quê |
+  |---|---|
+  | C++ | Sistemas e desempenho |
+  | Blueprint | Montar personagens, AnimBP e ajustes de designer |
+  | Python | Ferramentas do editor: montar cenário, criar materiais, fotos de revisão |
+  | HLSL | Nós Custom de material e pós-processamento |
+
+  Nada de lógica pesada em Blueprint no Tick.
+- **Mundo aberto com World Partition.**
+  - O Mutirão é carregado em células, com HLOD para o longe.
+  - Data Layers para dia, noite e chuva. Level Instances para os quarteirões do kit modular.
+  - PCG para espalhar capim, lixo e detalhe.
+  - Sem tela de carregamento dentro do bairro.
+- **Calibração antes de efeito.**
+  - Exposição e albedo com números, materiais em camadas (reboco descascando, asfalto úmido, barro, poças), vento constante na vegetação e na roupa.
+  - Ligar Nanite e Lumen não resolve nada se o material parecer plástico.
+
+## 4. Diagnóstico: por que hoje parece argila (prompt negativo)
 
 As fotos atuais mostram exatamente o que não queremos:
 
@@ -41,7 +80,7 @@ As fotos atuais mostram exatamente o que não queremos:
 
 Tudo isso vira lista de proibições. Nenhuma foto final pode ter um desses itens.
 
-## 4. O alvo
+## 5. O alvo
 
 **O nível mínimo de close é o render 3D do Luan criança:**
 - luz dura entrando por um cobogó de concreto, com feixes volumétricos e poeira suspensa;
@@ -72,7 +111,7 @@ A primeira prova de que o pipeline funciona é recriar essa cena dentro da Unrea
   - igarapé poluído no fundo.
 - **Vida:** mercadinho, placa de açaí, moto e mototáxi, varal, pipa no céu, cachorro vira-lata, criança de chinelo.
 
-## 5. Ordem de trabalho (substitui os passos 4 a 8 anteriores)
+## 6. Ordem de trabalho (substitui os passos 4 a 8 anteriores)
 
 O aspecto de estúdio grande vem primeiro de material, detalhe de geometria e luz calibrada. Partícula, paleta e pós-processamento em cima de argila só decoram argila. Por isso a ordem muda.
 
@@ -89,7 +128,7 @@ O aspecto de estúdio grande vem primeiro de material, detalhe de geometria e lu
 - **Números (EV100 alvo):** meio-dia de sol 14 a 15; nublado 12 a 13; fim de tarde 11 a 12; interior com janela 7 a 9; rua à noite com poste 3 a 5.
   - Sol limpo ao meio-dia perto de 100.000 lux.
   - Céu sem pixel estourado fora do disco do sol e de reflexos.
-- **Prova.** Fotos das câmeras de revisão (seção 6) nas horas 7h, 12h, 17h45 e 21h. Visualização de HDR sem céu clipado.
+- **Prova.** Fotos das câmeras de revisão (seção 7) nas horas 7h, 12h, 17h45 e 21h. Visualização de HDR sem céu clipado.
 
 ### Fase B · Kit modular do Mutirão (geometria)
 
@@ -177,6 +216,8 @@ Neblina volumétrica para feixes de luz em interiores e na chuva.
   - Olhar seguindo o que importa, mão na parede ao encostar.
   - Rosto com MetaHuman Animator nas falas.
   - Nada de braço duro caído ao lado do corpo.
+  - Golpes de MMA por captura, ligados ao NovMoveSet do plugin, com janela de Motion Warping chamada `Strike`.
+  - Luta de rua em grupo com o travamento de alvo (soft-lock, trava, troca no analógico) e a câmera de combate do plugin.
 - **Prova.** Vídeo de 30 s andando, correndo, parando e virando na rua. Nenhum pé deslizando.
 
 ### Fase H · Partículas e rua viva (seus antigos passos 4 e 5)
@@ -210,7 +251,7 @@ Só depois de a luz e o material estarem certos:
 - Número de `stat unit` e `stat gpu` ao fim de cada fase.
 - Medir com Unreal Insights antes de otimizar.
 
-## 6. Câmeras de revisão
+## 7. Câmeras de revisão
 
 Coloque no mapa seis câmeras fixas, com as tags Rev_01 a Rev_06:
 
@@ -225,7 +266,7 @@ Coloque no mapa seis câmeras fixas, com as tags Rev_01 a Rev_06:
 
 A cada etapa, faça as fotos (HighResShot 1920×1080) das seis câmeras, antes e depois, lado a lado com a referência. Liste com honestidade o que ainda está pior que a referência.
 
-## 7. Regras de trabalho
+## 8. Regras de trabalho
 
 - **Etapas.** Uma fase por vez, na ordem. Não avance com o portão da fase anterior reprovado.
 - **Registro.** Uma ADR por decisão, com número, motivo e foto.
@@ -245,10 +286,11 @@ A cada etapa, faça as fotos (HighResShot 1920×1080) das seis câmeras, antes e
   - golpe e movimento com peso real exigem captura de movimento;
   - fotos do Mutirão de verdade o autor tira no local, ou vêm do Street View.
 
-## 8. Sua primeira resposta
+## 9. Sua primeira resposta
 
-1. As fotos das seis câmeras como o jogo está hoje, com o diagnóstico da seção 3 conferido item por item.
-2. A ADR-032 (luz de Manaus no lugar do sol baixo fixo) e o plano da Fase A com os números.
-3. A lista de downloads da Fase A até a Fase D para o autor.
+1. As fotos das seis câmeras como o jogo está hoje, com o diagnóstico da seção 4 conferido item por item.
+2. A confirmação das regras de arquitetura da seção 3, com o que no projeto atual as contraria (pacote, animação, sistema) e como sai.
+3. A ADR-032 (luz de Manaus no lugar do sol baixo fixo) e o plano da Fase A com os números.
+4. A lista de downloads da Fase A até a Fase D para o autor.
 
 Depois execute a Fase A e mostre a prova antes de seguir.

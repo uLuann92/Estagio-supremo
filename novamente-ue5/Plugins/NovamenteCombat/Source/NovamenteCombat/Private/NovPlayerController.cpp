@@ -1,10 +1,12 @@
 ﻿#include "NovPlayerController.h"
+#include "NovCombatCamera.h"
 #include "NovCombatComponent.h"
 #include "NovFightCamera.h"
 #include "NovFightGameMode.h"
 #include "NovFighterCharacter.h"
 #include "NovHUDWidget.h"
 #include "NovSombraSubsystem.h"
+#include "NovTargetingComponent.h"
 #include "NovamenteCombat.h"
 #include "EngineUtils.h"
 #include "EnhancedInputComponent.h"
@@ -20,6 +22,7 @@ ANovPlayerController::ANovPlayerController()
 	bAutoManageActiveCameraTarget = false;
 	HUDClass = UNovHUDWidget::StaticClass();
 	CameraClass = ANovFightCamera::StaticClass();
+	CombatCameraClass = ANovCombatCamera::StaticClass();
 }
 
 // ---------------------------------------------------------------------------
@@ -51,6 +54,11 @@ void ANovPlayerController::BuildInput()
 	Reality2Action = MakeAction(TEXT("IA_Reality2"), EInputActionValueType::Boolean);
 	PauseAction = MakeAction(TEXT("IA_Pause"), EInputActionValueType::Boolean);
 	PauseAction->bTriggerWhenPaused = true;
+	LookAction = MakeAction(TEXT("IA_Look"), EInputActionValueType::Axis2D);
+	LookMouseAction = MakeAction(TEXT("IA_LookMouse"), EInputActionValueType::Axis2D);
+	LockAction = MakeAction(TEXT("IA_LockOn"), EInputActionValueType::Boolean);
+	SwitchLeftAction = MakeAction(TEXT("IA_TargetLeft"), EInputActionValueType::Boolean);
+	SwitchRightAction = MakeAction(TEXT("IA_TargetRight"), EInputActionValueType::Boolean);
 
 	Mapping = NewObject<UInputMappingContext>(this, TEXT("IMC_Novamente"));
 
@@ -84,6 +92,15 @@ void ANovPlayerController::BuildInput()
 		Stick.Modifiers.Add(DeadZone);
 	}
 
+	{
+		// Câmera: analógico direito com zona morta; mouse cru.
+		FEnhancedActionKeyMapping& Stick = Mapping->MapKey(LookAction, EKeys::Gamepad_Right2D);
+		UInputModifierDeadZone* DeadZone = NewObject<UInputModifierDeadZone>(Mapping);
+		DeadZone->LowerThreshold = 0.15f;
+		Stick.Modifiers.Add(DeadZone);
+		Mapping->MapKey(LookMouseAction, EKeys::Mouse2D);
+	}
+
 	auto MapKeys = [this](UInputAction* Action, std::initializer_list<FKey> Keys)
 	{
 		for (const FKey& Key : Keys)
@@ -99,7 +116,10 @@ void ANovPlayerController::BuildInput()
 	MapKeys(HighKickAction, { EKeys::O, EKeys::Gamepad_LeftShoulder });
 	MapKeys(SlipAction, { EKeys::SpaceBar, EKeys::Gamepad_RightTrigger });
 	MapKeys(BlockAction, { EKeys::LeftShift, EKeys::RightShift, EKeys::Gamepad_LeftTrigger });
-	MapKeys(SombraAction, { EKeys::Q, EKeys::Gamepad_RightThumbstick });
+	MapKeys(SombraAction, { EKeys::Q, EKeys::Gamepad_LeftThumbstick });
+	MapKeys(LockAction, { EKeys::Tab, EKeys::MiddleMouseButton, EKeys::Gamepad_RightThumbstick });
+	MapKeys(SwitchLeftAction, { EKeys::Z });
+	MapKeys(SwitchRightAction, { EKeys::C });
 	MapKeys(Reality2Action, { EKeys::R, EKeys::Gamepad_DPad_Up });
 	MapKeys(PauseAction, { EKeys::Escape, EKeys::H, EKeys::Gamepad_Special_Right });
 }
@@ -135,6 +155,12 @@ void ANovPlayerController::SetupInputComponent()
 	Input->BindAction(SombraAction, ETriggerEvent::Started, this, &ANovPlayerController::OnSombra);
 	Input->BindAction(Reality2Action, ETriggerEvent::Started, this, &ANovPlayerController::OnReality2);
 	Input->BindAction(PauseAction, ETriggerEvent::Started, this, &ANovPlayerController::TogglePause);
+	Input->BindAction(LookAction, ETriggerEvent::Triggered, this, &ANovPlayerController::OnLook);
+	Input->BindAction(LookAction, ETriggerEvent::Completed, this, &ANovPlayerController::OnLookReleased);
+	Input->BindAction(LookMouseAction, ETriggerEvent::Triggered, this, &ANovPlayerController::OnLookMouse);
+	Input->BindAction(LockAction, ETriggerEvent::Started, this, &ANovPlayerController::OnLock);
+	Input->BindAction(SwitchLeftAction, ETriggerEvent::Started, this, &ANovPlayerController::OnSwitchLeft);
+	Input->BindAction(SwitchRightAction, ETriggerEvent::Started, this, &ANovPlayerController::OnSwitchRight);
 }
 
 void ANovPlayerController::BeginPlay()
@@ -155,19 +181,28 @@ void ANovPlayerController::BeginPlay()
 		UE_LOG(LogNovamente, Error, TEXT("PlayerInput não é EnhancedPlayerInput: os controles não vão responder. Veja o README."));
 	}
 
-	// Câmera de transmissão: a do mapa, ou uma nova.
-	for (TActorIterator<ANovFightCamera> It(GetWorld()); It; ++It)
+	// Arena: câmera de transmissão (a do mapa, ou uma nova). Mundo aberto: câmera de combate no ombro.
+	FActorSpawnParameters Params;
+	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	if (GetFightMode())
 	{
-		FightCamera = *It;
-		break;
+		for (TActorIterator<ANovFightCamera> It(GetWorld()); It; ++It)
+		{
+			FightCamera = *It;
+			break;
+		}
+		if (!FightCamera)
+		{
+			FightCamera = GetWorld()->SpawnActor<ANovFightCamera>(CameraClass ? CameraClass.Get() : ANovFightCamera::StaticClass(), FTransform::Identity, Params);
+		}
+		SetViewTarget(FightCamera);
 	}
-	if (!FightCamera)
+	else
 	{
-		FActorSpawnParameters Params;
-		Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		FightCamera = GetWorld()->SpawnActor<ANovFightCamera>(CameraClass ? CameraClass.Get() : ANovFightCamera::StaticClass(), FTransform::Identity, Params);
+		CombatCamera = GetWorld()->SpawnActor<ANovCombatCamera>(CombatCameraClass ? CombatCameraClass.Get() : ANovCombatCamera::StaticClass(), FTransform::Identity, Params);
+		SetViewTarget(CombatCamera);
+		EnsureTargeting();
 	}
-	SetViewTarget(FightCamera);
 
 	HUDWidget = CreateWidget<UNovHUDWidget>(this, HUDClass ? HUDClass.Get() : UNovHUDWidget::StaticClass());
 	if (HUDWidget)
@@ -192,19 +227,69 @@ ANovFighterCharacter* ANovPlayerController::GetFighter() const
 	return GetPawn<ANovFighterCharacter>();
 }
 
+UNovTargetingComponent* ANovPlayerController::GetTargeting() const
+{
+	const ANovFighterCharacter* Fighter = GetFighter();
+	return Fighter ? Fighter->FindComponentByClass<UNovTargetingComponent>() : nullptr;
+}
+
+void ANovPlayerController::OnPossess(APawn* InPawn)
+{
+	Super::OnPossess(InPawn);
+	if (HasActorBegunPlay() && !GetFightMode())
+	{
+		EnsureTargeting();
+	}
+}
+
+void ANovPlayerController::EnsureTargeting()
+{
+	// Fora da arena o lutador do jogador precisa escolher alvo. Se o Blueprint dele já tem o componente, usa o dele.
+	ANovFighterCharacter* Fighter = GetFighter();
+	if (Fighter && !Fighter->FindComponentByClass<UNovTargetingComponent>())
+	{
+		UNovTargetingComponent* Targeting = NewObject<UNovTargetingComponent>(Fighter, TEXT("Targeting"));
+		Targeting->RegisterComponent();
+	}
+}
+
+bool ANovPlayerController::IsCombatAllowed() const
+{
+	const ANovFightGameMode* Mode = GetFightMode();
+	return Mode ? Mode->IsFighting() : true;
+}
+
 void ANovPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
 
 	ANovFighterCharacter* Fighter = GetFighter();
-	const ANovFightGameMode* Mode = GetFightMode();
 	if (!Fighter)
 	{
 		return;
 	}
-	const bool bFighting = Mode && Mode->IsFighting();
+	const bool bFighting = IsCombatAllowed();
 	Fighter->SetMoveInput(bFighting ? MoveValue : FVector2D::ZeroVector);
 	Fighter->GetCombat()->SetBlockHeld(bFighting && bBlockHeld);
+
+	if (CombatCamera)
+	{
+		// Mundo aberto: andar em relação à câmera; o analógico direito gira a câmera ou, com a trava, troca de alvo.
+		Fighter->SetMoveBasisYaw(CombatCamera->GetViewYaw());
+		UNovTargetingComponent* Targeting = GetTargeting();
+		if (Targeting)
+		{
+			Targeting->SetAimContext(CombatCamera->GetViewForward(), MoveValue);
+		}
+		if (Targeting && Targeting->IsHardLocked())
+		{
+			Targeting->HandleSwitchStick(LookStick.X);
+		}
+		else if (!LookStick.IsNearlyZero())
+		{
+			CombatCamera->AddLookInput(LookStick, false);
+		}
+	}
 }
 
 // ---------------------------------------------------------------------------
@@ -213,25 +298,23 @@ void ANovPlayerController::PlayerTick(float DeltaTime)
 
 void ANovPlayerController::Attack(FName MoveName)
 {
-	ANovFightGameMode* Mode = GetFightMode();
-	if (!Mode)
+	if (ANovFightGameMode* Mode = GetFightMode())
 	{
-		return;
-	}
-	if (Mode->GetPhase() == ENovFightPhase::Intro)
-	{
-		Mode->StartFight(); // qualquer golpe abre a luta
-		return;
-	}
-	if (Mode->IsEndScreenShown())
-	{
-		// Na tela final: jab = revanche com os hematomas, direto = curar e lutar de novo.
-		if (MoveName == NovMove::Jab) RequestRestart(false);
-		else if (MoveName == NovMove::Cross) RequestRestart(true);
-		return;
+		if (Mode->GetPhase() == ENovFightPhase::Intro)
+		{
+			Mode->StartFight(); // qualquer golpe abre a luta
+			return;
+		}
+		if (Mode->IsEndScreenShown())
+		{
+			// Na tela final: jab = revanche com os hematomas, direto = curar e lutar de novo.
+			if (MoveName == NovMove::Jab) RequestRestart(false);
+			else if (MoveName == NovMove::Cross) RequestRestart(true);
+			return;
+		}
 	}
 	ANovFighterCharacter* Fighter = GetFighter();
-	if (!Mode->IsFighting() || !Fighter)
+	if (!IsCombatAllowed() || !Fighter)
 	{
 		return;
 	}
@@ -273,7 +356,7 @@ void ANovPlayerController::OnSlip()
 		Mode->StartFight();
 		return;
 	}
-	if (!Mode || !Mode->IsFighting() || !Fighter)
+	if (!IsCombatAllowed() || !Fighter)
 	{
 		return;
 	}
@@ -295,6 +378,47 @@ void ANovPlayerController::OnReality2()
 	if (UNovSombraSubsystem* Sombra = GetWorld()->GetSubsystem<UNovSombraSubsystem>())
 	{
 		Sombra->ToggleReality2();
+	}
+}
+
+void ANovPlayerController::OnLook(const FInputActionValue& Value) { LookStick = Value.Get<FVector2D>(); }
+void ANovPlayerController::OnLookReleased(const FInputActionValue& Value) { LookStick = FVector2D::ZeroVector; }
+
+void ANovPlayerController::OnLookMouse(const FInputActionValue& Value)
+{
+	const FVector2D Delta = Value.Get<FVector2D>();
+	UNovTargetingComponent* Targeting = GetTargeting();
+	if (Targeting && Targeting->IsHardLocked())
+	{
+		Targeting->HandleSwitchMouse(Delta.X);
+	}
+	else if (CombatCamera)
+	{
+		CombatCamera->AddLookInput(Delta, true);
+	}
+}
+
+void ANovPlayerController::OnLock()
+{
+	if (UNovTargetingComponent* Targeting = GetTargeting())
+	{
+		Targeting->ToggleLock();
+	}
+}
+
+void ANovPlayerController::OnSwitchLeft()
+{
+	if (UNovTargetingComponent* Targeting = GetTargeting())
+	{
+		Targeting->SwitchTarget(-1.f);
+	}
+}
+
+void ANovPlayerController::OnSwitchRight()
+{
+	if (UNovTargetingComponent* Targeting = GetTargeting())
+	{
+		Targeting->SwitchTarget(1.f);
 	}
 }
 

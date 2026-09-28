@@ -6,6 +6,7 @@
 
 class ANovFighterCharacter;
 class ANovFightGameMode;
+class UNovCombatDirectorSubsystem;
 class UAudioComponent;
 class UMaterialParameterCollection;
 class USoundMix;
@@ -112,7 +113,9 @@ private:
 	float ThunderDelay = -1.f;
 
 	ANovFightGameMode* GetFightMode() const;
+	UNovCombatDirectorSubsystem* GetDirector() const;
 	ANovFighterCharacter* GetPlayerFighter() const;
+	bool IsCombatOn() const;
 	void PickColor();
 	void SayLine(float Duration);
 	void BeginSombra();

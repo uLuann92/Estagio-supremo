@@ -6,19 +6,18 @@
 #include "NovFightGameMode.generated.h"
 
 class ANovFighterCharacter;
+class UNovCombatDirectorSubsystem;
 class UNovSaveGame;
-class UNovSombraSubsystem;
 class USoundBase;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FNovOnPhaseChanged, ENovFightPhase, Phase);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FNovOnBanner, const FText&, Title, const FText&, Subtitle, bool, bDanger);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FNovOnLine, const FText&, Speaker, const FText&, Text, ENovLineStyle, Style, float, Duration);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FNovOnFightEnded, const FNovFightResult&, Result);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FNovOnKnockdown, ANovFighterCharacter*, Victim, bool, bFinal);
 
 /**
- * Diretor da luta: rounds, relógio, quedas, nocaute, decisão, Visão do Caos, hit-stop, legendas
- * e a memória dos ferimentos entre lutas. Porta a lógica do protótipo "Luta no Largo".
+ * A luta de arena no Largo: rounds, relógio, decisão, falas da cena, tela final e a memória dos
+ * ferimentos entre lutas. As regras de cada golpe (queda, nocaute, hit-stop, Visão do Caos, legendas)
+ * ficam no UNovCombatDirectorSubsystem, que vale também no mundo aberto; este modo escuta os eventos dele.
  *
  * No mapa: um ator com a tag NovRingCenter no centro do octógono (em cima da lona) e, opcionalmente,
  * um ator com a tag NovDomeFocus na cúpula do Teatro Amazonas. Lutadores já colocados no mapa são
@@ -77,14 +76,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Luta|Regras")
 	bool bSkipIntro = false;
 
-	/** Abaixo disso, um golpe limpo na cabeça pode derrubar. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Luta|Regras")
-	float KnockdownHeadThreshold = 36.f;
-
-	/** Ground and pound com a cabeça abaixo disso: o juiz interrompe. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Luta|Regras")
-	float StoppageHeadThreshold = 25.f;
-
 	// ---------- ringue ----------
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Luta|Ringue")
 	FName RingCenterTag = TEXT("NovRingCenter");
@@ -100,12 +91,6 @@ public:
 	float CageRadius = 460.f;
 
 	// ---------- tempo ----------
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Luta|Tempo", meta = (Units = "s"))
-	float CaosDuration = 1.3f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Luta|Tempo")
-	float CaosTimeDilation = 0.38f;
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Luta|Tempo")
 	float KnockoutTimeDilation = 0.28f;
 
@@ -114,19 +99,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Luta|Tempo", meta = (Units = "s"))
 	float EndScreenDelay = 4.2f;
-
-	/** Hit-stop: só os lutadores congelam; chuva, público e câmera continuam. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Luta|Tempo", meta = (Units = "s"))
-	float HitStopBlocked = 0.03f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Luta|Tempo", meta = (Units = "s"))
-	float HitStopBase = 0.045f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Luta|Tempo", meta = (Units = "s"))
-	float HitStopPerPower = 0.035f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Luta|Tempo")
-	float HitStopDilation = 0.02f;
 
 	// ---------- som ----------
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Luta|Som") TObjectPtr<USoundBase> BellSound;
@@ -141,8 +113,6 @@ public:
 
 	// ---------- eventos ----------
 	UPROPERTY(BlueprintAssignable, Category = "Luta") FNovOnPhaseChanged OnPhaseChanged;
-	UPROPERTY(BlueprintAssignable, Category = "Luta") FNovOnBanner OnBanner;
-	UPROPERTY(BlueprintAssignable, Category = "Luta") FNovOnLine OnLine;
 	UPROPERTY(BlueprintAssignable, Category = "Luta") FNovOnFightEnded OnFightEnded;
 	UPROPERTY(BlueprintAssignable, Category = "Luta") FNovOnKnockdown OnKnockdown;
 
@@ -158,19 +128,12 @@ public:
 	/** Revanche. bHeal = false mantém os hematomas (Lei de Goggins). */
 	UFUNCTION(BlueprintCallable, Category = "Luta") void Restart(bool bHeal);
 
-	/** Chamado pelo componente de combate a cada golpe resolvido (acerto, bloqueio ou esquiva). */
-	void NotifyStrike(ANovFighterCharacter* Attacker, ANovFighterCharacter* Defender, const FNovStrikeResult& Result);
-	/** O jogador está na Visão do Caos? Se sim, este golpe leva o bônus e a câmera lenta acaba logo depois. */
-	bool ConsumeCaosBonus();
-
+	/** Atalhos para o canal de legendas do diretor de combate. */
 	UFUNCTION(BlueprintCallable, Category = "Luta|Legendas")
 	void Say(const FText& Speaker, const FText& Text, ENovLineStyle Style = ENovLineStyle::Speech, float Duration = 3.5f);
 
 	UFUNCTION(BlueprintCallable, Category = "Luta|Legendas")
 	void Banner(const FText& Title, const FText& Subtitle, bool bDanger = false);
-
-	UFUNCTION(BlueprintCallable, Category = "Luta|Câmera") void AddShake(float Amount) { Shake = FMath::Max(Shake, Amount); }
-	UFUNCTION(BlueprintCallable, Category = "Luta|Câmera") void AddFovKick(float Degrees) { FovKick = FMath::Max(FovKick, Degrees); }
 
 	// ---------- leitura ----------
 	UFUNCTION(BlueprintPure, Category = "Luta") ENovFightPhase GetPhase() const { return Phase; }
@@ -182,11 +145,6 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Luta") FNovFightResult GetResult() const { return Result; }
 	UFUNCTION(BlueprintPure, Category = "Luta") ANovFighterCharacter* GetPlayerFighter() const { return PlayerFighter; }
 	UFUNCTION(BlueprintPure, Category = "Luta") ANovFighterCharacter* GetOpponentFighter() const { return OpponentFighter; }
-	UFUNCTION(BlueprintPure, Category = "Luta") bool IsCaosActive() const { return CaosTime > 0.f; }
-	UFUNCTION(BlueprintPure, Category = "Luta") float GetShake() const { return Shake; }
-	UFUNCTION(BlueprintPure, Category = "Luta") float GetFovKick() const { return FovKick; }
-	/** 0 a 1: o público reage aos golpes fortes e às quedas. */
-	UFUNCTION(BlueprintPure, Category = "Luta") float GetCrowdExcitement() const { return CrowdExcitement; }
 	UFUNCTION(BlueprintPure, Category = "Luta|Ringue") FVector GetRingCenter() const { return RingCenter; }
 	UFUNCTION(BlueprintPure, Category = "Luta|Ringue") FVector GetDomeFocus() const { return DomeFocus; }
 
@@ -200,6 +158,10 @@ protected:
 	UPROPERTY(Transient) TObjectPtr<ANovFighterCharacter> OpponentFighter;
 	UPROPERTY(Transient) TObjectPtr<UNovSaveGame> Save;
 
+	UFUNCTION() void HandleStrikeLanded(ANovFighterCharacter* Attacker, ANovFighterCharacter* Defender, const FNovStrikeResult& Strike);
+	UFUNCTION() void HandleKnocked(ANovFighterCharacter* Victim, ANovFighterCharacter* Attacker, bool bFinal, const FText& How);
+	UFUNCTION() void HandleCaosStarted(ANovFighterCharacter* Fighter);
+
 
 private:
 	ENovFightPhase Phase = ENovFightPhase::Intro;
@@ -207,12 +169,6 @@ private:
 	int32 Round = 1;
 	float Clock = 75.f;
 
-	float CaosTime = 0.f;
-	float HitStopTime = 0.f;
-	bool bFightersFrozen = false;
-	float Shake = 0.f;
-	float FovKick = 0.f;
-	float CrowdExcitement = 0.f;
 	float CurrentDilation = 1.f;
 
 	bool bKnockout = false;
@@ -234,17 +190,14 @@ private:
 	void FindLandmarks();
 	ANovFighterCharacter* FindOrSpawnFighter(FName FighterId, TSubclassOf<ANovFighterCharacter> FighterClass, float Side, float ReachScaleIfSpawned);
 	void SetupOpponent();
-	void Knock(ANovFighterCharacter* Victim, ANovFighterCharacter* Attacker, bool bFinal, const FText& How);
-	void StartCaos(ANovFighterCharacter* Fighter);
 	void Decision();
 	void FinishFight(ANovFighterCharacter* Winner, ANovFighterCharacter* Loser, bool bByKnockout, const FText& How);
 	void ScheduleLines(const TArray<FNovTimedLine>& Lines);
 	void UpdatePendingLines(float RealDelta);
 	void UpdateTimeDilation(float RealDelta);
-	void UpdateHitStop(float RealDelta);
 	void ClampToRing(ANovFighterCharacter* Fighter) const;
 	void PlaySound2D(USoundBase* Sound, float Volume = 1.f) const;
-	UNovSombraSubsystem* GetSombra() const;
+	UNovCombatDirectorSubsystem* GetDirector() const;
 
 	void LoadWounds();
 	void SaveWounds();

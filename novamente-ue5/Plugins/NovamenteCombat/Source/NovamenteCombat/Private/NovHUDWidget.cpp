@@ -1,9 +1,12 @@
 ﻿#include "NovHUDWidget.h"
+#include "NovCombatDirectorSubsystem.h"
 #include "NovDamageComponent.h"
 #include "NovFightGameMode.h"
 #include "NovFighterCharacter.h"
 #include "NovPlayerController.h"
 #include "NovSombraSubsystem.h"
+#include "NovTargetingComponent.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/Border.h"
 #include "Components/Button.h"
@@ -39,7 +42,7 @@ namespace NovHUD
 
 	FText Controls()
 	{
-		return LOCTEXT("Controls", "Andar: W A S D / analógico esquerdo (para trás + soco = corpo)\nJab J / X    Direto K / Y    Gancho L / B    Uppercut I / RB\nChute baixo U / A    Chute alto O / LB\nGuarda Shift / LT (segurar)    Esquiva Espaço / RT\nSombra Q / R3    Realidade 2 R / D-pad cima    Pausa Esc / Start\n\nEsquive no último instante antes do golpe dele: Visão do Caos.\nA Sombra enche quando você apanha e quando bate forte. Ela dá força, tira a guarda e deixa as mãos tremendo.");
+		return LOCTEXT("Controls", "Andar: W A S D / analógico esquerdo (para trás + soco = corpo)\nJab J / X    Direto K / Y    Gancho L / B    Uppercut I / RB\nChute baixo U / A    Chute alto O / LB\nGuarda Shift / LT (segurar)    Esquiva Espaço / RT\nSombra Q / L3    Realidade 2 R / D-pad cima    Pausa Esc / Start\nMundo aberto: travar alvo Tab / R3; trocar de alvo Z / C, puxão do mouse ou toque do analógico direito\n\nEsquive no último instante antes do golpe dele: Visão do Caos.\nA Sombra enche quando você apanha e quando bate forte. Ela dá força, tira a guarda e deixa as mãos tremendo.");
 	}
 }
 
@@ -160,7 +163,7 @@ UWidget* UNovHUDWidget::BuildFighterPanel(bool bMirrored)
 	{
 		Column->AddChildToVerticalBox(BuildBarRow(LOCTEXT("Stamina", "FÔLEGO"), false, NovHUD::Stamina, Bars[3], 5.f))->SetPadding(FMargin(0.f, 8.f, 0.f, 2.f));
 		Column->AddChildToVerticalBox(BuildBarRow(LOCTEXT("Sombra", "SOMBRA"), false, FLinearColor::White, SombraBar, 5.f))->SetPadding(FMargin(0.f, 4.f, 0.f, 0.f));
-		SombraHint = MakeText(LOCTEXT("SombraHint", "Q / R3: ouvir a Sombra"), 10, NovHUD::Gold, TEXT("Bold"), 100);
+		SombraHint = MakeText(LOCTEXT("SombraHint", "Q / L3: ouvir a Sombra"), 10, NovHUD::Gold, TEXT("Bold"), 100);
 		SombraHint->SetVisibility(ESlateVisibility::Hidden);
 		Column->AddChildToVerticalBox(SombraHint)->SetPadding(FMargin(78.f, 3.f, 0.f, 0.f));
 	}
@@ -223,6 +226,7 @@ void UNovHUDWidget::BuildDefaultLayout()
 		ClockText->SetJustification(ETextJustify::Center);
 		ClockColumn->AddChildToVerticalBox(RoundText)->SetHorizontalAlignment(HAlign_Center);
 		ClockColumn->AddChildToVerticalBox(ClockText)->SetHorizontalAlignment(HAlign_Center);
+		ClockBox = ClockPanel;
 		UCanvasPanelSlot* Center = Fight->AddChildToCanvas(ClockPanel);
 		Center->SetAnchors(FAnchors(0.5f, 0.f));
 		Center->SetAlignment(FVector2D(0.5f, 0.f));
@@ -250,6 +254,15 @@ void UNovHUDWidget::BuildDefaultLayout()
 	{
 		SubtitleBox = WidgetTree->ConstructWidget<UVerticalBox>(UVerticalBox::StaticClass(), TEXT("SubtitleBox"));
 		Place(SubtitleBox, FAnchors(0.5f, 1.f), FVector2D(0.5f, 1.f), FMargin(0.f, -48.f, 0.f, 0.f));
+	}
+
+	// Marcador do alvo.
+	{
+		LockMarker = WidgetTree->ConstructWidget<UImage>(UImage::StaticClass(), TEXT("LockMarker"));
+		LockMarker->SetRenderTransformAngle(45.f);
+		LockMarker->SetRenderTransformPivot(FVector2D(0.5f, 0.5f));
+		LockMarker->SetVisibility(ESlateVisibility::Hidden);
+		LockSlot = Place(LockMarker, FAnchors(0.f, 0.f), FVector2D(0.5f, 0.5f), FMargin(0.f, 0.f, 12.f, 12.f), false);
 	}
 
 	// Abertura.
@@ -357,24 +370,39 @@ void UNovHUDWidget::NativeOnInitialized()
 void UNovHUDWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+	if (UNovCombatDirectorSubsystem* Director = GetWorld() ? GetWorld()->GetSubsystem<UNovCombatDirectorSubsystem>() : nullptr)
+	{
+		BoundDirector = Director;
+		Director->OnBanner.AddUniqueDynamic(this, &UNovHUDWidget::HandleBanner);
+		Director->OnLine.AddUniqueDynamic(this, &UNovHUDWidget::HandleLine);
+	}
 	if (ANovFightGameMode* Mode = GetFightMode())
 	{
 		BoundMode = Mode;
-		Mode->OnBanner.AddUniqueDynamic(this, &UNovHUDWidget::HandleBanner);
-		Mode->OnLine.AddUniqueDynamic(this, &UNovHUDWidget::HandleLine);
 		Mode->OnPhaseChanged.AddUniqueDynamic(this, &UNovHUDWidget::HandlePhase);
 		HandlePhase(Mode->GetPhase());
+	}
+	else
+	{
+		// Mundo aberto: sem abertura, sem relógio; as barras aparecem quando há alvo.
+		if (IntroPanel) IntroPanel->SetVisibility(ESlateVisibility::Collapsed);
+		if (ClockBox) ClockBox->SetVisibility(ESlateVisibility::Collapsed);
+		if (FightPanel) FightPanel->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }
 
 void UNovHUDWidget::NativeDestruct()
 {
+	if (UNovCombatDirectorSubsystem* Director = BoundDirector.Get())
+	{
+		Director->OnBanner.RemoveDynamic(this, &UNovHUDWidget::HandleBanner);
+		Director->OnLine.RemoveDynamic(this, &UNovHUDWidget::HandleLine);
+	}
 	if (ANovFightGameMode* Mode = BoundMode.Get())
 	{
-		Mode->OnBanner.RemoveDynamic(this, &UNovHUDWidget::HandleBanner);
-		Mode->OnLine.RemoveDynamic(this, &UNovHUDWidget::HandleLine);
 		Mode->OnPhaseChanged.RemoveDynamic(this, &UNovHUDWidget::HandlePhase);
 	}
+	BoundDirector.Reset();
 	BoundMode.Reset();
 	Super::NativeDestruct();
 }
@@ -555,13 +583,20 @@ void UNovHUDWidget::SetBar(const FNovHUDBar& Bar, float Value, float Lag)
 
 void UNovHUDWidget::UpdateBars()
 {
+	// Arena: os dois do modo de jogo. Mundo aberto: o jogador e o alvo atual dele.
 	const ANovFightGameMode* Mode = GetFightMode();
-	if (!Mode)
+	const ANovFighterCharacter* Player = Mode ? Mode->GetPlayerFighter() : Cast<ANovFighterCharacter>(GetOwningPlayerPawn());
+	ANovFighterCharacter* Opponent = Mode ? Mode->GetOpponentFighter() : (Player ? Player->GetOpponent() : nullptr);
+	if (!Mode && FightPanel)
 	{
-		return;
+		const bool bShow = Opponent != nullptr;
+		if (bShow != (FightPanel->GetVisibility() != ESlateVisibility::Collapsed))
+		{
+			FightPanel->SetVisibility(bShow ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
+		}
 	}
 	// Textos só mudam quando o valor muda (nada de formatar texto a cada quadro).
-	const bool bSetNames = !bNamesShown && Mode->GetPlayerFighter() && Mode->GetOpponentFighter();
+	const bool bSetNames = Player && Opponent && ShownOpponent.Get() != Opponent;
 	auto FillFighter = [bSetNames](const ANovFighterCharacter* Fighter, TArray<FNovHUDBar>& Bars, UTextBlock* Name)
 	{
 		if (!Fighter)
@@ -590,9 +625,12 @@ void UNovHUDWidget::UpdateBars()
 			Name->SetText(Label);
 		}
 	};
-	FillFighter(Mode->GetPlayerFighter(), PlayerBars, PlayerName);
-	FillFighter(Mode->GetOpponentFighter(), OpponentBars, OpponentName);
-	bNamesShown |= bSetNames;
+	FillFighter(Player, PlayerBars, PlayerName);
+	FillFighter(Opponent, OpponentBars, OpponentName);
+	if (bSetNames)
+	{
+		ShownOpponent = Opponent;
+	}
 
 	if (const UNovSombraSubsystem* Sombra = GetWorld()->GetSubsystem<UNovSombraSubsystem>())
 	{
@@ -611,6 +649,10 @@ void UNovHUDWidget::UpdateBars()
 		}
 	}
 
+	if (!Mode)
+	{
+		return;
+	}
 	if (RoundText && Mode->GetRound() != ShownRound)
 	{
 		ShownRound = Mode->GetRound();
@@ -663,6 +705,32 @@ void UNovHUDWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 		IntroPrompt->SetRenderOpacity(0.55f + 0.45f * FMath::Sin(Time * 3.f));
 	}
 	UpdateBars();
+	UpdateLockMarker();
+}
+
+void UNovHUDWidget::UpdateLockMarker()
+{
+	if (!LockMarker || !LockSlot)
+	{
+		return;
+	}
+	const ANovFighterCharacter* Player = Cast<ANovFighterCharacter>(GetOwningPlayerPawn());
+	const UNovTargetingComponent* Targeting = Player ? Player->FindComponentByClass<UNovTargetingComponent>() : nullptr;
+	const ANovFighterCharacter* Target = Targeting ? Targeting->GetTarget() : nullptr;
+	FVector2D ScreenPos;
+	if (!Target || Targeting->GetLockWeight() < 0.05f
+		|| !UWidgetLayoutLibrary::ProjectWorldLocationToWidgetPosition(GetOwningPlayer(), Target->GetHeadLocation() + FVector(0.f, 0.f, 32.f), ScreenPos, false))
+	{
+		LockMarker->SetVisibility(ESlateVisibility::Hidden);
+		return;
+	}
+	const bool bHard = Targeting->IsHardLocked();
+	LockMarker->SetVisibility(ESlateVisibility::HitTestInvisible);
+	LockMarker->SetColorAndOpacity(bHard ? NovHUD::Gold : FLinearColor(1.f, 1.f, 1.f, 0.45f));
+	const float Size = bHard ? 14.f : 10.f;
+	LockSlot->SetSize(FVector2D(Size, Size));
+	LockSlot->SetPosition(ScreenPos);
+	LockMarker->SetRenderOpacity(FMath::Clamp(Targeting->GetLockWeight() * 1.4f, 0.f, 1.f));
 }
 
 #undef LOCTEXT_NAMESPACE

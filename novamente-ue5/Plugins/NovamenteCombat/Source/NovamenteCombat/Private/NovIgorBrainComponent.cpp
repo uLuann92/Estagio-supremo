@@ -1,5 +1,6 @@
 ﻿#include "NovIgorBrainComponent.h"
 #include "NovCombatComponent.h"
+#include "NovCombatDirectorSubsystem.h"
 #include "NovDamageComponent.h"
 #include "NovFightGameMode.h"
 #include "NovFighterCharacter.h"
@@ -24,6 +25,49 @@ ANovFightGameMode* UNovIgorBrainComponent::GetFightMode() const
 	return World ? World->GetAuthGameMode<ANovFightGameMode>() : nullptr;
 }
 
+UNovCombatDirectorSubsystem* UNovIgorBrainComponent::GetDirector() const
+{
+	const UWorld* World = GetWorld();
+	return World ? World->GetSubsystem<UNovCombatDirectorSubsystem>() : nullptr;
+}
+
+void UNovIgorBrainComponent::AcquireOpponent()
+{
+	// Na arena o modo de jogo já apontou o adversário. No mundo aberto ele percebe o Luan por perto
+	// e desiste quando o Luan foge para longe.
+	ANovFighterCharacter* Me = GetFighter();
+	if (!Me || GetFightMode())
+	{
+		return;
+	}
+	if (const ANovFighterCharacter* Current = Me->GetOpponent())
+	{
+		if (!Current->CanBeTargeted() || FVector::Dist2D(Me->GetActorLocation(), Current->GetGroundLocation()) > AggroRadius * 1.5f)
+		{
+			UnbindFromOpponent();
+			Me->SetOpponent(nullptr);
+			if (UNovCombatDirectorSubsystem* Director = GetDirector())
+			{
+				Director->ReleaseAttackToken(Me);
+			}
+		}
+		return;
+	}
+	const UNovCombatDirectorSubsystem* Director = GetDirector();
+	ANovFighterCharacter* Player = Director ? Director->GetPlayerFighter() : nullptr;
+	if (Player && Me->IsHostileTo(Player) && Player->CanBeTargeted()
+		&& FVector::Dist2D(Me->GetActorLocation(), Player->GetGroundLocation()) < AggroRadius)
+	{
+		Me->SetOpponent(Player);
+	}
+}
+
+bool UNovIgorBrainComponent::MayAttack(ANovFighterCharacter* Me, ANovFighterCharacter* Them, float Seconds) const
+{
+	UNovCombatDirectorSubsystem* Director = GetDirector();
+	return !Director || Director->TryTakeAttackToken(Me, Them, Seconds);
+}
+
 void UNovIgorBrainComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -33,6 +77,10 @@ void UNovIgorBrainComponent::BeginPlay()
 void UNovIgorBrainComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	UnbindFromOpponent();
+	if (UNovCombatDirectorSubsystem* Director = GetDirector())
+	{
+		Director->ReleaseAttackToken(GetFighter());
+	}
 	Super::EndPlay(EndPlayReason);
 }
 
@@ -69,9 +117,14 @@ void UNovIgorBrainComponent::HandleOpponentMoveStarted(FName MoveName)
 	ANovFighterCharacter* Me = GetFighter();
 	const ANovFighterCharacter* Them = Watched.Get();
 	const ANovFightGameMode* Mode = GetFightMode();
-	if (!Me || !Them || !Mode || Me->GetFightState() != ENovFighterState::Fighting)
+	if (!Me || !Them || Me->GetFightState() != ENovFighterState::Fighting)
 	{
 		return;
+	}
+	const int32 CurrentRound = Mode ? Mode->GetRound() : 1;
+	if (Them->GetOpponent() != Me)
+	{
+		return; // o golpe é para outro inimigo
 	}
 	const FNovMoveSpec* Spec = Them->GetCombat()->GetCurrentSpec();
 	if (!Spec || Spec->Kind == ENovMoveKind::Slip)
@@ -83,7 +136,7 @@ void UNovIgorBrainComponent::HandleOpponentMoveStarted(FName MoveName)
 	const float Chance = Spec->DefendChance
 		* (Me->GetDamage()->Stamina < 20.f ? 0.5f : 1.f)
 		* (Me->GetCombat()->IsBusy() ? 0.3f : 1.f)
-		* (1.f + (Mode->GetRound() - 1) * DefensePerRound);
+		* (1.f + (CurrentRound - 1) * DefensePerRound);
 	if (FMath::FRand() < Chance)
 	{
 		const bool bCanSlip = Spec->Zone == ENovZone::Head && Spec->Kind != ENovMoveKind::Kick;
@@ -95,12 +148,18 @@ void UNovIgorBrainComponent::HandleOpponentMoveStarted(FName MoveName)
 
 void UNovIgorBrainComponent::HandleOpponentWhiff(FName MoveName)
 {
+	const ANovFighterCharacter* Them = Watched.Get();
+	if (!Them || Them->GetOpponent() != GetFighter())
+	{
+		return;
+	}
 	CounterTimer = FMath::FRandRange(CounterDelay.X, CounterDelay.Y);
 }
 
 void UNovIgorBrainComponent::HandleOpponentStrike(const FNovStrikeResult& Result)
 {
-	if (Result.bSlipped)
+	const ANovFighterCharacter* Them = Watched.Get();
+	if (Result.bSlipped && Them && Them->GetOpponent() == GetFighter())
 	{
 		CounterTimer = FMath::FRandRange(CounterDelay.X, CounterDelay.Y);
 	}
@@ -116,11 +175,13 @@ void UNovIgorBrainComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	{
 		return;
 	}
+	AcquireOpponent();
 	BindToOpponent();
 	ANovFighterCharacter* Them = Watched.Get();
 	UNovCombatComponent* Combat = Me->GetCombat();
+	const bool bFightOn = Mode ? Mode->IsFighting() : (Them && Them->CanBeTargeted());
 
-	if (!Them || !Mode || !Mode->IsFighting() || Me->GetFightState() != ENovFighterState::Fighting)
+	if (!Them || !bFightOn || Me->GetFightState() != ENovFighterState::Fighting)
 	{
 		Me->SetMoveInput(FVector2D::ZeroVector);
 		Combat->SetBlockHeld(false);
@@ -132,7 +193,7 @@ void UNovIgorBrainComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 	const float K = Me->ReachScale;
 	const float Distance = Me->GetDistanceToOpponent();
-	const int32 Round = Mode->GetRound();
+	const int32 Round = Mode ? Mode->GetRound() : 1;
 
 	// Reação ao golpe lido.
 	if (PendingReaction != EReaction::None)
@@ -164,7 +225,7 @@ void UNovIgorBrainComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	// Luan no chão: vai castigar.
 	if (Them->GetFightState() == ENovFighterState::Down && Distance < 170.f)
 	{
-		if (!Combat->IsBusy() && FMath::FRand() < DeltaTime * 2.2f)
+		if (!Combat->IsBusy() && FMath::FRand() < DeltaTime * 2.2f && MayAttack(Me, Them, AttackTokenTime))
 		{
 			Combat->RequestMove(NovMove::GroundAndPound);
 		}
@@ -176,7 +237,7 @@ void UNovIgorBrainComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	if (CounterTimer > 0.f)
 	{
 		CounterTimer -= DeltaTime;
-		if (CounterTimer <= 0.f && Distance < CounterDistance * K && Me->GetDamage()->Stamina > 12.f)
+		if (CounterTimer <= 0.f && Distance < CounterDistance * K && Me->GetDamage()->Stamina > 12.f && MayAttack(Me, Them, AttackTokenTime))
 		{
 			static const TArray<TArray<FName>> Counters = {
 				{ NovMove::Jab, NovMove::Cross },
@@ -189,11 +250,15 @@ void UNovIgorBrainComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	}
 
 	// Distância: recua quando a cabeça está ruim, aperta quando o Luan cansa ou está levantando.
+	// Em grupo, quem está sem ficha espera mais longe.
+	const UNovCombatDirectorSubsystem* Director = GetDirector();
+	const bool bWaiting = Director && !Director->HoldsAttackToken(Me) && Director->IsVictimSaturated(Them);
 	const UNovDamageComponent* TheirDamage = Them->GetDamage();
 	const float Want = PreferredDistance * K
 		+ (Me->GetDamage()->Head < 40.f ? 25.f : 0.f)
 		- (TheirDamage->Stamina < 30.f ? 25.f : 0.f)
-		- (Them->GetFightState() == ENovFighterState::Rising ? 30.f : 0.f);
+		- (Them->GetFightState() == ENovFighterState::Rising ? 30.f : 0.f)
+		+ (bWaiting ? WaitingDistanceBonus : 0.f);
 	const float Forward = FMath::Clamp((Distance - Want) / 100.f * 2.3f, -1.f, 1.f);
 
 	CircleTimer -= DeltaTime;
@@ -205,9 +270,9 @@ void UNovIgorBrainComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	float Lateral = CircleDir * 0.55f;
 
 	// Perto da grade: circula para o lado do centro.
-	const FVector Center = Mode->GetRingCenter();
+	const FVector Center = Mode ? Mode->GetRingCenter() : Me->GetActorLocation();
 	const FVector Offset = (Me->GetActorLocation() - Center) * FVector(1.f, 1.f, 0.f);
-	if (Offset.Size() > Mode->RingRadius - CageMargin)
+	if (Mode && Offset.Size() > Mode->RingRadius - CageMargin)
 	{
 		const FVector ToThem = (Them->GetGroundLocation() - Me->GetActorLocation()).GetSafeNormal2D();
 		const FVector Right = FVector::CrossProduct(FVector::UpVector, ToThem);
@@ -253,7 +318,7 @@ void UNovIgorBrainComponent::Think(ANovFighterCharacter* Me, ANovFighterCharacte
 	ThinkTimer = FMath::FRandRange(ThinkInterval.X, ThinkInterval.Y) / FMath::Max(0.1f, Aggression);
 
 	const float K = Me->ReachScale;
-	if (Distance >= AttackDistance * K || Me->GetDamage()->Stamina <= 15.f)
+	if (Distance >= AttackDistance * K || Me->GetDamage()->Stamina <= 15.f || !MayAttack(Me, Them, AttackTokenTime))
 	{
 		return;
 	}

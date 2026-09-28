@@ -7,6 +7,8 @@
 
 class ANovFighterCharacter;
 class ANovFightGameMode;
+class UCanvasPanelSlot;
+class UNovCombatDirectorSubsystem;
 class UBorder;
 class UButton;
 class UCanvasPanel;
@@ -72,11 +74,15 @@ protected:
 	UPROPERTY(Transient, meta = (BindWidgetOptional)) TObjectPtr<UTextBlock> EndQuote;
 	UPROPERTY(Transient, meta = (BindWidgetOptional)) TObjectPtr<UButton> RematchButton;
 	UPROPERTY(Transient, meta = (BindWidgetOptional)) TObjectPtr<UButton> HealButton;
+	UPROPERTY(Transient, meta = (BindWidgetOptional)) TObjectPtr<UWidget> ClockBox;
+	/** Losango em cima do alvo: vazado no soft-lock, dourado com a trava. */
+	UPROPERTY(Transient, meta = (BindWidgetOptional)) TObjectPtr<UImage> LockMarker;
 
 private:
 	UPROPERTY(Transient) TArray<FNovHUDBar> PlayerBars;   // cabeça, corpo, pernas, fôlego
 	UPROPERTY(Transient) TArray<FNovHUDBar> OpponentBars; // cabeça, corpo, pernas
 	UPROPERTY(Transient) FNovHUDBar SombraBar;
+	UPROPERTY(Transient) TObjectPtr<UCanvasPanelSlot> LockSlot;
 
 	struct FLine
 	{
@@ -91,9 +97,10 @@ private:
 	float Time = 0.f;
 	int32 ShownClock = -1;
 	int32 ShownRound = -1;
-	bool bNamesShown = false;
+	TWeakObjectPtr<ANovFighterCharacter> ShownOpponent;
 	bool bSombraReadyShown = false;
 	TWeakObjectPtr<ANovFightGameMode> BoundMode;
+	TWeakObjectPtr<UNovCombatDirectorSubsystem> BoundDirector;
 
 	ANovFightGameMode* GetFightMode() const;
 	void BuildDefaultLayout();
@@ -104,6 +111,7 @@ private:
 	UButton* MakeButton(const FText& Label, bool bPrimary) const;
 	void RebuildSubtitles();
 	void UpdateBars();
+	void UpdateLockMarker();
 	static void SetBar(const FNovHUDBar& Bar, float Value, float Lag);
 
 	UFUNCTION() void HandleBanner(const FText& Title, const FText& Subtitle, bool bDanger);

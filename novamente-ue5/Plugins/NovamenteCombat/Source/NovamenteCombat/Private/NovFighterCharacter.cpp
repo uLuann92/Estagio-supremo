@@ -315,8 +315,19 @@ void ANovFighterCharacter::UpdateStateTimers(float DeltaSeconds)
 void ANovFighterCharacter::UpdateFacing(float DeltaSeconds)
 {
 	const ANovFighterCharacter* Other = Opponent.Get();
-	if (!Other || bRagdoll)
+	if (bRagdoll)
 	{
+		return;
+	}
+	if (!Other)
+	{
+		// Andando livre: vira para onde está indo.
+		const FVector Velocity = GetVelocity() * FVector(1.f, 1.f, 0.f);
+		if (FightState == ENovFighterState::Fighting && Velocity.SizeSquared() > 400.f)
+		{
+			const FRotator Target(0.f, Velocity.Rotation().Yaw, 0.f);
+			SetActorRotation(FMath::RInterpTo(GetActorRotation(), Target, DeltaSeconds, FreeTurnRate));
+		}
 		return;
 	}
 	const bool bFacing = FightState == ENovFighterState::Fighting || FightState == ENovFighterState::Resting || FightState == ENovFighterState::Victory || FightState == ENovFighterState::Rising;
@@ -360,6 +371,25 @@ void ANovFighterCharacter::UpdateMovement(float DeltaSeconds)
 	}
 	else if (FightState != ENovFighterState::Fighting)
 	{
+		return;
+	}
+
+	if (!Other)
+	{
+		// Sem alvo: anda em relação à câmera, em trote.
+		const FVector CamForward = FRotator(0.f, MoveBasisYaw, 0.f).Vector();
+		const FVector CamRight = FVector::CrossProduct(FVector::UpVector, CamForward);
+		FVector Free = (CamForward * Input.Y + CamRight * Input.X) * FreeMoveSpeed;
+		float FreeScale = (0.55f + 0.45f * Damage->Legs / Damage->MaxZone) * SpeedMultiplier;
+		if (Damage->Stamina < 18.f) FreeScale *= 0.78f;
+		if (Combat->IsBusy()) FreeScale *= AttackMoveScale;
+		Free *= FreeScale;
+		const float FreeSpeed = Free.Size();
+		if (FreeSpeed > 1.f)
+		{
+			Move->MaxWalkSpeed = FreeSpeed;
+			AddMovementInput(Free / FreeSpeed, 1.f);
+		}
 		return;
 	}
 

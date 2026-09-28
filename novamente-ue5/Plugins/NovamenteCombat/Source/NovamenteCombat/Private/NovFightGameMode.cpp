@@ -1,5 +1,6 @@
 ﻿#include "NovFightGameMode.h"
 #include "NovCombatComponent.h"
+#include "NovCombatDirectorSubsystem.h"
 #include "NovDamageComponent.h"
 #include "NovFighterCharacter.h"
 #include "NovIgorBrainComponent.h"
@@ -52,7 +53,7 @@ ANovFightGameMode::ANovFightGameMode()
 		MakeLine(16.5f, Dica(), LOCTEXT("Tip2", "Espaço/RT no último instante antes do golpe dele abre a Visão do Caos."), ENovLineStyle::Tip, 5.f),
 		MakeLine(25.f, Felipe(), LOCTEXT("FelipeCria", "Ele não cria a luta, Luan."), ENovLineStyle::Speech, 3.f),
 		MakeLine(27.5f, Dica(), LOCTEXT("Tip3", "O Igor castiga golpe no vazio. Faça ele errar primeiro. Shift/LT segura os socos na cabeça."), ENovLineStyle::Tip, 5.5f),
-		MakeLine(38.f, Dica(), LOCTEXT("Tip4", "U/A tira a base dele. Q/R3 quando a barra da Sombra encher."), ENovLineStyle::Tip, 5.f),
+		MakeLine(38.f, Dica(), LOCTEXT("Tip4", "U/A tira a base dele. Q/L3 quando a barra da Sombra encher."), ENovLineStyle::Tip, 5.f),
 	};
 
 	BreakLines = {
@@ -211,6 +212,13 @@ void ANovFightGameMode::StartPlay()
 
 	Save = UNovSaveGame::LoadOrCreate();
 
+	if (UNovCombatDirectorSubsystem* Director = GetDirector())
+	{
+		Director->OnStrikeLanded.AddDynamic(this, &ANovFightGameMode::HandleStrikeLanded);
+		Director->OnKnocked.AddDynamic(this, &ANovFightGameMode::HandleKnocked);
+		Director->OnCaosStarted.AddDynamic(this, &ANovFightGameMode::HandleCaosStarted);
+	}
+
 	Super::StartPlay(); // BeginPlay de todos os atores
 
 	LoadWounds();
@@ -227,6 +235,13 @@ void ANovFightGameMode::StartPlay()
 void ANovFightGameMode::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	SaveWounds();
+	if (UNovCombatDirectorSubsystem* Director = GetDirector())
+	{
+		Director->OnStrikeLanded.RemoveDynamic(this, &ANovFightGameMode::HandleStrikeLanded);
+		Director->OnKnocked.RemoveDynamic(this, &ANovFightGameMode::HandleKnocked);
+		Director->OnCaosStarted.RemoveDynamic(this, &ANovFightGameMode::HandleCaosStarted);
+		Director->ResetAll();
+	}
 	Super::EndPlay(EndPlayReason);
 }
 
@@ -371,16 +386,14 @@ void ANovFightGameMode::FinishFight(ANovFighterCharacter* Winner, ANovFighterCha
 void ANovFightGameMode::Restart(bool bHeal)
 {
 	PendingLines.Reset();
-	HitStopTime = 0.f;
-	UpdateHitStop(0.f);
-	CaosTime = 0.f;
-	Shake = 0.f;
-	FovKick = 0.f;
 	CurrentDilation = 1.f;
-	UGameplayStatics::SetGlobalTimeDilation(this, 1.f);
 	bKnockout = false;
 	bEndShown = false;
 	Result = FNovFightResult();
+	if (UNovCombatDirectorSubsystem* Director = GetDirector())
+	{
+		Director->ResetAll();
+	}
 
 	for (ANovFighterCharacter* Fighter : { PlayerFighter.Get(), OpponentFighter.Get() })
 	{
@@ -389,7 +402,7 @@ void ANovFightGameMode::Restart(bool bHeal)
 			Fighter->ResetForFight(bHeal);
 		}
 	}
-	if (UNovSombraSubsystem* Sombra = GetSombra())
+	if (UNovSombraSubsystem* Sombra = GetWorld()->GetSubsystem<UNovSombraSubsystem>())
 	{
 		Sombra->ResetAll();
 	}
@@ -401,131 +414,29 @@ void ANovFightGameMode::Restart(bool bHeal)
 // Golpes
 // ---------------------------------------------------------------------------
 
-bool ANovFightGameMode::ConsumeCaosBonus()
+void ANovFightGameMode::HandleStrikeLanded(ANovFighterCharacter* Attacker, ANovFighterCharacter* Defender, const FNovStrikeResult& Strike)
 {
-	if (CaosTime > 0.f)
-	{
-		CaosTime = FMath::Min(CaosTime, 0.35f);
-		return true;
-	}
-	return false;
-}
-
-void ANovFightGameMode::StartCaos(ANovFighterCharacter* Fighter)
-{
-	if (CaosTime > 0.f || !Fighter)
+	if (Phase != ENovFightPhase::Fight || !Attacker || !Defender)
 	{
 		return;
 	}
-	CaosTime = CaosDuration;
-	++Fighter->Stats.CaosVisions;
-	Banner(LOCTEXT("Caos", "Visão do Caos"), FText::GetEmpty());
-	if (Save && !Save->bSeenCaos)
+	if (!Strike.bBlocked && Strike.Power > 0.9f)
 	{
-		Say(Felipe(), LOCTEXT("FelipeCaos", "Tu tem a visão do caos."), ENovLineStyle::Speech, 3.f);
-		Save->bSeenCaos = true;
-		Save->Write();
-	}
-}
-
-void ANovFightGameMode::NotifyStrike(ANovFighterCharacter* Attacker, ANovFighterCharacter* Defender, const FNovStrikeResult& R)
-{
-	if (!Attacker || !Defender || Phase != ENovFightPhase::Fight)
-	{
-		return;
-	}
-
-	if (R.bSlipped)
-	{
-		if (R.bPerfectSlip && Defender == PlayerFighter)
-		{
-			StartCaos(Defender);
-		}
-		return;
-	}
-	if (!R.bLanded)
-	{
-		return;
-	}
-
-	const bool bWasDown = Defender->IsDown();
-	if (!R.bBlocked)
-	{
-		++Attacker->Stats.Landed;
-	}
-
-	// Peso do impacto: congela só os dois lutadores por alguns centésimos.
-	HitStopTime = R.bBlocked ? HitStopBlocked : HitStopBase + R.Power * HitStopPerPower;
-	UpdateHitStop(0.f);
-	AddShake(R.bBlocked ? 0.05f : 0.08f + R.Power * 0.1f);
-	if (!R.bBlocked && R.Power > 0.9f)
-	{
-		AddFovKick(2.5f);
-		CrowdExcitement = FMath::Min(1.f, CrowdExcitement + 0.6f);
 		PlaySound2D(CrowdRoarSound, 0.8f);
 	}
-	else if (!R.bBlocked)
-	{
-		CrowdExcitement = FMath::Min(1.f, CrowdExcitement + 0.15f);
-	}
-
-	// A Sombra cresce quando o Luan apanha e quando ele bate forte.
-	if (UNovSombraSubsystem* Sombra = GetSombra())
-	{
-		if (Defender == PlayerFighter)
-		{
-			Sombra->AddMeter(R.Damage * 1.4f);
-			if (R.Zone == ENovZone::Head && !R.bBlocked && R.Power > 0.8f)
-			{
-				// 1ª Lei: o mundo abafa, a visão fecha.
-				Sombra->AddMuffle(1.f);
-				Sombra->AddTunnel(0.5f);
-				Sombra->AddFlash(0.12f);
-			}
-		}
-		else if (Attacker == PlayerFighter && !R.bBlocked)
-		{
-			Sombra->AddMeter(R.Damage * 0.55f);
-		}
-	}
-	if (Attacker == PlayerFighter && !R.bBlocked && R.Power > 1.f && FMath::FRand() < 0.35f)
+	if (Attacker == PlayerFighter && !Strike.bBlocked && Strike.Power > 1.f && FMath::FRand() < 0.35f)
 	{
 		Say(Mateus(), LOCTEXT("Pirraia", "Bora, pirraia!"), ENovLineStyle::Speech, 2.2f);
 	}
-
-	BP_OnStrike(Attacker, Defender, R);
-
-	// Queda e nocaute.
-	const UNovDamageComponent* D = Defender->GetDamage();
-	if (D->IsFinished())
-	{
-		Knock(Defender, Attacker, true, D->DescribeFinish());
-		return;
-	}
-	if (!R.bBlocked && R.Zone == ENovZone::Head && D->Head < KnockdownHeadThreshold && R.Damage >= 7.f
-		&& FMath::FRand() < 0.3f + (KnockdownHeadThreshold - D->Head) / 55.f)
-	{
-		Knock(Defender, Attacker, false, FText::GetEmpty());
-	}
-	if (!R.bBlocked && R.Kind == ENovMoveKind::GroundAndPound && bWasDown && D->Head < StoppageHeadThreshold)
-	{
-		Knock(Defender, Attacker, true, LOCTEXT("Stoppage", "Interrompida no ground and pound"));
-	}
+	BP_OnStrike(Attacker, Defender, Strike);
 }
 
-void ANovFightGameMode::Knock(ANovFighterCharacter* Victim, ANovFighterCharacter* Attacker, bool bFinal, const FText& How)
+void ANovFightGameMode::HandleKnocked(ANovFighterCharacter* Victim, ANovFighterCharacter* Attacker, bool bFinal, const FText& How)
 {
-	if (!Victim || !Attacker || Victim->GetFightState() == ENovFighterState::KnockedOut || Phase != ENovFightPhase::Fight)
+	if (Phase != ENovFightPhase::Fight || !Victim || !Attacker)
 	{
 		return;
 	}
-	if (!bFinal && Victim->IsDown())
-	{
-		return; // já está no chão: o ground and pound continua, sem contar outra queda
-	}
-
-	++Attacker->Stats.Knockdowns;
-	CrowdExcitement = 1.f;
 	PlaySound2D(CrowdRoarSound, 1.f);
 	OnKnockdown.Broadcast(Victim, bFinal);
 	BP_OnKnockdown(Victim, bFinal);
@@ -533,7 +444,6 @@ void ANovFightGameMode::Knock(ANovFighterCharacter* Victim, ANovFighterCharacter
 	const bool bVictimIsPlayer = Victim == PlayerFighter;
 	if (bFinal)
 	{
-		Victim->SetFightState(ENovFighterState::KnockedOut);
 		FinishFight(Attacker, Victim, true, How);
 		if (bVictimIsPlayer)
 		{
@@ -541,17 +451,20 @@ void ANovFightGameMode::Knock(ANovFighterCharacter* Victim, ANovFighterCharacter
 		}
 		return;
 	}
-
-	Victim->SetFightState(ENovFighterState::Down);
 	Banner(LOCTEXT("Down", "Queda"), bVictimIsPlayer ? LOCTEXT("GetUp", "Levanta!") : LOCTEXT("Punish", "Castiga no chão"), bVictimIsPlayer);
 	if (bVictimIsPlayer)
 	{
-		if (UNovSombraSubsystem* Sombra = GetSombra())
-		{
-			Sombra->AddMuffle(1.f);
-			Sombra->AddTunnel(1.f);
-		}
 		Say(FText::GetEmpty(), LOCTEXT("InnerDown", "Demorou dois segundos inteiros para o cérebro entender que o corpo no chão era o meu."), ENovLineStyle::Inner, 4.f);
+	}
+}
+
+void ANovFightGameMode::HandleCaosStarted(ANovFighterCharacter* Fighter)
+{
+	if (Save && !Save->bSeenCaos)
+	{
+		Say(Felipe(), LOCTEXT("FelipeCaos", "Tu tem a visão do caos."), ENovLineStyle::Speech, 3.f);
+		Save->bSeenCaos = true;
+		Save->Write();
 	}
 }
 
@@ -561,12 +474,18 @@ void ANovFightGameMode::Knock(ANovFighterCharacter* Victim, ANovFighterCharacter
 
 void ANovFightGameMode::Say(const FText& Speaker, const FText& Text, ENovLineStyle Style, float Duration)
 {
-	OnLine.Broadcast(Speaker, Text, Style, Duration);
+	if (UNovCombatDirectorSubsystem* Director = GetDirector())
+	{
+		Director->Say(Speaker, Text, Style, Duration);
+	}
 }
 
 void ANovFightGameMode::Banner(const FText& Title, const FText& Subtitle, bool bDanger)
 {
-	OnBanner.Broadcast(Title, Subtitle, bDanger);
+	if (UNovCombatDirectorSubsystem* Director = GetDirector())
+	{
+		Director->Banner(Title, Subtitle, bDanger);
+	}
 }
 
 void ANovFightGameMode::ScheduleLines(const TArray<FNovTimedLine>& Lines)
@@ -606,32 +525,11 @@ void ANovFightGameMode::UpdatePendingLines(float RealDelta)
 // Tempo
 // ---------------------------------------------------------------------------
 
-void ANovFightGameMode::UpdateHitStop(float RealDelta)
-{
-	HitStopTime = FMath::Max(0.f, HitStopTime - RealDelta);
-	const bool bShouldFreeze = HitStopTime > 0.f;
-	if (bShouldFreeze == bFightersFrozen)
-	{
-		return;
-	}
-	bFightersFrozen = bShouldFreeze;
-	for (ANovFighterCharacter* Fighter : { PlayerFighter.Get(), OpponentFighter.Get() })
-	{
-		if (Fighter)
-		{
-			Fighter->CustomTimeDilation = bShouldFreeze ? HitStopDilation : 1.f;
-		}
-	}
-}
-
 void ANovFightGameMode::UpdateTimeDilation(float RealDelta)
 {
+	// Só a câmera lenta do nocaute é daqui; a da Visão do Caos o diretor soma por cima.
 	float Target = 1.f;
-	if (CaosTime > 0.f)
-	{
-		Target = CaosTimeDilation;
-	}
-	else if (Phase == ENovFightPhase::Finished && bKnockout)
+	if (Phase == ENovFightPhase::Finished && bKnockout)
 	{
 		Target = PhaseTime < KnockoutSlowTime ? KnockoutTimeDilation : NovDamp(CurrentDilation, 1.f, 2.f, RealDelta);
 		if (Target > 0.995f)
@@ -642,7 +540,10 @@ void ANovFightGameMode::UpdateTimeDilation(float RealDelta)
 	if (!FMath::IsNearlyEqual(Target, CurrentDilation, 0.001f))
 	{
 		CurrentDilation = Target;
-		UGameplayStatics::SetGlobalTimeDilation(this, Target);
+		if (UNovCombatDirectorSubsystem* Director = GetDirector())
+		{
+			Director->SetExternalTimeDilation(Target);
+		}
 	}
 }
 
@@ -654,11 +555,6 @@ void ANovFightGameMode::Tick(float DeltaSeconds)
 	const float RealDelta = FMath::Min(static_cast<float>(FApp::GetDeltaTime()), 0.05f);
 	PhaseTime += RealDelta;
 
-	UpdateHitStop(RealDelta);
-	CaosTime = FMath::Max(0.f, CaosTime - RealDelta);
-	Shake = FMath::Max(0.f, Shake - RealDelta * 0.9f);
-	FovKick = NovDamp(FovKick, 0.f, 5.f, RealDelta);
-	CrowdExcitement = FMath::Max(0.f, CrowdExcitement - RealDelta * 0.2f);
 	UpdateTimeDilation(RealDelta);
 	UpdatePendingLines(RealDelta);
 
@@ -729,10 +625,10 @@ void ANovFightGameMode::PlaySound2D(USoundBase* Sound, float Volume) const
 	}
 }
 
-UNovSombraSubsystem* ANovFightGameMode::GetSombra() const
+UNovCombatDirectorSubsystem* ANovFightGameMode::GetDirector() const
 {
 	const UWorld* World = GetWorld();
-	return World ? World->GetSubsystem<UNovSombraSubsystem>() : nullptr;
+	return World ? World->GetSubsystem<UNovCombatDirectorSubsystem>() : nullptr;
 }
 
 void ANovFightGameMode::LoadWounds()

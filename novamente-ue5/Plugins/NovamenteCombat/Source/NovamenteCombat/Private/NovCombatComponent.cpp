@@ -1,7 +1,7 @@
 ﻿#include "NovCombatComponent.h"
 #include "NovDamageComponent.h"
 #include "NovFighterCharacter.h"
-#include "NovFightGameMode.h"
+#include "NovCombatDirectorSubsystem.h"
 #include "NovMoveSet.h"
 #include "Animation/AnimMontage.h"
 #include "Engine/World.h"
@@ -210,7 +210,7 @@ void UNovCombatComponent::FireStrike()
 {
 	ANovFighterCharacter* Me = GetFighter();
 	ANovFighterCharacter* Them = Me ? Me->GetOpponent() : nullptr;
-	ANovFightGameMode* GameMode = GetWorld() ? GetWorld()->GetAuthGameMode<ANovFightGameMode>() : nullptr;
+	UNovCombatDirectorSubsystem* Director = GetWorld() ? GetWorld()->GetSubsystem<UNovCombatDirectorSubsystem>() : nullptr;
 
 	FNovStrikeResult R;
 	R.MoveName = CurrentName;
@@ -257,9 +257,9 @@ void UNovCombatComponent::FireStrike()
 			TheirCombat->OnPerfectSlip.Broadcast(CurrentName);
 		}
 		OnStrikeResolved.Broadcast(R);
-		if (GameMode)
+		if (Director)
 		{
-			GameMode->NotifyStrike(Me, Them, R);
+			Director->NotifyStrike(Me, Them, R);
 		}
 		return;
 	}
@@ -288,7 +288,7 @@ void UNovCombatComponent::FireStrike()
 		}
 	}
 
-	if (GameMode && Me->IsPlayerControlled() && GameMode->ConsumeCaosBonus())
+	if (Director && Director->ConsumeCaosBonus(Me))
 	{
 		Damage *= CaosMultiplier;
 		R.bCaosBoosted = true;
@@ -311,9 +311,9 @@ void UNovCombatComponent::FireStrike()
 
 	Them->ReceiveStrike(R, Me);
 	OnStrikeResolved.Broadcast(R);
-	if (GameMode)
+	if (Director)
 	{
-		GameMode->NotifyStrike(Me, Them, R);
+		Director->NotifyStrike(Me, Them, R);
 	}
 }
 

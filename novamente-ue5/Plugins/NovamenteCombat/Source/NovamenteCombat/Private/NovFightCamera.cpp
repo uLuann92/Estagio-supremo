@@ -1,4 +1,5 @@
 ﻿#include "NovFightCamera.h"
+#include "NovCombatDirectorSubsystem.h"
 #include "NovFightGameMode.h"
 #include "NovFighterCharacter.h"
 #include "Camera/CameraComponent.h"
@@ -161,7 +162,8 @@ void ANovFightCamera::Tick(float DeltaSeconds)
 	CurrentLook = NovDamp(CurrentLook, TargetLook, Lambda * 1.4f, Dt);
 
 	// Tremor com ruído de Perlin: pesado, não tremido.
-	const float Shake = Mode->GetShake();
+	const UNovCombatDirectorSubsystem* Director = GetWorld()->GetSubsystem<UNovCombatDirectorSubsystem>();
+	const float Shake = Director ? Director->GetShake() : 0.f;
 	const float F = Time * ShakeFrequency;
 	const FVector ShakeOffset = FVector(FMath::PerlinNoise1D(F), FMath::PerlinNoise1D(F + 17.3f), FMath::PerlinNoise1D(F + 41.9f)) * ShakeAmplitude * Shake;
 	const FVector Pos = CurrentPos + ShakeOffset;
@@ -175,7 +177,7 @@ void ANovFightCamera::Tick(float DeltaSeconds)
 
 	// Campo de visão vertical constante em qualquer tela.
 	const float Aspect = GetViewportAspect();
-	const float TargetVFov = (Aspect < 1.f ? VerticalFovPortrait : VerticalFovLandscape) - Mode->GetFovKick() - (Mode->IsCaosActive() ? CaosFovPull : 0.f);
+	const float TargetVFov = (Aspect < 1.f ? VerticalFovPortrait : VerticalFovLandscape) - (Director ? Director->GetFovKick() : 0.f) - (Director && Director->IsCaosActive() ? CaosFovPull : 0.f);
 	CurrentVFov = NovDamp(CurrentVFov, TargetVFov, 6.f, Dt);
 	const float HFov = FMath::RadiansToDegrees(2.f * FMath::Atan(FMath::Tan(FMath::DegreesToRadians(CurrentVFov) * 0.5f) * Aspect));
 	Camera->SetFieldOfView(FMath::Clamp(HFov, 20.f, 170.f));

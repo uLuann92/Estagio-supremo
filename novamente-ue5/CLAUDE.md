@@ -11,6 +11,20 @@ Você está no PC do autor (Rawriter), com o projeto Unreal Engine 5.8 de NOVAME
 - Leis: 1ª (a dor chega atrasada, som abafado), 2ª (o corpo falha antes da Sombra: coração, zumbido, túnel), Lei de Goggins (os ferimentos ficam de uma luta para a outra), Realidade 2 (preto e branco), Visão do Caos (esquiva perfeita, câmera lenta).
 - Referências visuais do autor ficam em `Referencias/` (capa v1 a v3, render 3D do Luan criança, fotos do Largo). Se a pasta não existir, peça ao autor para criar e colocar as imagens.
 
+## Regras de arquitetura (não negociáveis)
+
+Qualquer exceção precisa de ADR com o motivo e da aprovação do autor.
+
+- **Zero assets orientais.** Nada de pacotes "oriental", "japanese", "asian village", "samurai", "shrine", "torii" ou "bamboo", nem como provisório.
+- **Mixamo descartado.**
+  - Animação de luta vem de captura de movimento (Rokoko, Move.ai ou estúdio), refinada no Control Rig e aplicada em MetaHumans.
+  - Para testar lógica antes disso, use as animações do Game Animation Sample.
+- **Base de movimento: Game Animation Sample (Motion Matching).** O Lyra não entra: é rede e tiro multiplayer, só polui.
+- **Combate mão e pé, estilo UFC, no plugin NovamenteCombat.** Sem espada e sem troca de armas.
+- **GAS só por ADR.** Os golpes, janelas e acertos ficam no C++ próprio. O GAS entra quando o mundo aberto pedir atributos e efeitos paralelos (fôlego, buffs da Sombra, ferimentos, itens), e só para eles.
+- **Mundo aberto em World Partition:** células, HLOD, Data Layers para dia, noite e chuva, Level Instances para os quarteirões, PCG para detalhe.
+- **Calibração de exposição e materiais antes de qualquer efeito.** Nanite e Lumen não salvam material de plástico.
+
 ## Onde está cada coisa
 
 - Plugin C++: `Plugins/NovamenteCombat` (dentro do projeto). Cópia de trabalho no repositório: `novamente-ue5/`.
