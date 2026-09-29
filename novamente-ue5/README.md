@@ -38,12 +38,16 @@ novamente-ue5/
   Scripts/
     setup_novamente.py            cria materiais, coleção de parâmetros, som abafado e ajusta Config/*.ini
     build_largo.py                monta o mapa L_Largo (blockout com luz e clima)
-    capture_review.py             tira as fotos de revisão sempre dos mesmos ângulos
+    capture_review.py             fotos de revisão das câmeras Rev_* de qualquer mapa, nas qualidades 4 e 1
+    fidelidade.py                 mede rosto, pele e clima das fotos contra as referências (MediaPipe)
+    preparar_referencias.py       corta a prancha de 4 vistas do render nos nomes que a medição espera
   Shaders/
     PP_Novamente_Custom.hlsl      pós-processamento: Sombra (duotone + garras), túnel, pulso, Caos, Realidade 2, grão
     M_SombraEyes_Custom.hlsl      olhos amarelos da Sombra no céu
     Bruises_Custom.hlsl           hematomas que envelhecem e corte no rosto
   Docs/ROADMAP.md                 portões de revisão R0 a R8, orçamento de desempenho, equipe
+  Docs/PROMPT_AAA_PLUS.md         prompt principal: templates prontos, rosto 100% fiel, estilo em qualquer PC, anti-cru
+  claude-kit/                     obriga a prova no Claude Code: gancho Stop, juiz revisor-visual, /revisao-aaa, selo
   CLAUDE.md                       instruções para o Claude no seu PC (ciclo compilar, fotografar, comparar, corrigir)
 ```
 
@@ -139,7 +143,9 @@ Em Configurações do Projeto > Novamente: coração, zumbido, sussurro, trovão
 
 ## Revisões
 
-O ciclo é: compilar, montar, fotografar com `capture_review.py`, comparar com as referências, corrigir, fotografar de novo. Os portões R0 a R8 e o que conta como prova estão em `Docs/ROADMAP.md`. O `CLAUDE.md` diz como o Claude faz isso sozinho no seu PC.
+O ciclo é: compilar, montar, fotografar com `capture_review.py`, medir com `fidelidade.py`, julgar, corrigir, fotografar de novo. Os portões R0 a R8 e o que conta como prova estão em `Docs/ROADMAP.md`. O `CLAUDE.md` diz como o Claude faz isso sozinho no seu PC.
+
+Para o Claude não parar antes da prova, instale o `claude-kit/` no projeto (`python claude-kit/instalar.py <pasta do .uproject>`). O `claude-kit/README.md` explica cada peça e os limites.
 
 ## Problemas conhecidos
 

@@ -76,3 +76,50 @@ Ambiente: máquina sem placa de vídeo e sem Unreal. Por isso as checagens abaix
 **Não verificado**
 - Compilar na 5.8.
 - Sensação do soft-lock e da câmera com gente jogando (valores de distância, ângulo e velocidade estão expostos para ajuste).
+
+## 2026-09-29 · Rodada 7: prompt AAA+ e kit que obriga a prova (na nuvem, sem Unreal)
+
+**O que mudou**
+- `Docs/PROMPT_AAA_PLUS.md`, o novo prompt principal. Mantém só as referências (render do Luan criança e capa), descritas em detalhe e com números medidos; o diagnóstico antigo saiu porque o jogo mudou. Traz:
+  - tabela de templates prontos por área (anatomia, física, movimento, mundo, luz);
+  - o caminho do rosto 100% fiel (FaceBuilder ou escultura, Mesh to MetaHuman, sala do render recriada, medição);
+  - o estilo em qualquer PC (o que nunca muda entre qualidades e o que pode baixar);
+  - a lista anti-cru com números;
+  - portões P0 a P6 e as regras de trabalho sem atalho.
+- `Scripts/fidelidade.py`: mede proporções do rosto (MediaPipe, 478 pontos), tom de pele (Delta E 2000) e clima da imagem contra as referências. Modo lote por `Referencias/pares.json`; referência ausente vira reprovação com motivo, não queda.
+- `Scripts/preparar_referencias.py`: corta a prancha de quatro vistas nos nomes fixos.
+- `Scripts/capture_review.py`: qualquer mapa, câmeras com tag `Rev_*` e várias qualidades por rodada (`NOV_TIERS=4,1`).
+- `claude-kit/` (instalado com `instalar.py`):
+  - gancho `Stop` que exige rodada nova, medição e parecer APROVADO depois de mudança visual;
+  - subagente revisor-visual (juiz duro com notas de 0 a 10);
+  - skill `/revisao-aaa`;
+  - regras fixas em `.claude/rules/aaa-plus.md`;
+  - selo das referências e do juiz;
+  - travas de edição e esforço alto.
+
+**Checagens**
+- Gancho em projeto falso, 10 cenários:
+  - sem mudança libera;
+  - mudança sem rodada bloqueia;
+  - "PENDENTE:" libera;
+  - rodada sem qualidade 1, sem medição ou sem parecer bloqueia;
+  - parecer REPROVADO devolve os defeitos;
+  - parecer aprova com medição reprovada bloqueia;
+  - tudo certo libera;
+  - mudança depois da rodada bloqueia;
+  - referência alterada bloqueia pelo selo.
+- Também conferidos: o limite de 8 bloqueios seguidos, o reinício na vez seguinte, a conversa ausente e a entrada vazia.
+- Instalador rodado duas vezes num projeto com `settings.json` próprio: junta sem apagar e não duplica o gancho.
+- `fidelidade.py` nas imagens do autor:
+  - o render contra o close passa (erro médio 1,1%, pele Delta E 1,5);
+  - o manequim antigo reprova;
+  - o três quartos contra a frente reprova pelo ângulo;
+  - o perfil não tem rosto detectável e é julgado só pelo clima e pelo revisor;
+  - a vista de costas também.
+
+**Não verificado**
+- O gancho dentro do Claude Code no Windows (caminho do `python`; se falhar, trocar por `py -3` no `settings.json`).
+- As fotos com câmeras `Rev_*` num mapa de verdade.
+
+**Para o autor decidir**
+- Cor dos olhos: proposta de íris avelã com anel verde-oliva (castanho na luz quente, verde na fria), que explica o render e a capa.

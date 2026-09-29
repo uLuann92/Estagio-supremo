@@ -2,3 +2,5 @@ __pycache__/
 *.pyc
 Plugins/*/Binaries/
 Plugins/*/Intermediate/
+Scripts/modelos/
+claude-kit/.claude/hooks/selo.json

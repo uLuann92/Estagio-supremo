@@ -25,6 +25,14 @@ Qualquer exceção precisa de ADR com o motivo e da aprovação do autor.
 - **Mundo aberto em World Partition:** células, HLOD, Data Layers para dia, noite e chuva, Level Instances para os quarteirões, PCG para detalhe.
 - **Calibração de exposição e materiais antes de qualquer efeito.** Nanite e Lumen não salvam material de plástico.
 
+## Fidelidade e prova
+
+- O prompt principal é `Docs/PROMPT_AAA_PLUS.md`. As regras fixas dele ficam em `.claude/rules/aaa-plus.md` (instalado pelo `claude-kit/`).
+- O Luan tem que ser o da referência. `Scripts/fidelidade.py` mede o rosto (proporções), a pele (Delta E) e o clima da imagem contra `Referencias/`; número vence opinião.
+- Depois de mudança visual, rode `/revisao-aaa`: fotos das câmeras `Rev_*` nas qualidades 4 e 1, medição, subagente revisor-visual, `PARECER.md`.
+- O gancho `exigir_prova` não deixa a vez terminar sem rodada nova aprovada. Saídas honestas: "PENDENTE:" ou "SEM EFEITO VISUAL:".
+- Referências, `pares.json` e `fidelidade.py` são do autor e estão selados. Não edite.
+
 ## Onde está cada coisa
 
 - Plugin C++: `Plugins/NovamenteCombat` (dentro do projeto). Cópia de trabalho no repositório: `novamente-ue5/`.

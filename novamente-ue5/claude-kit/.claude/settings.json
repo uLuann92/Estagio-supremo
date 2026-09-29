@@ -1,0 +1,23 @@
+{
+  "effortLevel": "xhigh",
+  "permissions": {
+    "deny": [
+      "Edit(/Referencias/**)",
+      "Edit(/Scripts/fidelidade.py)",
+      "Edit(/.claude/**)"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/exigir_prova.py\"",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}

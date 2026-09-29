@@ -1,0 +1,8 @@
+{
+  "Rev_05_Rosto_Frente": {"ref": "luan_crianca_frente.jpg"},
+  "Rev_05_Rosto_Perfil": {"ref": "luan_crianca_perfil.jpg", "rosto": false},
+  "Rev_05_Rosto_34": {"ref": "luan_crianca_34.jpg"},
+  "Rev_05_Rosto_Close": {"ref": "luan_crianca_close.jpg"},
+  "Rev_06_Cobogo_Costas": {"ref": "luan_crianca_costas.jpg", "rosto": false},
+  "Rev_07_Clima_Capa": {"ref": "capa_v3.jpg", "rosto": false, "pele": false}
+}

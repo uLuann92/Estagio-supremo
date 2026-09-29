@@ -12,8 +12,17 @@ Precisa do editor com janela (renderiza de verdade), não do modo -run=pythonscr
   UnrealEditor.exe "C:/caminho/Novamente.uproject" -ExecutePythonScript="C:/caminho/novamente-ue5/Scripts/capture_review.py"
 ou, com o editor aberto: Tools > Execute Python Script...
 
-Variáveis opcionais: NOV_CAPTURE=editor|pie|all (padrão all), NOV_QUIT=1 fecha o editor no fim,
-NOV_RES=2560x1440 muda a resolução.
+Variáveis opcionais:
+  NOV_MAP=/Game/.../L_Mutirao   outro mapa (padrão: o Largo)
+  NOV_TIERS=4,1                 qualidades a fotografar (4 cinematográfica, 3 épica, 2 alta, 1 média, 0 baixa).
+                                A 4 é a verdade visual, independente da potência do PC; a 1 prova que o estilo
+                                se sustenta no médio.
+  NOV_CAPTURE=editor|pie|all    (padrão all; a luta em Play só roda no Largo)
+  NOV_QUIT=1                    fecha o editor no fim
+  NOV_RES=2560x1440             resolução
+
+Câmeras de revisão: toda CameraActor do mapa com uma tag começando em "Rev_" (Rev_01_Rua, Rev_05_Rosto_Frente...)
+é fotografada com o enquadramento e a lente dela. Sem nenhuma no mapa, valem os ângulos fixos do Largo.
 """
 
 import datetime
@@ -23,12 +32,15 @@ import shutil
 
 import unreal
 
-MAP = "/Game/Novamente/Maps/L_Largo"
+LARGO = "/Game/Novamente/Maps/L_Largo"
+MAP = os.environ.get("NOV_MAP", LARGO)
+TIERS = [int(t) for t in os.environ.get("NOV_TIERS", "4,1").split(",") if t.strip()]
 MODE = os.environ.get("NOV_CAPTURE", "all").lower()
 RES = os.environ.get("NOV_RES", "1920x1080")
 QUIT = os.environ.get("NOV_QUIT") == "1"
 
 les = unreal.get_editor_subsystem(unreal.LevelEditorSubsystem)
+eas = unreal.get_editor_subsystem(unreal.EditorActorSubsystem)
 ues = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem)
 
 STAMP = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -47,6 +59,15 @@ EDITOR_SHOTS = [
 ]
 
 CHECKLIST = """# Revisão {stamp}
+
+Mapa: {map} · qualidades: {tiers} (4 = cinematográfica, 1 = média)
+
+## Câmeras de revisão (Rev_*) e fidelidade
+- Rode `python Scripts/fidelidade.py --pares Referencias/pares.json --dir <esta pasta>` para medir rosto, pele e clima
+  contra as referências. Os números vão para fidelidade.json.
+- O revisor-visual escreve o PARECER.md nesta pasta. Sem PARECER.md, a rodada não conta.
+- O visual na qualidade 1 pode perder detalhe, mas não pode perder o estilo: mesma paleta, mesmo contraste,
+  mesma leitura de material e silhueta.
 
 Compare cada foto com as referências (capa v1 a v3, render 3D) e com a rodada anterior.
 Marque OK ou descreva o problema com o arquivo e o que mudar.
@@ -128,20 +149,53 @@ def shot(world=None):
     console("HighResShot " + RES, world)
 
 
+def review_cameras():
+    """CameraActors do mapa com tag Rev_*, em ordem de tag."""
+    found = []
+    for actor in eas.get_all_level_actors():
+        if not isinstance(actor, unreal.CameraActor):
+            continue
+        for tag in actor.get_editor_property("tags"):
+            name = str(tag)
+            if name.startswith("Rev_"):
+                found.append((name, actor))
+                break
+    return sorted(found, key=lambda item: item[0])
+
+
+def res_xy():
+    w, h = RES.lower().split("x")
+    return int(w), int(h)
+
+
 def build_steps(runner_ref):
     steps = []
 
     if MODE in ("editor", "all"):
-        for name, pos, target in EDITOR_SHOTS:
-            def place(pos=pos, target=target):
-                location = unreal.Vector(*pos)
-                rotation = unreal.MathLibrary.find_look_at_rotation(location, unreal.Vector(*target))
-                ues.set_level_viewport_camera_info(location, rotation)
-            steps.append((0.5, place))
-            steps.append((1.5, lambda: shot()))           # tempo para Lumen e sombras assentarem
-            steps.append((1.5, lambda name=name: runner_ref[0].collect(name)))
+        cameras = review_cameras()
+        for tier in TIERS:
+            steps.append((0.3, lambda tier=tier: console("Scalability %d" % tier)))
+            if cameras:
+                for tag, cam in cameras:
+                    def take(cam=cam, tag=tag, tier=tier):
+                        w, h = res_xy()
+                        unreal.AutomationLibrary.take_high_res_screenshot(w, h, "%s_q%d.png" % (tag, tier), cam)
+                    steps.append((1.5, take))                  # tempo para Lumen e sombras assentarem
+                    steps.append((2.0, lambda tag=tag, tier=tier: runner_ref[0].collect("%s_q%d" % (tag, tier))))
+            elif MAP == LARGO:
+                for name, pos, target in EDITOR_SHOTS:
+                    def place(pos=pos, target=target):
+                        location = unreal.Vector(*pos)
+                        rotation = unreal.MathLibrary.find_look_at_rotation(location, unreal.Vector(*target))
+                        ues.set_level_viewport_camera_info(location, rotation)
+                    steps.append((0.5, place))
+                    steps.append((1.5, lambda: shot()))
+                    steps.append((1.5, lambda name=name, tier=tier: runner_ref[0].collect("%s_q%d" % (name, tier))))
+            else:
+                unreal.log_warning("[Novamente] nenhuma câmera Rev_* em %s: coloque CameraActors com tags Rev_01..." % MAP)
+        steps.append((0.3, lambda: console("Scalability %d" % max(TIERS))))
 
-    if MODE in ("pie", "all"):
+    if MODE in ("pie", "all") and (MAP == LARGO or MODE == "pie"):
         def game_world():
             return ues.get_game_world()
 
@@ -166,7 +220,7 @@ def build_steps(runner_ref):
 
     def finish():
         with open(os.path.join(OUT, "REVISAO.md"), "w", encoding="utf-8") as f:
-            f.write(CHECKLIST.format(stamp=STAMP))
+            f.write(CHECKLIST.format(stamp=STAMP, map=MAP, tiers=", ".join(str(t) for t in TIERS)))
         log("revisão pronta em " + OUT)
         if QUIT:
             unreal.SystemLibrary.quit_editor()
