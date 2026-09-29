@@ -53,6 +53,7 @@ novamente-ue5/
   Docs/PROMPT_AAA_PLUS.md         prompt principal: templates prontos, rosto 100% fiel, estilo em qualquer PC, anti-cru
   Docs/PROMPT_PERSONAGENS.md      prompt separado só de personagens: corpos padrão, biblioteca de templates, rosto do Luan por medida
   Docs/FERRAMENTAS_AAA.md         arsenal: 212 ferramentas, recursos e plugins por categoria, com prioridade e custo
+  Docs/PROMPT_ARSENAL.md          prompt para mandar o arsenal a outra IA: auditoria do projeto antes de instalar
   claude-kit/                     obriga a prova no Claude Code: gancho Stop, juiz revisor-visual, /revisao-aaa, selo
   CLAUDE.md                       instruções para o Claude no seu PC (ciclo compilar, fotografar, comparar, corrigir)
 ```

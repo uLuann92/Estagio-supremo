@@ -16,6 +16,7 @@ Como ler:
   - Sob aprovação.
 - **NOVAMENTE:** "sim" quando a ferramenta já está no plano do jogo (prompts, roadmap, kit).
 - Preços, licenças e o estado de recursos experimentais mudam. Confira no site antes de comprar ou depender.
+- Para mandar esta lista a outra IA, use junto o `Docs/PROMPT_ARSENAL.md`.
 
 Resumo:
 
