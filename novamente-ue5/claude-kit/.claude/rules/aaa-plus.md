@@ -6,7 +6,8 @@ O prompt completo está em `Docs/PROMPT_AAA_PLUS.md`. Estas são as regras que n
 
 - As imagens em `Referencias/` são a verdade: o render 3D do Luan criança (quatro vistas e o close) e a capa v1 a v3. O jogo tem que parecer com elas, não com "um jogo bonito qualquer".
 - O protagonista é o Luan da referência, 100%. Rosto genérico de MetaHuman, preset ou "parecido" é reprovado. O `Scripts/fidelidade.py` mede; número vence opinião.
-- As referências, o `pares.json` e o `fidelidade.py` são do autor e estão selados. Nunca edite, troque, recorte por cima nem afrouxe tolerância.
+- As referências, as fichas do rosto, o `pares.json`, os scripts de medida e o `corpos_padrao.json` são do autor e estão selados. Nunca edite, troque, recorte por cima nem afrouxe tolerância.
+- Personagens (corpo, templates, rosto do Luan) seguem `Docs/PROMPT_PERSONAGENS.md`: medida com `medidas_rosto.py`, `medir_corpo.py` e `medir_esqueleto.py`.
 
 ## Templates prontos antes de inventar
 

@@ -11,10 +11,11 @@ Copia para o projeto:
   .claude/rules/aaa-plus.md          as regras que ficam carregadas em toda sessão
   .claude/settings.json              o gancho, o esforço e as travas (junta com o que já existir)
   Scripts/capture_review.py, fidelidade.py, preparar_referencias.py
+  Scripts/medidas_rosto.py, medir_corpo.py, medir_esqueleto.py, corpos_padrao.json
   Referencias/pares.json             só se ainda não existir
-  Docs/PROMPT_AAA_PLUS.md
+  Docs/PROMPT_AAA_PLUS.md, Docs/PROMPT_PERSONAGENS.md
 
-No fim, sela as referências e o fidelidade.py. Rode de novo sempre que atualizar o kit.
+No fim, sela as referências e os scripts de medida. Rode de novo sempre que atualizar o kit.
 """
 
 import json
@@ -70,10 +71,12 @@ def main():
         copy(os.path.join(KIT, ".claude", sub), os.path.join(proj, ".claude", sub))
     merge_settings(os.path.join(proj, ".claude", "settings.json"))
 
-    for name in ("capture_review.py", "fidelidade.py", "preparar_referencias.py"):
+    for name in ("capture_review.py", "fidelidade.py", "preparar_referencias.py",
+                 "medidas_rosto.py", "medir_corpo.py", "medir_esqueleto.py", "corpos_padrao.json"):
         copy(os.path.join(REPO, "Scripts", name), os.path.join(proj, "Scripts", name))
     copy(os.path.join(KIT, "Referencias", "pares.json"), os.path.join(proj, "Referencias", "pares.json"), overwrite=False)
-    copy(os.path.join(REPO, "Docs", "PROMPT_AAA_PLUS.md"), os.path.join(proj, "Docs", "PROMPT_AAA_PLUS.md"))
+    for doc in ("PROMPT_AAA_PLUS.md", "PROMPT_PERSONAGENS.md"):
+        copy(os.path.join(REPO, "Docs", doc), os.path.join(proj, "Docs", doc))
 
     env = dict(os.environ, CLAUDE_PROJECT_DIR=proj)
     subprocess.call([sys.executable, os.path.join(proj, ".claude", "hooks", "exigir_prova.py"), "--selar"], env=env)

@@ -41,12 +41,17 @@ novamente-ue5/
     capture_review.py             fotos de revisão das câmeras Rev_* de qualquer mapa, nas qualidades 4 e 1
     fidelidade.py                 mede rosto, pele e clima das fotos contra as referências (MediaPipe)
     preparar_referencias.py       corta a prancha de 4 vistas do render nos nomes que a medição espera
+    medidas_rosto.py              ficha de medidas e cores do rosto do Luan (referência) e comparação com o jogo
+    medir_corpo.py                fita métrica da malha (.obj): altura, cabeças, larguras, voltas, contra os corpos padrão
+    medir_esqueleto.py            segmentos do esqueleto dentro da Unreal (braço, antebraço, coxa, perna, simetria)
+    corpos_padrao.json            corpos padrão: garoto de 13-14 anos, mulher e homem, magros, e as variantes
   Shaders/
     PP_Novamente_Custom.hlsl      pós-processamento: Sombra (duotone + garras), túnel, pulso, Caos, Realidade 2, grão
     M_SombraEyes_Custom.hlsl      olhos amarelos da Sombra no céu
     Bruises_Custom.hlsl           hematomas que envelhecem e corte no rosto
   Docs/ROADMAP.md                 portões de revisão R0 a R8, orçamento de desempenho, equipe
   Docs/PROMPT_AAA_PLUS.md         prompt principal: templates prontos, rosto 100% fiel, estilo em qualquer PC, anti-cru
+  Docs/PROMPT_PERSONAGENS.md      prompt separado só de personagens: corpos padrão, biblioteca de templates, rosto do Luan por medida
   claude-kit/                     obriga a prova no Claude Code: gancho Stop, juiz revisor-visual, /revisao-aaa, selo
   CLAUDE.md                       instruções para o Claude no seu PC (ciclo compilar, fotografar, comparar, corrigir)
 ```

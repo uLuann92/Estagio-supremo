@@ -4,6 +4,10 @@
     "deny": [
       "Edit(/Referencias/**)",
       "Edit(/Scripts/fidelidade.py)",
+      "Edit(/Scripts/medidas_rosto.py)",
+      "Edit(/Scripts/medir_corpo.py)",
+      "Edit(/Scripts/medir_esqueleto.py)",
+      "Edit(/Scripts/corpos_padrao.json)",
       "Edit(/.claude/**)"
     ]
   },

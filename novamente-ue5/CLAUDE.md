@@ -31,7 +31,8 @@ Qualquer exceção precisa de ADR com o motivo e da aprovação do autor.
 - O Luan tem que ser o da referência. `Scripts/fidelidade.py` mede o rosto (proporções), a pele (Delta E) e o clima da imagem contra `Referencias/`; número vence opinião.
 - Depois de mudança visual, rode `/revisao-aaa`: fotos das câmeras `Rev_*` nas qualidades 4 e 1, medição, subagente revisor-visual, `PARECER.md`.
 - O gancho `exigir_prova` não deixa a vez terminar sem rodada nova aprovada. Saídas honestas: "PENDENTE:" ou "SEM EFEITO VISUAL:".
-- Referências, `pares.json` e `fidelidade.py` são do autor e estão selados. Não edite.
+- Personagens (corpos padrão, templates, rosto do Luan) seguem `Docs/PROMPT_PERSONAGENS.md`, medidos com `medidas_rosto.py`, `medir_corpo.py` e `medir_esqueleto.py` contra `corpos_padrao.json` e as fichas em `Referencias/`.
+- Referências, fichas, `pares.json`, os scripts de medida e `corpos_padrao.json` são do autor e estão selados. Não edite.
 
 ## Onde está cada coisa
 

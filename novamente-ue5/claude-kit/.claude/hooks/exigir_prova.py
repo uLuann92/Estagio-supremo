@@ -13,7 +13,8 @@ Duas saídas honestas, que o autor lê na resposta:
   "PENDENTE:"          o que falta e de quem depende (download, aprovação do autor, máquina);
   "SEM EFEITO VISUAL:" a mudança não altera a imagem, e por quê.
 
-Também confere o selo das referências e do juiz (fidelidade.py). Se um deles mudou, bloqueia.
+Também confere o selo das referências e dos juízes (fidelidade.py, medidas_rosto.py, medir_corpo.py,
+medir_esqueleto.py e corpos_padrao.json). Se um deles mudou, bloqueia.
 Só o autor sela de novo, depois de trocar uma referência de propósito:
   python .claude/hooks/exigir_prova.py --selar
 
@@ -40,6 +41,7 @@ SKIP_DIRS = {"saved", "intermediate", "binaries", "deriveddatacache", ".git", ".
 ESCAPES = ("PENDENTE:", "SEM EFEITO VISUAL:")
 MAX_BLOCKS = int(os.environ.get("NOV_MAX_BLOQUEIOS", "8"))
 SEAL_NAME = "selo.json"
+JUDGES = ("fidelidade.py", "medidas_rosto.py", "medir_corpo.py", "medir_esqueleto.py", "corpos_padrao.json")
 VERDICT = re.compile(r"VEREDITO:\s*\**\s*(APROVADO|REPROVADO)", re.IGNORECASE)
 
 
@@ -110,7 +112,7 @@ def sha256(path):
 
 
 def sealed_files(root):
-    files = [os.path.join(root, "Scripts", "fidelidade.py")]
+    files = [os.path.join(root, "Scripts", name) for name in JUDGES]
     ref = os.path.join(root, "Referencias")
     if os.path.isdir(ref):
         for name in sorted(os.listdir(ref)):
@@ -145,7 +147,7 @@ def seal_problems(root):
             bad.append(name + " foi alterado")
     if not bad:
         return []
-    return ["As referências e o juiz são do autor e estão selados: " + "; ".join(bad) + ". "
+    return ["As referências e os juízes (scripts de medida) são do autor e estão selados: " + "; ".join(bad) + ". "
             "Desfaça a alteração (git checkout ou cópia original). Se foi o autor que trocou de propósito, "
             "peça para ele rodar: python .claude/hooks/exigir_prova.py --selar"]
 

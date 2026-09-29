@@ -10,8 +10,9 @@ O motivo de o jogo sair "cru" quase nunca é a IA não saber fazer. É que ela p
 | Juiz | `.claude/agents/revisor-visual.md` | Um subagente separado, duro, que compara as fotos com as referências do autor e com a rodada anterior e escreve o `PARECER.md`. Na dúvida, reprova. |
 | Rodada | `.claude/skills/revisao-aaa/SKILL.md` | `/revisao-aaa`: fotografa as câmeras `Rev_*` na qualidade 4 e na 1, roda o `fidelidade.py`, chama o juiz, registra. |
 | Regras fixas | `.claude/rules/aaa-plus.md` | Carregadas em toda sessão, mesmo depois de a conversa ser resumida. |
-| Selo | `.claude/hooks/selo.json` | Guarda a impressão digital das referências e do `fidelidade.py`. Se alguém trocar a referência pela foto do jogo ou afrouxar a régua, o gancho bloqueia. |
-| Travas | `permissions.deny` no `settings.json` | O Claude não edita `Referencias/`, `Scripts/fidelidade.py` nem `.claude/`. |
+| Selo | `.claude/hooks/selo.json` | Guarda a impressão digital das referências (e das fichas do rosto) e dos scripts de medida: `fidelidade.py`, `medidas_rosto.py`, `medir_corpo.py`, `medir_esqueleto.py`, `corpos_padrao.json`. Se alguém trocar a referência pela foto do jogo ou afrouxar a régua, o gancho bloqueia. |
+| Travas | `permissions.deny` no `settings.json` | O Claude não edita `Referencias/`, os scripts de medida nem `.claude/`. |
+| Medidas de personagem | `Scripts/medidas_rosto.py`, `medir_corpo.py`, `medir_esqueleto.py`, `corpos_padrao.json` | Ficha de medidas do rosto do Luan e comparação; fita métrica da malha; segmentos pelos ossos na Unreal; os corpos padrão. Usados pelo `Docs/PROMPT_PERSONAGENS.md`. |
 | Esforço | `effortLevel: xhigh` no `settings.json` | Raciocínio alto por padrão; o juiz e a rodada usam o máximo. |
 
 ## Instalar (uma vez, no PC)
@@ -27,7 +28,13 @@ O motivo de o jogo sair "cru" quase nunca é a IA não saber fazer. É que ela p
    python Scripts\preparar_referencias.py prancha_4_vistas.jpg Referencias
    ```
    Isso corta a prancha do render em `luan_crianca_frente.jpg`, `_costas`, `_perfil` e `_34`. Coloque à mão o close do render como `luan_crianca_close.jpg` e as capas como `capa_v1.jpg`, `capa_v2.jpg`, `capa_v3.jpg`.
-4. **Bibliotecas da medição:** `pip install mediapipe opencv-python numpy` (o modelo de rosto baixa sozinho na primeira vez).
+4. **Bibliotecas da medição:** `pip install mediapipe opencv-python numpy` (os modelos de rosto e de segmentação baixam sozinhos na primeira vez).
+   Para o prompt de personagens, tire as fichas do rosto antes de selar:
+   ```
+   python Scripts\medidas_rosto.py --ficha Referencias\luan_crianca_close.jpg --out Referencias\ficha_luan_close.json
+   python Scripts\medidas_rosto.py --ficha Referencias\luan_crianca_frente.jpg --out Referencias\ficha_luan_frente.json
+   python Scripts\medidas_rosto.py --ficha Referencias\luan_crianca_34.jpg --out Referencias\ficha_luan_34.json
+   ```
 5. **Sele as referências** (só você faz isso, de novo sempre que trocar uma referência de propósito):
    ```
    python .claude\hooks\exigir_prova.py --selar

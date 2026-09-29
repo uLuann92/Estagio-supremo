@@ -123,3 +123,42 @@ Ambiente: máquina sem placa de vídeo e sem Unreal. Por isso as checagens abaix
 
 **Para o autor decidir**
 - Cor dos olhos: proposta de íris avelã com anel verde-oliva (castanho na luz quente, verde na fria), que explica o render e a capa.
+
+## 2026-09-29 · Rodada 8: prompt de personagens e medidas de rosto e corpo (na nuvem, sem Unreal)
+
+**O que mudou**
+- `Docs/PROMPT_PERSONAGENS.md`, separado do AAA+ e só com três fatores:
+  - corpos padrão proporcionais (garoto de 13 a 14 anos, mulher e homem, magros);
+  - biblioteca de templates por região (rosto, cabelo, sobrancelha, pelos, braços, pernas, barriga, cintura, ombros, postura, mãos, pés, pele, olhos, dentes, roupa em camadas, tecidos);
+  - o rosto do Luan refeito pelas medidas do render.
+- `Scripts/medidas_rosto.py`:
+  - ficha com 35 medidas, 3 ângulos, 5 proporções, assimetria e cores (pele, cabelo, íris, lábio, sobrancelha, roupa);
+  - comparação com tolerância de identidade, expressão e cor.
+- `Scripts/corpos_padrao.json`: os três corpos padrão e as variantes (médio, forte, acima do peso).
+- `Scripts/medir_corpo.py`: fita métrica da malha em .obj, só com numpy. Mede altura, cabeças, entrepernas, larguras e as voltas de pescoço, peito, cintura, quadril, coxa e panturrilha.
+- `Scripts/medir_esqueleto.py`: segmentos entre articulações e simetria pelos ossos do MetaHuman, dentro da Unreal.
+- Kit:
+  - o selo e as travas cobrem os scripts de medida, o `corpos_padrao.json` e as fichas;
+  - o instalador copia tudo e os dois prompts.
+
+**Checagens**
+- `medidas_rosto.py` nas imagens do autor:
+  - a vista de frente contra a ficha do close passa (erro médio de identidade 0,9%, pior 1,8%; cores com Delta E até 3,1). Isso mede o ruído e justifica a tolerância de 3%;
+  - o rosto esticado 6% na largura reprova (nariz, filtro, terço médio);
+  - o três quartos reprova pelo ângulo;
+  - a imagem aquecida reprova na pele e na roupa;
+  - a vista de costas diz que não há rosto.
+- `medir_corpo.py` num corpo sintético em pose A com medidas conhecidas:
+  - todas as medidas batem com a geometria dentro de 0,5 cm;
+  - a mesma malha em metros e com Z para cima dá o mesmo resultado;
+  - uma cintura fora do padrão é apontada.
+- `medir_esqueleto.py` contra um módulo `unreal` falso: os segmentos batem, e uma coxa direita 3% maior é pega na simetria.
+- O instalador sela os scripts novos; mexer no `corpos_padrao.json` bloqueia pelo selo.
+
+**Não verificado**
+- As funções da Unreal chamadas pelo `medir_esqueleto.py` (`set_skeletal_mesh_asset`, `get_socket_location`, `get_bone_index`, `get_bounds`) numa 5.8 de verdade.
+- O `medir_corpo.py` num corpo de MetaHuman exportado (o queixo é achado pelo perfil; se falhar, avisa).
+
+**Para o autor decidir**
+- Altura do Luan aos 13–14 anos (padrão 1,58 m; o canon adulto é 1,63 m).
+- Os números dos corpos padrão são ponto de partida anatômico, não canon.
