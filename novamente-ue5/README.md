@@ -56,6 +56,7 @@ novamente-ue5/
   Docs/FERRAMENTAS_AAA.md         arsenal: 212 ferramentas, recursos e plugins por categoria, com prioridade e custo
   Docs/PROMPT_ARSENAL.md          prompt para mandar o arsenal a outra IA: auditoria do projeto antes de instalar
   Docs/PROMPT_HUMANOS.md          gente bonita e proporcional pela obra: só MetaHuman, fichas com citações, Luan do zero
+  Docs/PROMPT_LUAN.md             o Luan aos 13 e aos 31 anos refeito do zero, com as referências de cada idade
   claude-kit/                     obriga a prova no Claude Code: gancho Stop, juiz revisor-visual, /revisao-aaa, selo
   CLAUDE.md                       instruções para o Claude no seu PC (ciclo compilar, fotografar, comparar, corrigir)
 ```

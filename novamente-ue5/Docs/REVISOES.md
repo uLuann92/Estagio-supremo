@@ -199,3 +199,25 @@ Ambiente: máquina sem placa de vídeo e sem Unreal. Por isso as checagens abaix
   - não acusa poste feito por código, blockout de cenário, mapa nem a pasta MetaHumans.
 - No próprio repositório, dá LIMPO, com a exceção declarada dos olhos da Sombra.
 - O gancho bloqueia com a auditoria reprovada e libera com ela limpa.
+
+## 2026-10-08 · Rodada 10: o Luan nas duas idades (na nuvem, sem Unreal)
+
+**Medição**
+- O Luan atual (MetaHuman no nível do Game Animation Sample) contra o render da criança:
+  - erro médio de identidade 5,5%;
+  - 18 medidas fora: testa +27% (entrada de cabelo), olho à base do nariz +10,5%, mandíbula +7,6% e mais quadrada.
+  - Também parece haver o material de ferimentos ligado em volta dos olhos.
+- As duas imagens do adulto (cabelo longo e cabelo curto cacheado) dão 2,8% entre si, com ângulos diferentes: são a mesma pessoa.
+
+**O que mudou**
+- `Docs/PROMPT_LUAN.md`:
+  - diagnóstico medido;
+  - a verdade de cada idade: o render para os 13 anos; as duas imagens do adulto e o centro da capa para os 31;
+  - o que o adulto herda da criança;
+  - processo do zero com FaceBuilder, Mesh to MetaHuman e corpo padrão;
+  - metas e decisões do autor (altura e variante do adulto).
+- `pares.json` do kit ganhou as câmeras do adulto (`Rev_08_Adulto_A` e `_B`); o instalador copia o prompt novo.
+
+**Para o autor**
+- Prancha de quatro vistas do adulto, como a da criança.
+- Altura dos 31 anos (1,63 m ou 1,84 m) e variante de corpo (magro ou médio).
