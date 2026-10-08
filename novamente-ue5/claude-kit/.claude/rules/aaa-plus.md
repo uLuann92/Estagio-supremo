@@ -8,6 +8,7 @@ O prompt completo está em `Docs/PROMPT_AAA_PLUS.md`. Estas são as regras que n
 - O protagonista é o Luan da referência, 100%. Rosto genérico de MetaHuman, preset ou "parecido" é reprovado. O `Scripts/fidelidade.py` mede; número vence opinião.
 - As referências, as fichas do rosto, o `pares.json`, os scripts de medida e o `corpos_padrao.json` são do autor e estão selados. Nunca edite, troque, recorte por cima nem afrouxe tolerância.
 - Personagens (corpo, templates, rosto do Luan) seguem `Docs/PROMPT_PERSONAGENS.md`: medida com `medidas_rosto.py`, `medir_corpo.py` e `medir_esqueleto.py`.
+- Gente nunca é feita por código nem por primitiva: todo humano é MetaHuman (ou personagem profissional no rig do MetaHuman). Sem MetaHuman, "PENDENTE:", nunca boneco de caixa e esfera. `Scripts/auditar_humanos.py` tem que dar LIMPO. Aparência de cada pessoa vem das fichas da obra (`Docs/PROMPT_HUMANOS.md`).
 
 ## Templates prontos antes de inventar
 

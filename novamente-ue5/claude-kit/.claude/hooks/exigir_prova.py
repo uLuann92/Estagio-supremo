@@ -14,7 +14,7 @@ Duas saídas honestas, que o autor lê na resposta:
   "SEM EFEITO VISUAL:" a mudança não altera a imagem, e por quê.
 
 Também confere o selo das referências e dos juízes (fidelidade.py, medidas_rosto.py, medir_corpo.py,
-medir_esqueleto.py e corpos_padrao.json). Se um deles mudou, bloqueia.
+medir_esqueleto.py, corpos_padrao.json e auditar_humanos.py). Se um deles mudou, bloqueia.
 Só o autor sela de novo, depois de trocar uma referência de propósito:
   python .claude/hooks/exigir_prova.py --selar
 
@@ -41,7 +41,7 @@ SKIP_DIRS = {"saved", "intermediate", "binaries", "deriveddatacache", ".git", ".
 ESCAPES = ("PENDENTE:", "SEM EFEITO VISUAL:")
 MAX_BLOCKS = int(os.environ.get("NOV_MAX_BLOQUEIOS", "8"))
 SEAL_NAME = "selo.json"
-JUDGES = ("fidelidade.py", "medidas_rosto.py", "medir_corpo.py", "medir_esqueleto.py", "corpos_padrao.json")
+JUDGES = ("fidelidade.py", "medidas_rosto.py", "medir_corpo.py", "medir_esqueleto.py", "corpos_padrao.json", "auditar_humanos.py")
 VERDICT = re.compile(r"VEREDITO:\s*\**\s*(APROVADO|REPROVADO)", re.IGNORECASE)
 
 
@@ -194,6 +194,16 @@ def review_problems(root, last_change):
                     fid_ok = bool(json.load(f).get("passou"))
             except (OSError, ValueError):
                 problems.append("fidelidade.json ilegível em %s. Rode o fidelidade.py de novo." % name)
+
+    aud = os.path.join(review, "auditoria_humanos.json")
+    if os.path.isfile(aud):
+        try:
+            with open(aud, encoding="utf-8") as f:
+                if not json.load(f).get("passou", False):
+                    problems.append("A auditoria de humanos reprovou em %s: tem gente feita por código ou com forma básica. "
+                                    "Troque por MetaHuman e rode de novo: python Scripts/auditar_humanos.py --json \"%s\"" % (name, aud))
+        except (OSError, ValueError):
+            problems.append("auditoria_humanos.json ilegível em %s. Rode a auditoria de novo." % name)
 
     if not os.path.isfile(parecer):
         problems.append("Falta PARECER.md em %s. Chame o subagente revisor-visual para julgar a rodada." % name)

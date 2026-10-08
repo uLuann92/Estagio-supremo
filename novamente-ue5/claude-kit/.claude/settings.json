@@ -8,6 +8,7 @@
       "Edit(/Scripts/medir_corpo.py)",
       "Edit(/Scripts/medir_esqueleto.py)",
       "Edit(/Scripts/corpos_padrao.json)",
+      "Edit(/Scripts/auditar_humanos.py)",
       "Edit(/.claude/**)"
     ]
   },

@@ -13,6 +13,7 @@ O motivo de o jogo sair "cru" quase nunca é a IA não saber fazer. É que ela p
 | Selo | `.claude/hooks/selo.json` | Guarda a impressão digital das referências (e das fichas do rosto) e dos scripts de medida: `fidelidade.py`, `medidas_rosto.py`, `medir_corpo.py`, `medir_esqueleto.py`, `corpos_padrao.json`. Se alguém trocar a referência pela foto do jogo ou afrouxar a régua, o gancho bloqueia. |
 | Travas | `permissions.deny` no `settings.json` | O Claude não edita `Referencias/`, os scripts de medida nem `.claude/`. |
 | Medidas de personagem | `Scripts/medidas_rosto.py`, `medir_corpo.py`, `medir_esqueleto.py`, `corpos_padrao.json` | Ficha de medidas do rosto do Luan e comparação; fita métrica da malha; segmentos pelos ossos na Unreal; os corpos padrão. Usados pelo `Docs/PROMPT_PERSONAGENS.md`. |
+| Auditoria de humanos | `Scripts/auditar_humanos.py` | Acha gente feita por código ou com formas básicas (caixa, esfera, plano) e personagem sem MetaHuman. Usada pelo `Docs/PROMPT_HUMANOS.md` e pelo revisor. |
 | Esforço | `effortLevel: xhigh` no `settings.json` | Raciocínio alto por padrão; o juiz e a rodada usam o máximo. |
 
 ## Instalar (uma vez, no PC)

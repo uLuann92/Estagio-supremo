@@ -443,6 +443,7 @@ def build_atmosphere(m):
     tag(fog, f, "NeblinaChuva")
 
     # Olhos da Sombra no céu, atrás do teatro (o material lê SombraEyes da coleção).
+    # auditar_humanos: permitido (olhos da Sombra no céu: efeito num plano, não é pessoa; formas básicas só no blockout do cenário)
     if m.get("eyes"):
         mesh(f, "OlhosDaSombra", PLANE, m["eyes"], V(THEATER_X - 9000.0, 0, 4600.0), V(78.0, 24.0, 1.0),
              R(yaw=90.0, roll=90.0), shadows=False)

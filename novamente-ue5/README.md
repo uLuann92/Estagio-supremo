@@ -45,6 +45,7 @@ novamente-ue5/
     medir_corpo.py                fita métrica da malha (.obj): altura, cabeças, larguras, voltas, contra os corpos padrão
     medir_esqueleto.py            segmentos do esqueleto dentro da Unreal (braço, antebraço, coxa, perna, simetria)
     corpos_padrao.json            corpos padrão: garoto de 13-14 anos, mulher e homem, magros, e as variantes
+    auditar_humanos.py            acha gente feita por código ou por primitiva (caixa, esfera, plano) no projeto
   Shaders/
     PP_Novamente_Custom.hlsl      pós-processamento: Sombra (duotone + garras), túnel, pulso, Caos, Realidade 2, grão
     M_SombraEyes_Custom.hlsl      olhos amarelos da Sombra no céu
@@ -54,6 +55,7 @@ novamente-ue5/
   Docs/PROMPT_PERSONAGENS.md      prompt separado só de personagens: corpos padrão, biblioteca de templates, rosto do Luan por medida
   Docs/FERRAMENTAS_AAA.md         arsenal: 212 ferramentas, recursos e plugins por categoria, com prioridade e custo
   Docs/PROMPT_ARSENAL.md          prompt para mandar o arsenal a outra IA: auditoria do projeto antes de instalar
+  Docs/PROMPT_HUMANOS.md          gente bonita e proporcional pela obra: só MetaHuman, fichas com citações, Luan do zero
   claude-kit/                     obriga a prova no Claude Code: gancho Stop, juiz revisor-visual, /revisao-aaa, selo
   CLAUDE.md                       instruções para o Claude no seu PC (ciclo compilar, fotografar, comparar, corrigir)
 ```

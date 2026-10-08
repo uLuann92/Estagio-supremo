@@ -11,9 +11,9 @@ Copia para o projeto:
   .claude/rules/aaa-plus.md          as regras que ficam carregadas em toda sessão
   .claude/settings.json              o gancho, o esforço e as travas (junta com o que já existir)
   Scripts/capture_review.py, fidelidade.py, preparar_referencias.py
-  Scripts/medidas_rosto.py, medir_corpo.py, medir_esqueleto.py, corpos_padrao.json
+  Scripts/medidas_rosto.py, medir_corpo.py, medir_esqueleto.py, corpos_padrao.json, auditar_humanos.py
   Referencias/pares.json             só se ainda não existir
-  Docs/PROMPT_AAA_PLUS.md, Docs/PROMPT_PERSONAGENS.md
+  Docs/PROMPT_AAA_PLUS.md, Docs/PROMPT_PERSONAGENS.md, Docs/PROMPT_HUMANOS.md
 
 No fim, sela as referências e os scripts de medida. Rode de novo sempre que atualizar o kit.
 """
@@ -72,10 +72,10 @@ def main():
     merge_settings(os.path.join(proj, ".claude", "settings.json"))
 
     for name in ("capture_review.py", "fidelidade.py", "preparar_referencias.py",
-                 "medidas_rosto.py", "medir_corpo.py", "medir_esqueleto.py", "corpos_padrao.json"):
+                 "medidas_rosto.py", "medir_corpo.py", "medir_esqueleto.py", "corpos_padrao.json", "auditar_humanos.py"):
         copy(os.path.join(REPO, "Scripts", name), os.path.join(proj, "Scripts", name))
     copy(os.path.join(KIT, "Referencias", "pares.json"), os.path.join(proj, "Referencias", "pares.json"), overwrite=False)
-    for doc in ("PROMPT_AAA_PLUS.md", "PROMPT_PERSONAGENS.md"):
+    for doc in ("PROMPT_AAA_PLUS.md", "PROMPT_PERSONAGENS.md", "PROMPT_HUMANOS.md"):
         copy(os.path.join(REPO, "Docs", doc), os.path.join(proj, "Docs", doc))
 
     env = dict(os.environ, CLAUDE_PROJECT_DIR=proj)

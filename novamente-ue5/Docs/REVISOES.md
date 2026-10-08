@@ -162,3 +162,40 @@ Ambiente: máquina sem placa de vídeo e sem Unreal. Por isso as checagens abaix
 **Para o autor decidir**
 - Altura do Luan aos 13–14 anos (padrão 1,58 m; o canon adulto é 1,63 m).
 - Os números dos corpos padrão são ponto de partida anatômico, não canon.
+
+## 2026-10-08 · Rodada 9: gente só de MetaHuman (na nuvem, sem Unreal)
+
+**Por quê**
+- As capturas do capítulo 2 mostraram pessoas montadas por código e com formas básicas:
+  - tronco de caixa;
+  - olhos de esfera preta;
+  - cabelo de planos soltos.
+- Também mostraram a câmera dentro de uma cabeça e dois avisos vermelhos (exposição do Lumen e Sky Light sem céu).
+
+**O que mudou**
+- `Docs/PROMPT_HUMANOS.md`:
+  - regra zero: todo humano é MetaHuman, nunca código nem primitiva;
+  - aparência vinda da obra, numa ficha por personagem com citações literais e capítulo;
+  - padrão de bonito, proporcional, simétrico e uniforme, com tiers de elenco;
+  - conserto do palco antes de julgar;
+  - processo de cada pessoa e o Luan refeito do zero.
+- `Scripts/auditar_humanos.py` acusa:
+  - código que monta malha num arquivo que fala de gente;
+  - asset de personagem com formas básicas ou malha procedural;
+  - personagem sem MetaHuman (este como aviso).
+  Exceção só declarada no arquivo e mostrada no relatório; a única hoje são os olhos da Sombra no céu do `build_largo.py`.
+- Kit:
+  - a auditoria entra no selo e nas travas;
+  - as regras fixas proíbem gente de primitiva;
+  - o revisor reprova pessoa de código ou forma básica e lê o `auditoria_humanos.json`;
+  - a rodada roda a auditoria quando mexe em gente;
+  - o gancho não deixa encerrar com a auditoria reprovada;
+  - o instalador copia o prompt e a auditoria.
+
+**Checagens**
+- Num projeto falso, a auditoria:
+  - reprova a cabeça montada em C++ e o NPC com cubo e esfera;
+  - avisa do personagem sem MetaHuman;
+  - não acusa poste feito por código, blockout de cenário, mapa nem a pasta MetaHumans.
+- No próprio repositório, dá LIMPO, com a exceção declarada dos olhos da Sombra.
+- O gancho bloqueia com a auditoria reprovada e libera com ela limpa.

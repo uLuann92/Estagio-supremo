@@ -36,6 +36,14 @@ python Scripts/fidelidade.py --pares Referencias/pares.json --dir "Saved/Review/
 
 Leia a tabela inteira. O `fidelidade.json` fica na pasta da rodada. Não mexa nas tolerâncias nem nas referências: são do autor e estão seladas.
 
+Se a rodada mexeu em gente (personagem, NPC, rosto, cabelo, roupa), rode também a auditoria e deixe o resultado na pasta:
+
+```
+python Scripts/auditar_humanos.py --json "Saved/Review/<data-hora>/auditoria_humanos.json"
+```
+
+Ela tem que dar LIMPO. Pessoa feita por código ou com forma básica sai do projeto; não vira exceção.
+
 ## 3. Julgar
 
 Chame o subagente **revisor-visual** com o caminho da rodada. Não escreva o PARECER.md você mesmo e não discuta com o veredito: corrija.
