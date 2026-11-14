@@ -23,13 +23,20 @@ As curvas e os cuidados gerais são os do `oficio-motion.md`; a ferramenta, a do
 ## 3. Separar em camadas
 É o passo que mais pesa na qualidade, e o que menos se automatiza bem.
 - **Quantas:** o mínimo que serve. Quase sempre 2–4: fundo, personagem, o elemento do golpe (punho, espada, energia), balão ou onomatopeia. Cada camada a mais é mais um recorte para errar.
-- **A máscara do personagem** (branco = a camada), por ordem de qualidade:
+- **O caminho que funcionou no teste (com plano pago do Gemini): o fundo limpo primeiro.**
+  1. `gemini.py imagem --midia quadro.png --saida fundo_limpo.png --pedido "…"`: peça ao modelo de imagem para **tirar** o personagem, o elemento do golpe e o balão e **continuar o fundo que já existe** (linhas, retícula, cenário), sem mudar o enquadramento nem acrescentar nada.
+  2. `painel.py mascaras quadro.png --json elementos.json --limpo fundo_limpo.jpg --saida mascaras/`: o que mudou entre o quadro e o fundo limpo **é** o que saiu. Essa diferença vira a máscara (`m00_tudo_que_saiu.png`), repartida pelas caixas que o Gemini apontou.
+  3. `painel.py camadas quadro.png --mascara … --fundo-limpo fundo_limpo.jpg --saida camadas/`: o fundo refeito entra só dentro do buraco, com a borda fundida; fora dele ficam os pixels originais. O script mede a diferença fora do buraco e avisa se o fundo veio deslocado ou redesenhado.
+  - Confira sempre: o modelo pode devolver outro tamanho (o script ajusta), em JPEG, e às vezes **redesenha** o que devia manter. Se a diferença fora do buraco vier alta, peça de novo com instrução mais dura ("mantenha todo o resto idêntico").
+  - **Elemento ligado fica junto.** As caixas cortam em linha reta: um punho ligado ao braço repartido por caixa ganha uma emenda no pulso. Deixe o que é ligado na mesma camada e, se uma parte precisa pular, use uma **cópia** dela por cima (como no exemplo).
+  - Com o fundo limpo de verdade, as três regras do remendo (abaixo) deixam de valer: a camada pode nascer do nada, encolher e andar longe.
+- **Sem plano pago, a máscara do personagem** (branco = a camada), por ordem de qualidade:
   1. **Modelo de segmentação guiado pela caixa** que o Gemini apontou (ex.: SAM), ou um removedor de fundo treinado em anime (ex.: `rembg` com o modelo `isnet-anime`). Pesquise o estado atual e **teste num quadro real** da obra: em mangá preto e branco, com retícula e linhas de velocidade atravessando o personagem, os modelos erram mais do que em imagem colorida.
   2. **Retoque à mão:** a pessoa corrige a máscara num editor de imagem (5 minutos por quadro-herói valem a pena).
   3. `painel.py mascaras` transforma a resposta do Gemini em máscaras; sem máscara na resposta, ele tenta a silhueta fechada pelo traço dentro da caixa. Serve para balão e formas fechadas; **não** serve para personagem sobre fundo com retícula.
 - **Sempre conferir a máscara por cima do quadro** (uma folha com a máscara em vermelho) antes de seguir.
 - `painel.py camadas quadro.png --mascara frente.png meio.png --saida camadas/` recorta cada camada (da frente para trás), fecha o buraco no fundo e grava o `camadas.json` com a posição de cada uma.
-- **O fundo atrás do personagem é remendo.** O preenchimento automático serve para movimento pequeno. O script avisa quando o buraco passa de ~35% do quadro. Para movimento grande, o fundo precisa ser refeito de verdade: por um modelo de imagem que edita (os do Gemini existem, mas **não têm cota no plano gratuito**; com plano pago, é o melhor caminho para "tire o personagem e complete o fundo"), ou à mão.
+- **Sem fundo limpo, o fundo atrás do personagem é remendo.** O preenchimento automático serve para movimento pequeno. O script avisa quando o buraco passa de ~35% do quadro. Para movimento grande, o fundo precisa ser refeito de verdade: pelo modelo de imagem (acima; **não tem cota no plano gratuito**) ou à mão.
 - **Três regras do remendo** (cada uma apareceu no teste):
   - uma camada **nunca some nem encolhe** abaixo do tamanho original: atrás dela só há remendo. Ela pode pular, crescer e voltar;
   - o deslocamento de uma camada fica **dentro da folga** do recorte (alguns pixels a poucas dezenas). Passou disso, o remendo aparece na borda;
@@ -75,13 +82,17 @@ As curvas e os cuidados gerais são os do `oficio-motion.md`; a ferramenta, a do
 - **Formato:** cena cheia, na taxa de quadros do projeto. A letra e os efeitos de seção entram depois, por cima.
 
 ## 8. Conferir (medir, e só então perguntar)
-- **A tremida existe?** Um script mede o deslocamento global quadro a quadro (correlação de fase). Tremida de verdade aparece como deslocamentos de **sinal alternado**, decaindo. Deslocamento sempre para o mesmo lado é só a câmera assentando.
+- **A tremida existe e se lê?** Um script segue um detalhe fixo do desenho (um olho, por casamento de padrão) quadro a quadro. Tremida de verdade aparece como posição que **vai e volta**, decaindo, por 8 quadros ou mais, com ao menos ~1,5% da largura no começo. Posição que só anda para um lado é a câmera assentando. Decaimento com ease-out forte deixa só 2 quadros tremendo: use quase linear.
+  - A correlação de fase do quadro inteiro também serve, mas confunde-se com linhas de velocidade redesenhadas: confirme pelo detalhe.
 - **O remendo aparece?** Olhe os frames de maior deslocamento de cada camada (antecipação, pulo).
 - **A borda aparece?** Olhe o zoom mais aberto e o pico da tremida.
-- **Segundo olhar:** peça a crítica do trecho com fps alto, dizendo o que foi planejado e proibindo avaliar o desenho. No teste desta skill, ele acertou o que faltava na primeira versão (a tremida não se lia) e sugeriu coisas úteis (parada do golpe, desfoque de movimento no chicote). Na segunda, **repetiu que não havia tremida nem antecipação quando a medida mostrava as duas**. É por isso que a regra é: a impressão dele diz onde medir; a medida decide.
+- **Segundo olhar:** peça a crítica do trecho com fps alto, dizendo o que foi planejado e proibindo avaliar o desenho. O que o teste desta skill mostrou:
+  - **Ele é bom em:** enquadramento (viu o balão cortado na borda, e estava), entrada e saída de elementos, ritmo geral, o que falta no golpe (parada, desfoque no chicote, paralaxe do fundo). O modelo mais capaz respondeu em ~20 s, com mais detalhe que o leve.
+  - **Ele não vê tremida.** Em cinco críticas, de dois modelos, com 24 fps e resolução alta, ele disse "não há tremida" quando o rastreio do detalhe mostrava ±33 px indo e voltando por dez quadros. Na primeira versão ele tinha razão (só dois quadros tremiam); nas seguintes, não dá para saber pelo que ele diz.
+  - Por isso: tremida, flash e sincronia de poucos frames se conferem **por medida e pelo olho da pessoa**. Diga a ela que os dois pensamentos discordam e peça para assistir.
 
 ## 9. O exemplo que roda
-`exemplos/painel-animado/`: um quadro de teste (desenho próprio, simples de propósito) em 4 camadas, com aproximação lenta, antecipação, quadro de impacto, chicote, tremida com semente, linhas de velocidade, brilho de cor, pulo de camada e mergulho de saída, sincronizado em 140 BPM. Passou no `check` e renderizou no HyperFrames 0.9.45.
+`exemplos/painel-animado/`: um quadro de teste (desenho próprio, simples de propósito) em 4 camadas, com aproximação lenta, antecipação, quadro de impacto, chicote, tremida com semente, linhas de velocidade, brilho de cor, pulo de camada e mergulho de saída, sincronizado em 140 BPM. Passou no `check` e renderizou no HyperFrames 0.9.45. As camadas e o fundo do exemplo saíram do caminho automático do §3 (fundo limpo pelo modelo de imagem + máscara por diferença), sem retoque à mão.
 - Serve de **ponto de partida das peças-base**, não de estilo. O estilo vem das referências da pessoa.
 - Para rodar: crie um projeto com `hyperframes init`, troque o `index.html` e a pasta `assets/` pelos do exemplo, `check`, `snapshot`, `render`.
 

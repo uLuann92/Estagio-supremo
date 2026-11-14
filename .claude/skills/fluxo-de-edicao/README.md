@@ -20,7 +20,7 @@ O estilo de um canal de que você gosta não vem pronto aqui: ele é **medido** 
 - Assinatura do Claude (Pro ou superior).
 - [Claude Code](https://claude.com/claude-code) instalado no computador.
 - O resto (Python, FFmpeg, transcrição, HyperFrames…) a própria skill confere e instala com você, explicando cada passo.
-- Para o segundo olhar (opcional): uma chave do Google Gemini, guardada por você na variável de ambiente `GEMINI_API_KEY`. A skill explica como criar.
+- Para o segundo olhar (opcional): uma chave do Google Gemini, guardada por você na variável de ambiente `GEMINI_API_KEY`. A skill explica como criar. No plano gratuito funcionam só os modelos "flash"; com faturamento ligado, também o modelo mais capaz e os de imagem (que refazem o fundo dos quadros de mangá).
 
 ## Como instalar
 Abra o Claude Code e cole:

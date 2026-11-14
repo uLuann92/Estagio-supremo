@@ -10,6 +10,7 @@ Uso:
   gemini.py perguntar --pergunta "..." [--midia clipe.mp4 ...] [--saida resposta.md]
   gemini.py perguntar --arquivo-pergunta pergunta.md --midia ref01.mp4 --fps 12 --inicio 10 --fim 25
   gemini.py perguntar --pergunta "..." --youtube https://www.youtube.com/watch?v=... --inicio 30 --fim 90
+  gemini.py imagem --pedido "Remova o personagem e complete o fundo" --midia quadro.png --saida fundo.png
   gemini.py apagar            (apaga do Google os arquivos enviados por este script)
 
 Se o modelo pedido estiver sobrecarregado ou sem cota, o script tenta sozinho os outros
@@ -318,6 +319,8 @@ def perguntar(a, texto):
             corpo["systemInstruction"] = {"parts": [{"text": f.read()}]}
     if a.baixa:
         corpo["generationConfig"]["mediaResolution"] = "MEDIA_RESOLUTION_LOW"
+    elif getattr(a, "alta", False):
+        corpo["generationConfig"]["mediaResolution"] = "MEDIA_RESOLUTION_HIGH"
     if a.json:
         corpo["generationConfig"]["responseMimeType"] = "application/json"
     if a.temperatura is not None:
@@ -380,7 +383,70 @@ def cmd_perguntar(a):
         print("Aviso: a resposta foi cortada no limite de tamanho. Peça menos coisa por vez.", file=sys.stderr)
 
 
+def modelos_de_imagem():
+    """Modelos que editam/geram imagem e que a chave alcança; os 'flash' primeiro, do mais novo ao mais antigo."""
+    r, _ = chamar("GET", f"{BASE}/v1beta/models?pageSize=200", espera=30)
+    achados = []
+    for m in r.get("models", []):
+        nome = m["name"].split("/", 1)[-1]
+        v = re.fullmatch(r"gemini-(\d+(?:\.\d+)?)-(flash|pro)-image", nome)
+        if v and "generateContent" in m.get("supportedGenerationMethods", []):
+            achados.append((v.group(2) == "flash", float(v.group(1)), nome))
+    return [n for _, _, n in sorted(achados, reverse=True)]
+
+
+def cmd_imagem(a):
+    """Edita ou cria uma imagem. Precisa de plano pago: no gratuito, os modelos de imagem têm cota zero."""
+    import base64
+    partes = []
+    for c in (a.midia or []):
+        if not os.path.isfile(c):
+            raise Erro(f"Arquivo não encontrado: {c}")
+        with open(c, "rb") as f:
+            partes.append({"inlineData": {"mimeType": tipo_de(c), "data": base64.b64encode(f.read()).decode("ascii")}})
+    partes.append({"text": a.pedido})
+    corpo = {"contents": [{"role": "user", "parts": partes}]}
+    fila = [m.strip() for m in (a.modelo or "").split(",") if m.strip()] or modelos_de_imagem()
+    if not fila:
+        raise Erro("Nenhum modelo de imagem disponível para esta chave.")
+    ultimo = None
+    for modelo in fila:
+        try:
+            r, _ = chamar("POST", f"{BASE}/v1beta/models/{urllib.parse.quote(modelo, safe='')}:generateContent",
+                          corpo=corpo, espera=a.espera)
+        except Erro as e:
+            ultimo = e
+            print(f"  {modelo}: {str(e)[:110]}", file=sys.stderr)
+            continue
+        achou, falas = None, []
+        for c in r.get("candidates") or []:
+            for p in (c.get("content") or {}).get("parts", []):
+                if p.get("inlineData", {}).get("data"):
+                    achou = achou or p["inlineData"]
+                elif p.get("text") and not p.get("thought"):
+                    falas.append(p["text"])
+        if not achou:
+            ultimo = Erro(f"{modelo} não devolveu imagem. {' '.join(falas)[:200]}")
+            print(f"  {ultimo}", file=sys.stderr)
+            continue
+        # o modelo escolhe o formato (muitas vezes JPEG): a extensão do arquivo acompanha o que veio
+        ext = {"image/jpeg": ".jpg", "image/png": ".png", "image/webp": ".webp"}.get(achou.get("mimeType"), "")
+        saida = a.saida
+        if ext and os.path.splitext(saida)[1].lower() not in ((ext, ".jpeg") if ext == ".jpg" else (ext,)):
+            saida = os.path.splitext(saida)[0] + ext
+        os.makedirs(os.path.dirname(os.path.abspath(saida)), exist_ok=True)
+        with open(saida, "wb") as f:
+            f.write(base64.b64decode(achou["data"]))
+        uso = r.get("usageMetadata", {})
+        print(f"Imagem gravada em {saida}")
+        print(f"[{modelo} · entrada {uso.get('promptTokenCount', '?')} tokens · "
+              f"saída {uso.get('candidatesTokenCount', '?')} tokens]", file=sys.stderr)
+        return
+    raise Erro(f"Nenhum modelo de imagem respondeu. Último erro: {ultimo}")
+
+
 def cmd_testar(a):
+    a.alta = False
     a.midia, a.youtube, a.sistema, a.baixa, a.json, a.temperatura, a.espera = [], [], None, False, False, None, 40
     resposta, _, _, versao = perguntar(a, "Responda só com a palavra: funcionando")
     print(f"Chave funcionando. Quem respondeu: {versao}. Resposta: {resposta.strip()[:80]}")
@@ -422,12 +488,23 @@ def main():
     q.add_argument("--inicio", type=float, help="olhar o vídeo só a partir deste segundo")
     q.add_argument("--fim", type=float, help="olhar o vídeo só até este segundo")
     q.add_argument("--baixa", action="store_true", help="resolução baixa por quadro (gasta menos; ruim para ler texto)")
+    q.add_argument("--alta", action="store_true",
+                   help="resolução alta por quadro (gasta ~4x; para detalhe fino num trecho curto: tremida, texto pequeno)")
     q.add_argument("--json", action="store_true", help="pede a resposta em JSON")
     q.add_argument("--sistema", help="arquivo com a instrução de papel (ex.: 'você é um editor crítico')")
     q.add_argument("--temperatura", type=float)
     q.add_argument("--modelo", default=MODELO_PADRAO, help="um modelo, ou vários separados por vírgula (ordem de tentativa)")
     q.add_argument("--saida", help="grava a resposta neste arquivo em vez de mostrar")
     q.set_defaults(f=cmd_perguntar)
+
+    g = sub.add_parser("imagem", help="edita ou cria uma imagem (plano pago)")
+    g.add_argument("--pedido", required=True, help="o que fazer com a imagem, em uma instrução clara")
+    g.add_argument("--midia", nargs="*", help="imagem(ns) de entrada")
+    g.add_argument("--saida", required=True, help="arquivo de saída (.png)")
+    g.add_argument("--modelo", default=os.environ.get("GEMINI_MODELO_IMAGEM", ""),
+                   help="modelo de imagem; vazio = o mais novo que a chave alcança")
+    g.add_argument("--espera", type=int, default=300)
+    g.set_defaults(f=cmd_imagem)
 
     d = sub.add_parser("apagar", help="apaga do Google os arquivos enviados")
     d.set_defaults(f=cmd_apagar)

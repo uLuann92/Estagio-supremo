@@ -26,9 +26,11 @@
         <div id="mundo">
           <img id="fundo" class="camada" src="assets/fundo.png" alt="" />
           <div id="brilho" class="camada"></div>
-          <img id="impacto" class="camada" src="assets/camada_03.png" alt="" style="left:0px; top:204px;" />
-          <img id="heroi" class="camada" src="assets/camada_02.png" alt="" style="left:99px; top:33px;" />
-          <img id="balao" class="camada" src="assets/camada_01.png" alt="" style="left:916px; top:58px; transform-origin: 20% 90%;" />
+          <img id="heroi" class="camada" src="assets/camada_02.png" alt="" style="left:0px; top:32px;" />
+          <!-- cópia do punho com a estrela, por cima do herói: é ela que "pula" no impacto.
+               O punho é ligado ao braço, então continua na camada do herói; o que pula é a cópia. -->
+          <img id="impacto" class="camada" src="assets/camada_03.png" alt="" style="left:20px; top:282px;" />
+          <img id="balao" class="camada" src="assets/camada_01.png" alt="" style="left:780px; top:100px; transform-origin: 20% 90%;" />
         </div>
         <canvas id="linhas" width="1920" height="1080"></canvas>
         <div id="clarao"></div>
@@ -43,13 +45,13 @@
       const T_ABRE = 6 * BATIDA;            // a câmera abre no 7º tempo
       const ROSTO = { x: 706, y: 300 }, PUNHO = { x: 190, y: 450 }, CENTRO = { x: 650, y: 505 };
       // profundidade: quanto cada camada desliza contra a câmera (0 = colada no fundo)
-      const LARG = 1301, ALT = 1009, MARGEM = 64;   // margem: moldura do quadro + folga da tremida
+      const LARG = 1301, ALT = 1009, MARGEM = 56;   // margem: moldura do quadro + folga da tremida
       const ZOOM_MIN = 1920 / (LARG - 2 * MARGEM);   // abaixo disso a tela mostraria além do quadro
-      const PROF = { heroi: 0.10, balao: 0.16, impacto: 0.05, brilho: 0.03 };
+      const PROF = { heroi: 0.10, balao: 0.16, impacto: 0.10, brilho: 0.03 };
 
       // ---------- estado animado (um objeto só; tudo é aplicado num lugar só) ----------
-      const E = { fx: ROSTO.x, fy: ROSTO.y, zoom: 1.78, deriva: 0, giro: 0, heroiX: 0, heroiS: 1, impS: 1, impR: -8,
-                  brilho: 0, balS: 1, balR: 0, linhas: 0, clarao: 0, treme: 0, negativo: 0 };
+      const E = { fx: ROSTO.x, fy: ROSTO.y, zoom: 1.78, deriva: 0, giro: 0, heroiX: 0, heroiS: 1, impS: 1, impR: 0,
+                  brilho: 0, balS: 0, balR: -10, linhas: 0, clarao: 0, treme: 0, negativo: 0 };
       const el = (id) => document.getElementById(id);
       const mundo = el("mundo"), heroi = el("heroi"), balao = el("balao"), impacto = el("impacto"),
             brilho = el("brilho"), clarao = el("clarao"), cv = el("linhas"), ctx = cv.getContext("2d");
@@ -65,7 +67,9 @@
         const quadro = Math.round(t * FPS);
         // tremida: decai sozinha; direção nova a cada quadro, com semente
         const r = sorteio(1000 + quadro);
-        const tx = (r() - 0.5) * 2 * E.treme, ty = (r() - 0.5) * 2 * E.treme;
+        // o sinal alterna a cada quadro e o tamanho nunca cai abaixo de 60%: tremida que se lê, não ruído
+        const lado = quadro % 2 ? 1 : -1;
+        const tx = lado * (0.6 + 0.4 * r()) * E.treme, ty = -lado * (0.35 + 0.5 * r()) * E.treme * 0.7;
         const giro = (r() - 0.5) * 2 * E.treme * 0.045;          // a tremida também gira um pouco (graus)
         const zoom = Math.max(ZOOM_MIN, E.zoom * (1 + E.deriva) * (1 + (r() - 0.5) * E.treme * 0.0012));
         // a câmera nunca mostra a borda do quadro: o foco é preso ao que cabe na tela neste zoom
@@ -78,7 +82,8 @@
         const dx = fx - CENTRO.x, dy = fy - CENTRO.y;
         heroi.style.transform = `translate(${-dx * PROF.heroi + E.heroiX}px, ${-dy * PROF.heroi}px) scale(${E.heroiS})`;
         balao.style.transform = `translate(${-dx * PROF.balao}px, ${-dy * PROF.balao}px) rotate(${E.balR}deg) scale(${E.balS})`;
-        impacto.style.transform = `translate(${-dx * PROF.impacto}px, ${-dy * PROF.impacto}px) rotate(${E.impR}deg) scale(${E.impS})`;
+        impacto.style.transform = `translate(${-dx * PROF.impacto + E.heroiX}px, ${-dy * PROF.impacto}px) rotate(${E.impR}deg) scale(${E.impS})`;
+        impacto.style.opacity = E.impS > 1.004 ? 1 : 0;   // em repouso a cópia some: quem aparece é o original, na camada do herói
         brilho.style.transform = `translate(${-dx * PROF.brilho}px, ${-dy * PROF.brilho}px) scale(${0.6 + E.brilho * 0.5})`;
         brilho.style.opacity = E.brilho;
         clarao.style.opacity = E.clarao;
@@ -119,25 +124,26 @@
       tl.set(E, { fx: PUNHO.x + 260, fy: PUNHO.y, zoom: 2.75, heroiX: -40, heroiS: 1.05 }, I);
       tl.fromTo(E, { fx: PUNHO.x + 260, fy: PUNHO.y }, { fx: PUNHO.x + 330, fy: PUNHO.y + 20, duration: 0.5, ease: "expo.out", immediateRender: false }, I + 2 * F);
       tl.fromTo(E, { zoom: 2.75 }, { zoom: 2.2, duration: 0.55, ease: "expo.out", immediateRender: false }, I + 2 * F);
-      tl.fromTo(E, { treme: 58 }, { treme: 0, duration: 0.5, ease: "power2.out", immediateRender: false }, I + 2 * F);
+      // decaimento quase linear em 14 quadros: com ease-out forte, só os 2 primeiros quadros tremiam de verdade
+      tl.fromTo(E, { treme: 44 }, { treme: 0, duration: 14 * F, ease: "power1.out", immediateRender: false }, I + 2 * F);
       tl.fromTo(E, { heroiX: -40, heroiS: 1.05 }, { heroiX: 0, heroiS: 1, duration: 0.5, ease: "expo.out", immediateRender: false }, I + 2 * F);
-      tl.fromTo(E, { impS: 1.38, impR: 6 }, { impS: 1, impR: 0, duration: 0.45, ease: "back.out(2.2)", immediateRender: false }, I);
-      tl.to(E, { impR: 14, duration: 4 - I - 0.45, ease: "none" }, I + 0.45);
+      tl.fromTo(E, { impS: 1.42, impR: 7 }, { impS: 1, impR: 0, duration: 0.5, ease: "power3.out", immediateRender: false }, I);
       tl.fromTo(E, { brilho: 1 }, { brilho: 0.62, duration: 0.6, ease: "power2.out", immediateRender: false }, I);
       tl.fromTo(E, { linhas: 1.15 }, { linhas: 0, duration: 0.75, ease: "power2.out", immediateRender: false }, I);
 
-      // 4. Balão: pula 3 quadros depois do golpe. Ele nunca some nem encolhe abaixo do tamanho original:
-      //    atrás dele o fundo é remendo, e remendo não pode aparecer.
-      tl.fromTo(E, { balS: 1.28, balR: -7 }, { balS: 1, balR: 0, duration: 0.34, ease: "back.out(2.6)", immediateRender: false }, I + 3 * F);
+      // 4. Balão: estoura 3 quadros depois do golpe. Só pode nascer do nada porque o fundo atrás dele foi
+      //    refeito de verdade (fundo limpo). Com fundo remendado, ele teria de estar na tela desde o começo.
+      //    Ele foi trazido ~140 px para dentro (cabe no plano aberto) e estoura quando a câmera abre, não antes.
+      tl.fromTo(E, { balS: 0, balR: -10 }, { balS: 1, balR: 0, duration: 0.36, ease: "back.out(3)", immediateRender: false }, A + 4 * F);
 
       // 5. Abertura do plano no 7º tempo: a câmera recua para o quadro inteiro, sem parar de andar
-      tl.fromTo(E, { fx: PUNHO.x + 330, fy: PUNHO.y + 20 }, { fx: CENTRO.x, fy: CENTRO.y - 60, duration: 0.8, ease: "expo.out", immediateRender: false }, A);
+      tl.fromTo(E, { fx: PUNHO.x + 330, fy: PUNHO.y + 20 }, { fx: CENTRO.x, fy: CENTRO.y - 110, duration: 0.8, ease: "expo.out", immediateRender: false }, A);
       tl.fromTo(E, { zoom: 2.2 }, { zoom: ZOOM_MIN + 0.02, duration: 0.8, ease: "expo.out", immediateRender: false }, A);
       tl.fromTo(E, { treme: 16 }, { treme: 0, duration: 0.3, ease: "power2.out", immediateRender: false }, A);
       tl.fromTo(E, { linhas: 0.5 }, { linhas: 0, duration: 0.4, ease: "power2.out", immediateRender: false }, A);
 
       // 6. Saída: mergulho nos olhos com aceleração, clarão no último quadro (emenda no próximo quadro)
-      tl.fromTo(E, { fx: CENTRO.x, fy: CENTRO.y - 60, zoom: ZOOM_MIN + 0.02 }, { fx: ROSTO.x + 25, fy: ROSTO.y + 15, zoom: 4.2, duration: 0.5, ease: "expo.in", immediateRender: false }, 4 - 0.5);
+      tl.fromTo(E, { fx: CENTRO.x, fy: CENTRO.y - 110, zoom: ZOOM_MIN + 0.02 }, { fx: ROSTO.x + 25, fy: ROSTO.y + 15, zoom: 4.2, duration: 0.5, ease: "expo.in", immediateRender: false }, 4 - 0.5);
       tl.fromTo(E, { clarao: 0 }, { clarao: 1, duration: 4 * F, ease: "power1.in", immediateRender: false }, 4 - 4 * F);
 
       tl.eventCallback("onUpdate", () => aplicar(tl.time()));

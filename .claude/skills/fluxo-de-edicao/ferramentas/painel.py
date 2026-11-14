@@ -115,9 +115,31 @@ def carregar_json_solto(caminho):
     return d
 
 
+def mascara_por_diferenca(cinza, caminho_limpo, limiar):
+    """O que mudou entre o quadro e o fundo limpo é o que foi tirado: vira máscara, com os miolos fechados."""
+    limpo = ler_cinza(caminho_limpo)
+    h, w = cinza.shape
+    if limpo.shape != (h, w):
+        limpo = cv2.resize(limpo, (w, h), interpolation=cv2.INTER_LANCZOS4)
+    dif = cv2.absdiff(cv2.GaussianBlur(cinza, (0, 0), 1.5), cv2.GaussianBlur(limpo, (0, 0), 1.5))
+    m = (dif > limiar).astype(np.uint8) * 255
+    k = max(5, int(min(h, w) * 0.012)) | 1
+    m = cv2.morphologyEx(m, cv2.MORPH_CLOSE, np.ones((k, k), np.uint8))
+    contornos, _ = cv2.findContours(m, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    cheio = np.zeros_like(m)
+    for c in contornos:
+        if cv2.contourArea(c) >= 0.0015 * h * w:   # joga fora os pontinhos de ruído
+            cv2.drawContours(cheio, [c], -1, 255, cv2.FILLED)
+    return cheio
+
+
 def cmd_mascaras(a):
     cinza = ler_cinza(a.painel)
     h, w = cinza.shape
+    tirado = mascara_por_diferenca(cinza, a.limpo, a.limiar) if a.limpo else None
+    if tirado is not None:
+        os.makedirs(a.saida, exist_ok=True)
+        gravar(os.path.join(a.saida, "m00_tudo_que_saiu.png"), tirado)
     elementos = carregar_json_solto(a.json)
     os.makedirs(a.saida, exist_ok=True)
     feitos = []
@@ -146,7 +168,10 @@ def cmd_mascaras(a):
                 origem = "mascara"
             except Exception as erro:
                 print(f"  elemento {i}: máscara ilegível ({erro}); usando a silhueta dentro da caixa")
-        if origem == "caixa":
+        if origem == "caixa" and tirado is not None:
+            masc[y0:y1, x0:x1] = tirado[y0:y1, x0:x1]
+            origem = "diferenca"
+        elif origem == "caixa":
             masc[y0:y1, x0:x1] = silhueta(cinza[y0:y1, x0:x1], a.branco)
             origem = "silhueta"
         rotulo = str(e.get("label") or e.get("nome") or f"elemento{i}")
@@ -219,7 +244,23 @@ def cmd_camadas(a):
     # fundo: fecha o buraco deixado pelas camadas. Bom para movimentos pequenos; buraco grande pede retoque.
     k = max(3, int(a.folga)) | 1
     buraco = cv2.dilate(uniao, np.ones((k, k), np.uint8))
-    fundo = cv2.inpaint(cor, buraco, a.raio, cv2.INPAINT_TELEA)
+    if a.fundo_limpo:
+        # fundo refeito por fora (modelo de imagem ou à mão): entra só dentro do buraco, com a borda fundida.
+        # Fora do buraco ficam os pixels originais, então um pequeno desalinhamento do fundo refeito não aparece.
+        limpo = ler_cor(a.fundo_limpo)
+        if limpo.shape[:2] != (h, w):
+            limpo = cv2.resize(limpo, (w, h), interpolation=cv2.INTER_LANCZOS4)
+        fora = buraco == 0
+        dif = float(np.abs(limpo[fora].astype(np.int16) - cor[fora].astype(np.int16)).mean()) if fora.any() else 0.0
+        print(f"  fundo limpo: diferença média fora do buraco = {dif:.1f} (0-255). "
+              + ("Parece alinhado." if dif < 18 else "ALTA: o fundo refeito pode estar deslocado ou redesenhado; confira."))
+        # dentro do buraco inteiro vale o fundo refeito; a fusão acontece numa faixa para fora dele
+        largo = cv2.dilate(buraco, np.ones((k, k), np.uint8))
+        peso = cv2.GaussianBlur(largo, (0, 0), max(1.0, a.folga / 3)).astype(np.float32) / 255.0
+        peso = np.maximum(peso, (buraco > 0).astype(np.float32))[..., None]
+        fundo = (limpo.astype(np.float32) * peso + cor.astype(np.float32) * (1 - peso)).round().astype(np.uint8)
+    else:
+        fundo = cv2.inpaint(cor, buraco, a.raio, cv2.INPAINT_TELEA)
     gravar(os.path.join(a.saida, "fundo.png"), fundo)
     with open(os.path.join(a.saida, "camadas.json"), "w", encoding="utf-8") as f:
         json.dump({"painel": os.path.basename(a.painel), "largura": w, "altura": h, "fundo": "fundo.png",
@@ -227,7 +268,7 @@ def cmd_camadas(a):
                   f, ensure_ascii=False, indent=1)
     pct = (buraco > 0).mean() * 100
     print(f"{len(info)} camada(s) + fundo em {a.saida}. O buraco fechado cobre {pct:.0f}% do quadro.")
-    if pct > 35:
+    if pct > 35 and not a.fundo_limpo:
         print("Aviso: buraco grande. O fundo refeito serve para pouco movimento; para muito, peça um fundo limpo.")
 
 
@@ -249,6 +290,8 @@ def main():
     m.add_argument("--json", required=True, help="resposta com box_2d [y0,x0,y1,x1 em milésimos], label e mask (opcional)")
     m.add_argument("--saida", required=True)
     m.add_argument("--branco", type=int, default=235)
+    m.add_argument("--limpo", help="o quadro sem os elementos (fundo refeito): a máscara sai da diferença entre os dois")
+    m.add_argument("--limiar", type=int, default=38, help="diferença mínima (0-255) para contar como 'saiu'")
     m.set_defaults(f=cmd_mascaras)
 
     c = sub.add_parser("camadas", help="recorta as camadas e fecha o buraco do fundo")
@@ -258,6 +301,7 @@ def main():
     c.add_argument("--suave", type=float, default=1.2, help="suavização da borda, em pixels")
     c.add_argument("--folga", type=int, default=9, help="quanto o buraco do fundo passa da máscara, em pixels")
     c.add_argument("--raio", type=int, default=7, help="raio do preenchimento do fundo")
+    c.add_argument("--fundo-limpo", help="o quadro sem os elementos, refeito por um modelo de imagem ou à mão")
     c.set_defaults(f=cmd_camadas)
 
     a = p.parse_args()

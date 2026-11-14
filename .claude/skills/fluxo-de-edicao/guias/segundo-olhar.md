@@ -4,6 +4,11 @@ Dois modelos pensando sobre o mesmo vídeo erram em lugares diferentes. E há um
 
 É opcional. Sem a chave, o fluxo inteiro funciona igual; onde uma skill diz "segundo olhar", ela pula.
 
+## 0. Quem faz o quê (não usar um para o trabalho do outro)
+- **Gemini:** tudo o que pede **assistir, ouvir ou gerar imagem**: descrever referências e material, analisar quadros, criticar renders, refazer fundos.
+- **Claude:** decidir com a pessoa, planejar, escrever e corrigir código e skills, medir com scripts, conferir o que o Gemini disse.
+- Texto e código não vão para o Gemini "para economizar": a ida e volta e a conferência custam mais do que fazer direto. A economia real está em não gastar o Claude olhando centenas de quadros.
+
 ## 1. Papéis
 - **Gemini:** observa e critica. Nunca mexe em arquivo, nunca decide.
 - **Claude:** pergunta, confere o que o Gemini disse, compara com o próprio pensamento e leva o resultado à pessoa.
@@ -35,6 +40,7 @@ Dois modelos pensando sobre o mesmo vídeo erram em lugares diferentes. E há um
 | Catálogo de material bruto | olhar | descrever centenas de cenas (quem aparece, ação, emoção) custa muito em quadros para o Claude e pouco para o Gemini |
 | Música (clipe musical) | olhar | seções, clima, viradas; confere a grade de batidas e a letra alinhada num vídeo de teste |
 | Plano (cortes, plano das animações, roteiro do clipe) | parecer independente ou crítica | é a decisão mais barata de mudar e a que mais pesa |
+| Fundo de um quadro (plano pago) | imagem | refaz o fundo sem o personagem; a máscara sai da diferença (`etapa-paineis.md` §3) |
 | Render de um trecho | crítica | sincronia, texto ilegível, efeito repetido, momento morto: coisas que só aparecem assistindo |
 | Vídeo final | crítica | uma última passada de espectador antes de publicar |
 
@@ -52,7 +58,8 @@ Quanto usar é decisão da pessoa (fase 2): **nas etapas-chave**, **só quando p
 - **Ele olha 1 quadro por segundo, por padrão.** A 1 fps não dá para julgar sincronia com a batida, flash, tremida nem corte rápido. Para isso, mande um **trecho curto** (até ~30–60 s, com `--inicio`/`--fim`) e suba o `--fps` (até 24). Vídeo longo a fps alto estoura o limite e o custo.
 - **Tempo citado é aproximado** (erra em torno de 1 s, mais em vídeo longo). Serve para achar o lugar; nunca vira tempo de corte nem de efeito. A medida exata é dos scripts.
 - **Ele inventa em vídeo longo.** Quanto mais longo, mais detalhe trocado. Para catalogar, mande em blocos (ex.: 5–10 min) e confira uma amostra de cada bloco.
-- **Ele repete o diagnóstico.** No teste desta skill, a segunda crítica do mesmo trecho repetiu "não há tremida nem antecipação" quando a medida quadro a quadro mostrava as duas. Detalhe rápido (poucos frames) ele perde mesmo a 24 fps. A impressão dele diz onde medir; a medida decide.
+- **Ele não vê tremida nem detalhe de poucos frames.** No teste desta skill, cinco críticas de dois modelos (o leve e o mais capaz), a 24 fps e com `--alta`, disseram "não há tremida" quando o rastreio de um detalhe mostrava ±33 px indo e voltando por dez quadros. Enquadramento, entrada de elementos e ritmo geral ele acerta. A impressão dele diz onde medir; a medida e o olho da pessoa decidem.
+- **Fps alto baixa a resolução de cada quadro** (a conta de tokens por quadro cai). Para texto pequeno ou detalhe fino num trecho curto, some `--alta` (gasta cerca de 4 vezes mais).
 - **Link do YouTube:** funciona para vídeo público (`--youtube`). No teste, o recorte por `--inicio`/`--fim` não foi respeitado num link: confira na resposta que trecho ele viu, e prefira vídeos curtos.
 - **Modelo sobrecarregado ou sem cota:** acontece muito no plano gratuito. O script troca sozinho para outro modelo "flash" e avisa qual respondeu. Se a espera incomodar, fixe na variável `GEMINI_MODELO` o modelo que respondeu.
 - **Ele concorda com quem pergunta.** Por isso o Claude grava a proposta antes, e a pergunta não revela a preferência dele.
@@ -70,7 +77,9 @@ Quanto usar é decisão da pessoa (fase 2): **nas etapas-chave**, **só quando p
 1. A pessoa cria a chave no Google AI Studio e guarda na variável de ambiente `GEMINI_API_KEY`. **Ela mesma faz isso; a chave nunca é colada no chat nem gravada em arquivo do fluxo.** Explique o passo para o sistema dela (pesquise o comando atual) e peça para abrir o terminal de novo.
 2. Copie `ferramentas/gemini.py` desta skill para a pasta de ferramentas (`scripts/`). Ele só usa a biblioteca padrão do Python.
 3. `gemini.py testar` confirma a chave. `gemini.py modelos` lista o que ela alcança.
-4. **Escolha os modelos** com a pessoa e anote no `montagem.md`: um mais capaz (para parecer e crítica) e um mais leve (para olhar e catalogar em volume). Os nomes mudam rápido: escolha pela lista, não de memória, e **teste cada um com uma pergunta** antes de anotar. Aparecer na lista não quer dizer ter cota: no plano gratuito testado (novembro de 2026), os modelos "pro", o topo de linha e **todos os de imagem** respondiam "cota zero"; só os "flash" funcionavam. Nesse caso, o modelo capaz e o leve são o mesmo. O padrão do script (`gemini-flash-latest`) acompanha o flash mais novo e cai para os anteriores quando ele falha.
+4. **Escolha os modelos** com a pessoa e anote no `montagem.md`: um mais capaz (para parecer e crítica) e um mais leve (para olhar e catalogar em volume). Os nomes mudam rápido: escolha pela lista, não de memória, e **teste cada um com uma pergunta** antes de anotar. Aparecer na lista não quer dizer ter cota: no plano gratuito testado (novembro de 2026), os modelos "pro", o topo de linha e **todos os de imagem** respondiam "cota zero"; só os "flash" funcionavam, e os mais novos travavam por sobrecarga. Nesse caso, o modelo capaz e o leve são o mesmo. Com o faturamento ligado na mesma chave, todos responderam na hora, sem mudar nada no script.
+   - **Divisão que funcionou no teste pago:** o topo de linha para crítica e parecer (~20 s por crítica de um trecho de 4 s); um flash para olhar e catalogar em volume; um modelo de imagem "flash" para refazer fundos (`gemini.py imagem`).
+   - **Crédito não é infinito:** vídeo a fps alto com `--alta` e imagens gastam bem mais que texto. Combine com a pessoa um teto por vídeo e peça para ela olhar o painel de gastos depois do primeiro projeto. O Claude não enxerga o saldo. O padrão do script (`gemini-flash-latest`) acompanha o flash mais novo e cai para os anteriores quando ele falha.
 5. Quem prefere outra porta (o Gemini CLI com login do Google, por exemplo) pode usá-la para perguntas de texto. Confira antes se ela aceita vídeo; se não, o script continua sendo o caminho para mídia.
 
 Uso do script:
