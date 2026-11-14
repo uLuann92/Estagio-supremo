@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #0b0b0d; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+      /* o "mundo" tem o tamanho do quadro original; a câmera é a transformação dele */
+      #mundo { position: absolute; left: 0; top: 0; width: 1301px; height: 1009px; transform-origin: 0 0; will-change: transform, filter; }
+      .camada { position: absolute; transform-origin: 50% 50%; will-change: transform; }
+      #fundo { left: 0; top: 0; width: 1301px; height: 1009px; }
+      #brilho { left: -150px; top: 170px; width: 640px; height: 560px; border-radius: 50%; opacity: 0;
+        background: radial-gradient(closest-side, rgba(255, 96, 20, 0.95), rgba(255, 150, 30, 0.55) 45%, rgba(255, 190, 60, 0) 72%);
+        mix-blend-mode: multiply; }
+      #linhas { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+      #clarao { position: absolute; inset: 0; background: #fff; opacity: 0; }
+      #vinheta { position: absolute; inset: 0; box-shadow: inset 0 0 260px 60px rgba(0, 0, 0, 0.55); pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="4" data-width="1920" data-height="1080">
+      <div id="cena" class="clip" data-start="0" data-duration="4" data-track-index="0" style="position:absolute; inset:0;">
+        <div id="mundo">
+          <img id="fundo" class="camada" src="assets/fundo.png" alt="" />
+          <div id="brilho" class="camada"></div>
+          <img id="impacto" class="camada" src="assets/camada_03.png" alt="" style="left:0px; top:204px;" />
+          <img id="heroi" class="camada" src="assets/camada_02.png" alt="" style="left:99px; top:33px;" />
+          <img id="balao" class="camada" src="assets/camada_01.png" alt="" style="left:916px; top:58px; transform-origin: 20% 90%;" />
+        </div>
+        <canvas id="linhas" width="1920" height="1080"></canvas>
+        <div id="clarao"></div>
+        <div id="vinheta"></div>
+      </div>
+    </div>
+    <script>
+      // ---------- dados do quadro (vêm do camadas.json e da análise do quadro) ----------
+      const FPS = 24, F = 1 / FPS;
+      const BATIDA = 60 / 140;              // 140 BPM
+      const T_IMPACTO = 3 * BATIDA;         // o soco cai no 4º tempo
+      const T_ABRE = 6 * BATIDA;            // a câmera abre no 7º tempo
+      const ROSTO = { x: 706, y: 300 }, PUNHO = { x: 190, y: 450 }, CENTRO = { x: 650, y: 505 };
+      // profundidade: quanto cada camada desliza contra a câmera (0 = colada no fundo)
+      const LARG = 1301, ALT = 1009, MARGEM = 64;   // margem: moldura do quadro + folga da tremida
+      const ZOOM_MIN = 1920 / (LARG - 2 * MARGEM);   // abaixo disso a tela mostraria além do quadro
+      const PROF = { heroi: 0.10, balao: 0.16, impacto: 0.05, brilho: 0.03 };
+
+      // ---------- estado animado (um objeto só; tudo é aplicado num lugar só) ----------
+      const E = { fx: ROSTO.x, fy: ROSTO.y, zoom: 1.78, deriva: 0, giro: 0, heroiX: 0, heroiS: 1, impS: 1, impR: -8,
+                  brilho: 0, balS: 1, balR: 0, linhas: 0, clarao: 0, treme: 0, negativo: 0 };
+      const el = (id) => document.getElementById(id);
+      const mundo = el("mundo"), heroi = el("heroi"), balao = el("balao"), impacto = el("impacto"),
+            brilho = el("brilho"), clarao = el("clarao"), cv = el("linhas"), ctx = cv.getContext("2d");
+
+      // sorteio com semente: o mesmo quadro sai igual em todo render
+      function sorteio(semente) {
+        let a = semente >>> 0;
+        return () => { a = (a + 0x6d2b79f5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1);
+          t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+      }
+
+      function aplicar(t) {
+        const quadro = Math.round(t * FPS);
+        // tremida: decai sozinha; direção nova a cada quadro, com semente
+        const r = sorteio(1000 + quadro);
+        const tx = (r() - 0.5) * 2 * E.treme, ty = (r() - 0.5) * 2 * E.treme;
+        const giro = (r() - 0.5) * 2 * E.treme * 0.045;          // a tremida também gira um pouco (graus)
+        const zoom = Math.max(ZOOM_MIN, E.zoom * (1 + E.deriva) * (1 + (r() - 0.5) * E.treme * 0.0012));
+        // a câmera nunca mostra a borda do quadro: o foco é preso ao que cabe na tela neste zoom
+        const mx = 960 / zoom + MARGEM, my = 540 / zoom + MARGEM;
+        const fx = Math.min(Math.max(E.fx, mx), LARG - mx), fy = Math.min(Math.max(E.fy, my), ALT - my);
+        mundo.style.transformOrigin = `${fx}px ${fy}px`;
+        mundo.style.transform = `translate(${960 - fx + tx}px, ${540 - fy + ty}px) rotate(${giro}deg) scale(${zoom})`;
+        mundo.style.filter = E.negativo > 0.5 ? "invert(1) contrast(1.7)" : "none";
+        // paralaxe: as camadas da frente andam contra a câmera
+        const dx = fx - CENTRO.x, dy = fy - CENTRO.y;
+        heroi.style.transform = `translate(${-dx * PROF.heroi + E.heroiX}px, ${-dy * PROF.heroi}px) scale(${E.heroiS})`;
+        balao.style.transform = `translate(${-dx * PROF.balao}px, ${-dy * PROF.balao}px) rotate(${E.balR}deg) scale(${E.balS})`;
+        impacto.style.transform = `translate(${-dx * PROF.impacto}px, ${-dy * PROF.impacto}px) rotate(${E.impR}deg) scale(${E.impS})`;
+        brilho.style.transform = `translate(${-dx * PROF.brilho}px, ${-dy * PROF.brilho}px) scale(${0.6 + E.brilho * 0.5})`;
+        brilho.style.opacity = E.brilho;
+        clarao.style.opacity = E.clarao;
+        // linhas de velocidade: redesenhadas a cada 2 quadros ("em dois"), como no anime
+        ctx.clearRect(0, 0, 1920, 1080);
+        if (E.linhas > 0.01) {
+          const s = sorteio(77 + Math.floor(quadro / 2));
+          const cx = 960 + (PUNHO.x - fx) * zoom, cy = 540 + (PUNHO.y - fy) * zoom;
+          ctx.fillStyle = "#0b0b0d";
+          for (let i = 0; i < 90; i++) {
+            const ang = s() * Math.PI * 2, dentro = 330 + s() * 330 * (1.4 - E.linhas), fora = 1500, larg = 0.004 + s() * 0.016;
+            ctx.globalAlpha = Math.min(1, E.linhas) * (0.55 + s() * 0.45);
+            ctx.beginPath();
+            ctx.moveTo(cx + Math.cos(ang) * dentro, cy + Math.sin(ang) * dentro);
+            ctx.lineTo(cx + Math.cos(ang - larg) * fora, cy + Math.sin(ang - larg) * fora);
+            ctx.lineTo(cx + Math.cos(ang + larg) * fora, cy + Math.sin(ang + larg) * fora);
+            ctx.fill();
+          }
+          ctx.globalAlpha = 1;
+        }
+      }
+
+      const tl = gsap.timeline({ paused: true, defaults: { lazy: false } });
+      const I = T_IMPACTO, A = T_ABRE;
+
+      // 1. Abertura: close no rosto, aproximação lenta e contínua (linear, numa propriedade só dela)
+      tl.fromTo(E, { deriva: 0 }, { deriva: 0.07, duration: 4, ease: "none" }, 0);
+
+      // 2. Antecipação: o personagem recua 6 quadros antes do golpe; a câmera prende o fôlego
+      tl.fromTo(E, { heroiX: 0, heroiS: 1 }, { heroiX: 46, heroiS: 0.975, duration: 9 * F, ease: "power2.out" }, I - 9 * F);
+      tl.fromTo(E, { zoom: 1.78 }, { zoom: 1.63, duration: 9 * F, ease: "power2.out" }, I - 9 * F);
+
+      // 3. Impacto: quadro negativo (2 quadros), clarão, chicote da câmera até o punho, tremida
+      tl.set(E, { negativo: 1 }, I);
+      tl.set(E, { negativo: 0 }, I + 2 * F);
+      tl.fromTo(E, { clarao: 0.85 }, { clarao: 0, duration: 5 * F, ease: "power2.out", immediateRender: false }, I + 2 * F);
+      // os 2 quadros negativos são a "parada do golpe": tudo congela neles e só depois a câmera dispara
+      tl.set(E, { fx: PUNHO.x + 260, fy: PUNHO.y, zoom: 2.75, heroiX: -40, heroiS: 1.05 }, I);
+      tl.fromTo(E, { fx: PUNHO.x + 260, fy: PUNHO.y }, { fx: PUNHO.x + 330, fy: PUNHO.y + 20, duration: 0.5, ease: "expo.out", immediateRender: false }, I + 2 * F);
+      tl.fromTo(E, { zoom: 2.75 }, { zoom: 2.2, duration: 0.55, ease: "expo.out", immediateRender: false }, I + 2 * F);
+      tl.fromTo(E, { treme: 58 }, { treme: 0, duration: 0.5, ease: "power2.out", immediateRender: false }, I + 2 * F);
+      tl.fromTo(E, { heroiX: -40, heroiS: 1.05 }, { heroiX: 0, heroiS: 1, duration: 0.5, ease: "expo.out", immediateRender: false }, I + 2 * F);
+      tl.fromTo(E, { impS: 1.38, impR: 6 }, { impS: 1, impR: 0, duration: 0.45, ease: "back.out(2.2)", immediateRender: false }, I);
+      tl.to(E, { impR: 14, duration: 4 - I - 0.45, ease: "none" }, I + 0.45);
+      tl.fromTo(E, { brilho: 1 }, { brilho: 0.62, duration: 0.6, ease: "power2.out", immediateRender: false }, I);
+      tl.fromTo(E, { linhas: 1.15 }, { linhas: 0, duration: 0.75, ease: "power2.out", immediateRender: false }, I);
+
+      // 4. Balão: pula 3 quadros depois do golpe. Ele nunca some nem encolhe abaixo do tamanho original:
+      //    atrás dele o fundo é remendo, e remendo não pode aparecer.
+      tl.fromTo(E, { balS: 1.28, balR: -7 }, { balS: 1, balR: 0, duration: 0.34, ease: "back.out(2.6)", immediateRender: false }, I + 3 * F);
+
+      // 5. Abertura do plano no 7º tempo: a câmera recua para o quadro inteiro, sem parar de andar
+      tl.fromTo(E, { fx: PUNHO.x + 330, fy: PUNHO.y + 20 }, { fx: CENTRO.x, fy: CENTRO.y - 60, duration: 0.8, ease: "expo.out", immediateRender: false }, A);
+      tl.fromTo(E, { zoom: 2.2 }, { zoom: ZOOM_MIN + 0.02, duration: 0.8, ease: "expo.out", immediateRender: false }, A);
+      tl.fromTo(E, { treme: 16 }, { treme: 0, duration: 0.3, ease: "power2.out", immediateRender: false }, A);
+      tl.fromTo(E, { linhas: 0.5 }, { linhas: 0, duration: 0.4, ease: "power2.out", immediateRender: false }, A);
+
+      // 6. Saída: mergulho nos olhos com aceleração, clarão no último quadro (emenda no próximo quadro)
+      tl.fromTo(E, { fx: CENTRO.x, fy: CENTRO.y - 60, zoom: ZOOM_MIN + 0.02 }, { fx: ROSTO.x + 25, fy: ROSTO.y + 15, zoom: 4.2, duration: 0.5, ease: "expo.in", immediateRender: false }, 4 - 0.5);
+      tl.fromTo(E, { clarao: 0 }, { clarao: 1, duration: 4 * F, ease: "power1.in", immediateRender: false }, 4 - 4 * F);
+
+      tl.eventCallback("onUpdate", () => aplicar(tl.time()));
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+      aplicar(0);
+    </script>
+  </body>
+</html>

@@ -30,6 +30,7 @@ Em qualquer um, o Google Gemini pode entrar como **segundo olhar**: ele assiste 
 | `guias/segundo-olhar.md` | Fases 1 e 2 (preparar e decidir), e sempre que for perguntar algo ao Gemini |
 | `guias/clipe-musical.md` | Fase 2, se o tipo de vídeo for clipe musical: o que muda no fluxo, as decisões a mais, direitos, o que medir nas referências |
 | `guias/etapa-musica.md`, `etapa-cenas.md`, `etapa-roteiro-clipe.md`, `etapa-letra.md`, `etapa-efeitos.md` | Fase 5, nas etapas do clipe musical |
+| `guias/etapa-paineis.md`, `exemplos/painel-animado/`, `ferramentas/painel.py` | Fase 5, se a imagem do clipe vier de quadros de mangá animados: o guia, um exemplo que roda e o script que fatia a página e separa as camadas |
 | `guias/etapa-finalizar.md` | Fase 5, se o fluxo tiver a etapa de finalizar (edição completa) |
 | `guias/etapa-*.md` | Fase 5: o ofício de cada etapa, lido quando for escrever aquela skill |
 | `guias/oficio-motion.md`, `guias/hyperframes.md` | Fase 5, nas etapas de motion |
@@ -86,9 +87,9 @@ Proponha as etapas, partindo do fluxo de referência do tipo de vídeo dela e ad
 
 1. **iniciar:** abre o projeto e organiza o briefing (música, tema, letra, material).
 2. **música:** grade de batidas, estrutura, acentos e letra alinhada por palavra, com os testes do clique e do karaokê.
-3. **cenas:** cataloga o material bruto, cena por cena.
+3. **cenas:** cataloga o material bruto, cena por cena. (Com mangá animado: **painéis**, o catálogo dos quadros.)
 4. **roteiro:** o plano do clipe, compasso a compasso (cena, letra, efeito, energia). Sem montar nada.
-5. **montagem:** as cenas escolhidas, cortadas e encaixadas na batida.
+5. **montagem:** as cenas escolhidas, cortadas e encaixadas na batida. (Com mangá animado: **animar painéis**, cada quadro em camadas com câmera, impacto e tremida, já no tempo da música.)
 6. **letra:** a tipografia animada, sincronizada por palavra.
 7. **efeitos:** punch, tremida, flash, rampas e transições no ritmo.
 8. **sfx:** poucos sons, apoiando a música.
@@ -109,7 +110,7 @@ Na ordem: regras comuns → skill mestra → uma etapa por vez, na ordem do flux
 3. Mostre um resumo curto do que a skill faz (não o arquivo inteiro, salvo se ela pedir) e grave em `~/.claude/skills/<prefixo><etapa>/SKILL.md`.
 4. Atualize o `montagem.md`.
 
-**Scripts:** as skills dizem *o que* cada script faz e as armadilhas que ele tem que evitar (estão nos guias). Os scripts em si são escritos na primeira vez que a etapa rodar num vídeo de verdade, testados e guardados na pasta de ferramentas para os próximos vídeos. Não escreva scripts especulativos agora. A única exceção é o `ferramentas/gemini.py`, que já vem pronto porque é igual para todo mundo.
+**Scripts:** as skills dizem *o que* cada script faz e as armadilhas que ele tem que evitar (estão nos guias). Os scripts em si são escritos na primeira vez que a etapa rodar num vídeo de verdade, testados e guardados na pasta de ferramentas para os próximos vídeos. Não escreva scripts especulativos agora. As exceções são o `ferramentas/gemini.py` e o `ferramentas/painel.py`, que já vêm prontos e testados porque são iguais para todo mundo. Copie os dois para a pasta de ferramentas da pessoa.
 
 **Validação no programa dela:** toda etapa que gera um arquivo para o programa de edição começa, na primeira vez, por um arquivo de teste curto que a pessoa abre e confere. Só depois de ela confirmar a etapa segue. Isso fica escrito na skill de cada etapa (ver `guias/entrega-no-editor.md`).
 

@@ -36,6 +36,7 @@ Mostre a síntese em linguagem simples, com 3–5 frases do tipo "seus vídeos p
 
 ## 6. Com o segundo olhar (se estiver ligado)
 O Claude mede, mas não assiste. O Gemini assiste, com som (`segundo-olhar.md`).
+- **Sem baixar nada:** a pessoa cola o link do YouTube de cada referência e ele assiste direto (`gemini.py … --youtube`). Dá o "o que se sente" e um primeiro perfil. Os números (curvas, frames, cortes por compasso) continuam pedindo o arquivo do trecho, que só a pessoa pode trazer.
 - **Antes de medir:** ele assiste a cada referência inteira e descreve, com tempos, o que se vê e se ouve (pergunta-base no `segundo-olhar.md` §9). Peça descrição, não julgamento.
 - **Use a descrição para saber onde medir:** "a câmera dá um tranco em 0:07" vira uma medida de escala naquele trecho. O que ele descreve e a medida não confirma, não entra no perfil.
 - **Detalhe rápido** (um flash, a entrada de uma palavra): reenvie só aquele trecho com fps alto.

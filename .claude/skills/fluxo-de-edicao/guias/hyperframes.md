@@ -3,6 +3,8 @@
 O HyperFrames transforma HTML, CSS e GSAP em vídeo, por linha de comando (`npx hyperframes …`). Abaixo, o que foi aprendido apanhando em vídeos reais: o jeito de trabalhar e as armadilhas. Confira os comandos e as opções na documentação da versão em uso: elas mudam.
 
 ## Jeito de trabalhar
+- **Veja o que a ferramenta já faz antes de escrever um script.** As versões recentes trazem comandos de medição (na 0.9.45: `beats` para a grade de batidas, `audio` para ataques e volume, `measure` para cortes, movimento e curvas de um vídeo, `snapshot` com folha de contato, `check`). Rode `hyperframes --help` na versão fixada do vídeo. Um comando da ferramenta que resolve vale mais que um script novo; confira o resultado dele do mesmo jeito (clique, karaokê, medida).
+- **Sem internet para a CDN** (rede restrita): o GSAP pode ir como arquivo local na pasta `assets/` do projeto.
 - **Versão:** a mais nova a cada vídeo novo, **fixa dentro do vídeo** (anotada no estado do vídeo; todo comando leva a versão: `npx --yes hyperframes@<versão> …`). Trocar no meio de um vídeo pode mudar o desenho do que já foi aprovado.
 - **Um projeto por animação** (ou por sequência encadeada, como um gancho com várias trocas), dentro da pasta de trabalho do vídeo.
 - **Componha em 1080p e renderize na resolução do vídeo** (ex.: 4K). O desenho é o mesmo, só com mais pixels. Mais rápido para trabalhar e para os snapshots.

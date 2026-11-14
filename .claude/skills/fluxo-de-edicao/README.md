@@ -11,6 +11,7 @@ Esta cópia parte da skill original de Lucas Leite ([LeiteZ/fluxo-de-edicao](htt
 
 - **Clipe musical com letra na tela** (rap geek, AMV, lyric video): um segundo fluxo de referência, em que tudo se alinha pela batida e pela letra cantada. Etapas novas: música, cenas, roteiro, montagem, letra, efeitos.
 - **Segundo olhar com o Google Gemini** (duplo pensamento): o Gemini assiste ao vídeo com som e dá um parecer independente; o Claude confere, compara com o próprio e mostra a você onde os dois concordam e onde não. Opcional, com um script pronto (`ferramentas/gemini.py`).
+- **Mangá animado:** em vez de trazer vídeos, você aponta as páginas. A skill fatia a página em quadros, separa as camadas (`ferramentas/painel.py`) e anima cada quadro com câmera, profundidade, antecipação, quadro de impacto, tremida, linhas de velocidade e cor. Há um exemplo que roda em `exemplos/painel-animado/`.
 - **Etapa finalizar**, para a edição sair completa: acabamento da imagem, áudio final, exportação, conferência automática do arquivo e extras (legenda, capa, créditos).
 
 O estilo de um canal de que você gosta não vem pronto aqui: ele é **medido** nos trechos de referência que você juntar, e a identidade visual é a sua.
@@ -69,7 +70,8 @@ Esqueceu o nome? Digite `/` para ver a lista de skills, ou pergunte ao Claude qu
 | `SKILL.md` | O roteiro da conversa |
 | `guias/` | O conhecimento: princípios do fluxo, decisões, análise de referências, ofício de animação, HyperFrames, entrega no programa de edição e o ofício de cada etapa |
 | `modelos/` | Os esqueletos das skills, do perfil e do estado do vídeo |
-| `ferramentas/` | O script do segundo olhar (`gemini.py`), que conversa com o Gemini |
+| `ferramentas/` | `gemini.py` (conversa com o Gemini; aceita vídeo, imagem e link do YouTube) e `painel.py` (fatia páginas de mangá e separa camadas) |
+| `exemplos/` | Um quadro de mangá animado que roda no HyperFrames, para servir de ponto de partida |
 
 Tudo em texto. Leia, mude, adapte.
 

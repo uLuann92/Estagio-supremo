@@ -9,7 +9,11 @@ Uso:
   gemini.py modelos
   gemini.py perguntar --pergunta "..." [--midia clipe.mp4 ...] [--saida resposta.md]
   gemini.py perguntar --arquivo-pergunta pergunta.md --midia ref01.mp4 --fps 12 --inicio 10 --fim 25
+  gemini.py perguntar --pergunta "..." --youtube https://www.youtube.com/watch?v=... --inicio 30 --fim 90
   gemini.py apagar            (apaga do Google os arquivos enviados por este script)
+
+Se o modelo pedido estiver sobrecarregado ou sem cota, o script tenta sozinho os outros
+modelos "flash" que a chave alcança, do mais novo para o mais antigo, e diz qual respondeu.
 
 Como usar bem (1 fps por padrão, tempos aproximados, o que conferir): guias/segundo-olhar.md
 """
@@ -18,6 +22,8 @@ import hashlib
 import json
 import mimetypes
 import os
+import re
+import socket
 import sys
 import time
 import urllib.error
@@ -42,7 +48,9 @@ TIPOS = {
 
 
 class Erro(Exception):
-    pass
+    def __init__(self, msg, codigo=None):
+        super().__init__(msg)
+        self.codigo = codigo
 
 
 def chave():
@@ -86,7 +94,9 @@ def chamar(metodo, url, corpo=None, cabecalhos=None, bruto=False, espera=600):
                 dica = " (chave inválida ou sem acesso a este modelo)"
             elif e.code == 404:
                 dica = " (modelo ou arquivo não existe: rode 'gemini.py modelos')"
-            raise Erro(f"Gemini respondeu {e.code}: {msg}{dica}")
+            raise Erro(f"Gemini respondeu {e.code}: {msg[:400]}{dica}", e.code)
+        except (socket.timeout, TimeoutError):
+            raise Erro("O Gemini não respondeu a tempo.", "tempo")
         except urllib.error.URLError as e:
             if reenviavel and tentativa < 3:
                 time.sleep(4 * 2 ** tentativa)
@@ -180,6 +190,17 @@ def enviar(caminho):
     return item
 
 
+def meta_de_video(a):
+    meta = {}
+    if getattr(a, "fps", None):
+        meta["fps"] = a.fps
+    if getattr(a, "inicio", None) is not None:
+        meta["startOffset"] = f"{a.inicio:g}s"
+    if getattr(a, "fim", None) is not None:
+        meta["endOffset"] = f"{a.fim:g}s"
+    return meta
+
+
 def parte_de_midia(caminho, a):
     if not os.path.isfile(caminho):
         raise Erro(f"Arquivo não encontrado: {caminho}")
@@ -195,13 +216,7 @@ def parte_de_midia(caminho, a):
         env = enviar(caminho)
         parte = {"fileData": {"mimeType": env["mimeType"], "fileUri": env["uri"]}}
     if tipo.startswith("video/"):
-        meta = {}
-        if a.fps:
-            meta["fps"] = a.fps
-        if a.inicio is not None:
-            meta["startOffset"] = f"{a.inicio:g}s"
-        if a.fim is not None:
-            meta["endOffset"] = f"{a.fim:g}s"
+        meta = meta_de_video(a)
         if meta:
             parte["videoMetadata"] = meta
     return parte
@@ -226,8 +241,76 @@ def cmd_modelos(a):
     print(f"\nModelo padrão deste script: {MODELO_PADRAO} (mude com --modelo ou com a variável GEMINI_MODELO).")
 
 
+def reservas(ja):
+    """Outros modelos 'flash' estáveis que a chave alcança, do mais novo para o mais antigo."""
+    try:
+        r, _ = chamar("GET", f"{BASE}/v1beta/models?pageSize=200", espera=30)
+    except Erro:
+        return []
+    achados = []
+    for m in r.get("models", []):
+        nome = m["name"].split("/", 1)[-1]
+        v = re.fullmatch(r"gemini-(\d+(?:\.\d+)?)-flash", nome)
+        if v and "generateContent" in m.get("supportedGenerationMethods", []) and nome not in ja:
+            achados.append((float(v.group(1)), nome))
+    return [n for _, n in sorted(achados, reverse=True)]
+
+
+def gerar(modelo, corpo, espera):
+    """Uma pergunta a um modelo, por streaming (falha rápido se o modelo estiver sobrecarregado)."""
+    url = f"{BASE}/v1beta/models/{urllib.parse.quote(modelo, safe='')}:streamGenerateContent?alt=sse"
+    req = urllib.request.Request(
+        url, data=json.dumps(corpo).encode("utf-8"), method="POST",
+        headers={"x-goog-api-key": chave(), "Content-Type": "application/json"},
+    )
+    texto, uso, fim, versao, bloqueio = [], {}, "", modelo, None
+    try:
+        with urllib.request.urlopen(req, timeout=espera) as r:
+            for bruto in r:
+                linha = bruto.decode("utf-8", "replace").strip()
+                if not linha.startswith("data:"):
+                    continue
+                try:
+                    obj = json.loads(linha[5:])
+                except ValueError:
+                    continue
+                if "error" in obj:
+                    raise Erro(f"Gemini: {obj['error'].get('message', '')[:400]}", obj["error"].get("code"))
+                uso = obj.get("usageMetadata") or uso
+                versao = obj.get("modelVersion") or versao
+                bloqueio = (obj.get("promptFeedback") or {}).get("blockReason") or bloqueio
+                for c in obj.get("candidates") or []:
+                    fim = c.get("finishReason") or fim
+                    for p in (c.get("content") or {}).get("parts", []):
+                        if p.get("text") and not p.get("thought"):
+                            texto.append(p["text"])
+    except urllib.error.HTTPError as e:
+        cru = e.read().decode("utf-8", "replace")
+        try:
+            msg = json.loads(cru)["error"]["message"]
+        except Exception:
+            msg = cru[:400]
+        raise Erro(f"Gemini respondeu {e.code}: {msg[:400]}", e.code)
+    except (socket.timeout, TimeoutError):
+        raise Erro("O Gemini não respondeu a tempo.", "tempo")
+    except urllib.error.URLError as e:
+        raise Erro(f"Sem conexão com o Gemini: {e.reason}", "rede")
+    resposta = "".join(texto)
+    if not resposta.strip():
+        if bloqueio:
+            raise Erro(f"O Gemini não respondeu (bloqueio: {bloqueio}).")
+        raise Erro(f"Resposta vazia (motivo: {fim or 'desconhecido'}).", "vazia")
+    return resposta, uso, fim, versao
+
+
 def perguntar(a, texto):
     partes = [parte_de_midia(c, a) for c in (a.midia or [])]
+    for link in (getattr(a, "youtube", None) or []):
+        parte = {"fileData": {"fileUri": link}}
+        meta = meta_de_video(a)
+        if meta:
+            parte["videoMetadata"] = meta
+        partes.append(parte)
     partes.append({"text": texto})
     corpo = {"contents": [{"role": "user", "parts": partes}], "generationConfig": {}}
     if a.sistema:
@@ -239,19 +322,38 @@ def perguntar(a, texto):
         corpo["generationConfig"]["responseMimeType"] = "application/json"
     if a.temperatura is not None:
         corpo["generationConfig"]["temperature"] = a.temperatura
-    modelo = urllib.parse.quote(a.modelo, safe="")
-    r, _ = chamar("POST", f"{BASE}/v1beta/models/{modelo}:generateContent", corpo=corpo, espera=900)
-    cands = r.get("candidates") or []
-    if not cands:
-        motivo = (r.get("promptFeedback") or {}).get("blockReason", "sem motivo informado")
-        raise Erro(f"O Gemini não respondeu (bloqueio: {motivo}).")
-    resposta = "".join(p.get("text", "") for p in (cands[0].get("content") or {}).get("parts", [])
-                       if not p.get("thought"))
-    fim = cands[0].get("finishReason", "")
-    if not resposta.strip():
-        raise Erro(f"Resposta vazia (motivo: {fim or 'desconhecido'}).")
-    uso = r.get("usageMetadata", {})
-    return resposta, uso, fim
+    fila = [m.strip() for m in a.modelo.split(",") if m.strip()]
+    bom = ler_cache().get("_ultimo_bom") or {}
+    if a.modelo == MODELO_PADRAO and bom.get("modelo") and time.time() - bom.get("quando", 0) < 3600:
+        # o modelo padrão falhou há pouco e outro respondeu: começa por ele, para não esperar de novo
+        fila = [bom["modelo"]] + [m for m in fila if m != bom["modelo"]]
+    tentados, ultimo, procurou = [], None, False
+    while fila:
+        modelo = fila.pop(0)
+        tentados.append(modelo)
+        for tentativa in range(2):
+            try:
+                resposta, uso, fim, versao = gerar(modelo, corpo, a.espera)
+                if len(tentados) > 1:
+                    print(f"  (respondeu: {modelo}; antes falharam: {', '.join(tentados[:-1])})", file=sys.stderr)
+                    c = ler_cache()
+                    c["_ultimo_bom"] = {"modelo": modelo, "quando": time.time()}
+                    gravar_cache(c)
+                return resposta, uso, fim, versao
+            except Erro as e:
+                ultimo = e
+                if e.codigo in (500, 502, 503, 504, "rede") and tentativa == 0:
+                    time.sleep(5)
+                    continue
+                break
+        # passa para outro modelo só quando o problema é do modelo (sobrecarga, cota, sumiu)
+        if ultimo.codigo not in (429, 404, 500, 502, 503, 504, "tempo", "vazia"):
+            raise ultimo
+        print(f"  {modelo}: {str(ultimo)[:110]}", file=sys.stderr)
+        if not fila and not procurou:
+            procurou = True
+            fila = reservas(tentados)
+    raise Erro(f"Nenhum modelo respondeu ({', '.join(tentados)}). Último erro: {ultimo}")
 
 
 def cmd_perguntar(a):
@@ -264,7 +366,7 @@ def cmd_perguntar(a):
         texto = a.pergunta
     else:
         raise Erro("Diga a pergunta com --pergunta ou --arquivo-pergunta.")
-    resposta, uso, fim = perguntar(a, texto)
+    resposta, uso, fim, versao = perguntar(a, texto)
     if a.saida:
         os.makedirs(os.path.dirname(os.path.abspath(a.saida)), exist_ok=True)
         with open(a.saida, "w", encoding="utf-8") as f:
@@ -272,22 +374,24 @@ def cmd_perguntar(a):
         print(f"Resposta gravada em {a.saida}")
     else:
         print(resposta)
-    print(f"[{a.modelo} · entrada {uso.get('promptTokenCount', '?')} tokens · "
+    print(f"[{versao} · entrada {uso.get('promptTokenCount', '?')} tokens · "
           f"saída {uso.get('candidatesTokenCount', '?')} tokens]", file=sys.stderr)
     if fim == "MAX_TOKENS":
         print("Aviso: a resposta foi cortada no limite de tamanho. Peça menos coisa por vez.", file=sys.stderr)
 
 
 def cmd_testar(a):
-    a.midia, a.sistema, a.baixa, a.json, a.temperatura = [], None, False, False, None
-    resposta, _, _ = perguntar(a, "Responda só com a palavra: funcionando")
-    print(f"Chave e modelo ({a.modelo}) funcionando. Resposta: {resposta.strip()[:80]}")
+    a.midia, a.youtube, a.sistema, a.baixa, a.json, a.temperatura, a.espera = [], [], None, False, False, None, 40
+    resposta, _, _, versao = perguntar(a, "Responda só com a palavra: funcionando")
+    print(f"Chave funcionando. Quem respondeu: {versao}. Resposta: {resposta.strip()[:80]}")
 
 
 def cmd_apagar(a):
     cache = ler_cache()
     n = 0
     for item in cache.values():
+        if "name" not in item:
+            continue
         try:
             chamar("DELETE", f"{BASE}/v1beta/{item['name']}")
             n += 1
@@ -312,6 +416,8 @@ def main():
     q.add_argument("--pergunta", help="o texto da pergunta")
     q.add_argument("--arquivo-pergunta", help="arquivo de texto com a pergunta (melhor para perguntas longas)")
     q.add_argument("--midia", nargs="*", help="vídeos, áudios, imagens ou textos para o Gemini examinar")
+    q.add_argument("--youtube", nargs="*", help="links de vídeos públicos do YouTube (o Gemini assiste direto, sem baixar)")
+    q.add_argument("--espera", type=int, default=600, help="segundos de espera por resposta, por tentativa")
     q.add_argument("--fps", type=float, help="quadros por segundo que o Gemini olha (padrão dele: 1; máximo: 24)")
     q.add_argument("--inicio", type=float, help="olhar o vídeo só a partir deste segundo")
     q.add_argument("--fim", type=float, help="olhar o vídeo só até este segundo")
@@ -319,7 +425,7 @@ def main():
     q.add_argument("--json", action="store_true", help="pede a resposta em JSON")
     q.add_argument("--sistema", help="arquivo com a instrução de papel (ex.: 'você é um editor crítico')")
     q.add_argument("--temperatura", type=float)
-    q.add_argument("--modelo", default=MODELO_PADRAO)
+    q.add_argument("--modelo", default=MODELO_PADRAO, help="um modelo, ou vários separados por vírgula (ordem de tentativa)")
     q.add_argument("--saida", help="grava a resposta neste arquivo em vez de mostrar")
     q.set_defaults(f=cmd_perguntar)
 

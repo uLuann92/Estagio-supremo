@@ -18,6 +18,11 @@ Ele muda a base do fluxo. No vídeo falado, tudo se alinha pela **fala**. Aqui, 
 
 Ordem sugerida: iniciar → música → cenas → roteiro → montagem → letra → efeitos → sfx → finalizar. A etapa de **assets** entra depois do roteiro, quando ele pedir algo que falta (fonte, logo do canal, textura, partículas, uma cena específica).
 
+**De onde vem a imagem** (decida cedo; muda duas etapas):
+- **Vídeo pronto** (episódios, gameplay, filmagem): etapas **cenas** e **montagem**, como na tabela.
+- **Quadros de mangá animados** (o "mangá animado" dos edits de rap geek): no lugar delas, **painéis** (catálogo dos quadros) e **animar painéis** (camadas, câmera, impacto, tremida, linhas de velocidade, cor). Cada quadro animado vira uma cena. Guia: `etapa-paineis.md`. A pessoa não precisa trazer vídeo; precisa das páginas.
+- **Os dois misturados:** dá, com um catálogo só e o roteiro dizendo de onde vem cada compasso.
+
 Adaptações comuns:
 - **Lyric video sem cenas** (só fundo e letra): pula cenas e montagem; o roteiro planeja fundo e letra.
 - **Clipe sem letra na tela:** pula a etapa de letra; a letra alinhada ainda serve para casar cena com verso.
@@ -27,14 +32,15 @@ Adaptações comuns:
 Pergunte depois das decisões 1 a 3 do `decisoes.md`:
 - **A música:** quem produz, e se a pessoa tem as **faixas separadas** (voz e instrumental). Com elas, o alinhamento da letra e a leitura da batida ficam muito melhores. Sem elas, o fluxo separa por programa (ex.: Demucs).
 - **A letra:** existe escrita, na versão final? Ela é a verdade para a grafia. Quantas vozes cantam (participações), e se cada uma tem tratamento próprio.
-- **O material das cenas:** de onde vem (episódios, gameplay, arte encomendada, imagem gerada, filmagem), em que qualidade, e se vem com legenda ou marca d'água queimada na imagem.
+- **O material das cenas:** vídeo pronto ou quadros de mangá para animar (acima). De onde vem (episódios, gameplay, volumes digitais, arte encomendada, imagem gerada, filmagem), em que qualidade, e se vem com legenda, balão em outra língua ou marca d'água queimada na imagem.
+- **Mangá animado, se for o caso:** preto e branco com acento de cor ou colorido; os balões ficam, saem ou viram tipografia; quem corrige as máscaras dos quadros-herói (a pessoa, num editor de imagem, ou só o automático); se há plano pago de um modelo de imagem para refazer fundos (`etapa-paineis.md` §3).
 - **Taxa de quadros do projeto:** a do material principal. Anime costuma estar em 23,976; jogar isso numa sequência de 30 duplica quadros e treme nos movimentos de câmera. Decida uma vez, pelo material.
 - **Letra na tela:** quanta (tudo, só refrão, só palavras-chave), e onde nasce (no render, com transparência, ou montada no programa).
 - **Quem faz os efeitos:** keyframes no programa de edição (ajustável à mão), queimados no render (igual para todo mundo, sem ajuste fino) ou os dois. Ver `etapa-efeitos.md` §5.
 - **Extras:** legenda `.srt` da letra, versão vertical do refrão, quadros para a capa.
 
 ## 3. Direitos (diga uma vez, com clareza, e siga)
-- **Cenas de anime, filme e jogo têm dono.** Usar trechos pode gerar reivindicação, bloqueio ou desmonetização, mesmo com edição pesada. Canais do gênero convivem com isso de formas diferentes (arte própria, trechos curtos, acordos). Não é o Claude quem decide o risco: explique e pergunte à pessoa de onde vem o material dela.
+- **Cenas de anime, páginas de mangá, filme e jogo têm dono.** Usar trechos pode gerar reivindicação, bloqueio ou desmonetização, mesmo com edição pesada. Canais do gênero convivem com isso de formas diferentes (arte própria, trechos curtos, acordos). Não é o Claude quem decide o risco: explique e pergunte à pessoa de onde vem o material dela.
 - **O instrumental** precisa de licença ou autoria. Anote no briefing de quem é.
 - **Fontes, texturas e sobreposições:** só com licença que permita o uso; anote no arquivo de créditos.
 - As referências medem o **jeito de editar**. A identidade (logo, fontes, marca, vinheta) de outro canal não se copia: a do vídeo é a da pessoa.
@@ -51,4 +57,4 @@ Além do que está no `referencias.md`:
 Com o segundo olhar ligado, o Gemini assiste a cada referência e descreve o que sente (`segundo-olhar.md` §9). O Claude mede. A ficha da referência junta os dois.
 
 ## 5. O teste curto (fase 6)
-Em vez de um vídeo de 1–3 min, use **um verso e um refrão** (30–45 s) de uma música da pessoa, com material de verdade. É onde nascem a grade, o alinhamento, a primeira peça de letra e o primeiro conjunto de efeitos.
+Em vez de um vídeo de 1–3 min, use **um verso e um refrão** (30–45 s) de uma música da pessoa, com material de verdade. No mangá animado, comece por **um quadro só**, do recorte ao render medido (parta de `exemplos/painel-animado/`), antes de catalogar um capítulo inteiro. É onde nascem a grade, o alinhamento, a primeira peça de letra e o primeiro conjunto de efeitos.

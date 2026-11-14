@@ -30,7 +30,8 @@ Dois modelos pensando sobre o mesmo vídeo erram em lugares diferentes. E há um
 ## 4. Onde vale a pena
 | Momento | Uso | Por quê |
 |---|---|---|
-| Referências (fase 3) | olhar | ele assiste ao trecho inteiro, com ritmo e som; o Claude mede com scripts. Um diz o que sentir, o outro diz quanto |
+| Referências (fase 3) | olhar | ele assiste ao trecho inteiro, com ritmo e som; o Claude mede com scripts. Um diz o que sentir, o outro diz quanto. **Aceita link do YouTube**: a pessoa só cola o endereço do vídeo de referência, sem baixar nada |
+| Quadros de mangá | olhar | diz o que há em cada quadro, da frente para o fundo, com caixas, o que deve se mover e onde é o impacto (`etapa-paineis.md` §2) |
 | Catálogo de material bruto | olhar | descrever centenas de cenas (quem aparece, ação, emoção) custa muito em quadros para o Claude e pouco para o Gemini |
 | Música (clipe musical) | olhar | seções, clima, viradas; confere a grade de batidas e a letra alinhada num vídeo de teste |
 | Plano (cortes, plano das animações, roteiro do clipe) | parecer independente ou crítica | é a decisão mais barata de mudar e a que mais pesa |
@@ -51,6 +52,9 @@ Quanto usar é decisão da pessoa (fase 2): **nas etapas-chave**, **só quando p
 - **Ele olha 1 quadro por segundo, por padrão.** A 1 fps não dá para julgar sincronia com a batida, flash, tremida nem corte rápido. Para isso, mande um **trecho curto** (até ~30–60 s, com `--inicio`/`--fim`) e suba o `--fps` (até 24). Vídeo longo a fps alto estoura o limite e o custo.
 - **Tempo citado é aproximado** (erra em torno de 1 s, mais em vídeo longo). Serve para achar o lugar; nunca vira tempo de corte nem de efeito. A medida exata é dos scripts.
 - **Ele inventa em vídeo longo.** Quanto mais longo, mais detalhe trocado. Para catalogar, mande em blocos (ex.: 5–10 min) e confira uma amostra de cada bloco.
+- **Ele repete o diagnóstico.** No teste desta skill, a segunda crítica do mesmo trecho repetiu "não há tremida nem antecipação" quando a medida quadro a quadro mostrava as duas. Detalhe rápido (poucos frames) ele perde mesmo a 24 fps. A impressão dele diz onde medir; a medida decide.
+- **Link do YouTube:** funciona para vídeo público (`--youtube`). No teste, o recorte por `--inicio`/`--fim` não foi respeitado num link: confira na resposta que trecho ele viu, e prefira vídeos curtos.
+- **Modelo sobrecarregado ou sem cota:** acontece muito no plano gratuito. O script troca sozinho para outro modelo "flash" e avisa qual respondeu. Se a espera incomodar, fixe na variável `GEMINI_MODELO` o modelo que respondeu.
 - **Ele concorda com quem pergunta.** Por isso o Claude grava a proposta antes, e a pergunta não revela a preferência dele.
 - **Mande proxies, não os originais:** 480–720p com o áudio chega para quase tudo e sobe rápido. Resolução baixa por quadro (`--baixa`) gasta menos, mas atrapalha a leitura de texto na tela.
 - **Os arquivos enviados ficam no Google por cerca de 48 h** e somem sozinhos. `gemini.py apagar` apaga na hora.
@@ -59,23 +63,28 @@ Quanto usar é decisão da pessoa (fase 2): **nas etapas-chave**, **só quando p
 ## 7. Privacidade (pergunte uma vez, anote no `montagem.md`)
 - Usar o segundo olhar é **enviar arquivos a um serviço externo**. Antes do primeiro envio, diga o que vai sair do computador e espere o "sim". Anote o que a pessoa autorizou (ex.: "referências e renders sim; música inédita não").
 - **Música e vídeo que ainda não foram lançados** merecem a pergunta de novo, uma vez por projeto.
+- **Se a chave aparecer no chat** (a pessoa colou): não repita, não grave em arquivo do projeto, use só na variável de ambiente da sessão e recomende, em uma frase, que ela gere uma nova depois: o que passa por uma conversa fica no histórico.
 - No plano gratuito, o Google pode usar o conteúdo enviado para melhorar os produtos dele; no pago, as regras são outras. Confira os termos atuais e diga isso à pessoa em uma frase.
 
 ## 8. Preparar (uma vez)
 1. A pessoa cria a chave no Google AI Studio e guarda na variável de ambiente `GEMINI_API_KEY`. **Ela mesma faz isso; a chave nunca é colada no chat nem gravada em arquivo do fluxo.** Explique o passo para o sistema dela (pesquise o comando atual) e peça para abrir o terminal de novo.
 2. Copie `ferramentas/gemini.py` desta skill para a pasta de ferramentas (`scripts/`). Ele só usa a biblioteca padrão do Python.
 3. `gemini.py testar` confirma a chave. `gemini.py modelos` lista o que ela alcança.
-4. **Escolha dois modelos** com a pessoa e anote no `montagem.md`: um mais capaz (para parecer e crítica) e um mais leve (para olhar e catalogar em volume). Os nomes mudam rápido: escolha pela lista, não de memória. O padrão do script (`gemini-flash-latest`) acompanha o modelo leve mais novo.
+4. **Escolha os modelos** com a pessoa e anote no `montagem.md`: um mais capaz (para parecer e crítica) e um mais leve (para olhar e catalogar em volume). Os nomes mudam rápido: escolha pela lista, não de memória, e **teste cada um com uma pergunta** antes de anotar. Aparecer na lista não quer dizer ter cota: no plano gratuito testado (novembro de 2026), os modelos "pro", o topo de linha e **todos os de imagem** respondiam "cota zero"; só os "flash" funcionavam. Nesse caso, o modelo capaz e o leve são o mesmo. O padrão do script (`gemini-flash-latest`) acompanha o flash mais novo e cai para os anteriores quando ele falha.
 5. Quem prefere outra porta (o Gemini CLI com login do Google, por exemplo) pode usá-la para perguntas de texto. Confira antes se ela aceita vídeo; se não, o script continua sendo o caminho para mídia.
 
 Uso do script:
 ```
 gemini.py perguntar --arquivo-pergunta pergunta.md --midia trecho.mp4 --fps 12 --inicio 40 --fim 70 --saida resposta.md
 gemini.py perguntar --pergunta "…" --midia plano.md perfil-trecho.md --modelo <o mais capaz>
+gemini.py perguntar --arquivo-pergunta olhar-referencia.md --youtube https://www.youtube.com/watch?v=… --saida ref01.md
 ```
+
+**Outras pontes** (servidor MCP, o Gemini CLI): fazem o mesmo trabalho e são escolha da pessoa. Antes de adotar um código de ponte sugerido por outro modelo, confira três coisas que costumam vir erradas: o nome do modelo existe na lista **e** tem cota; nenhuma promessa de "precisão de frame" (ele olha poucos quadros por segundo); a chave vem da variável de ambiente.
 
 ## 9. Perguntas-base (adapte; não copie cega)
 - **Olhar uma referência:** "Assista a este trecho. Descreva, com tempos: como os cortes se relacionam com a batida; como o texto entra, fica e sai; que efeitos aparecem e em que momentos da música; o que muda entre as partes calmas e as fortes. Só o que se vê e se ouve, sem julgar."
 - **Catalogar material:** "Liste cada cena deste vídeo em JSON: `inicio`, `fim` (mm:ss), `quem` aparece, `acao`, `emocao`, `intensidade` (1–5), `plano` (close, médio, aberto), `texto_na_tela` (sim/não)."
 - **Parecer independente sobre um plano:** "Segue a letra com os tempos, o mapa da música e a lista de cenas disponíveis. Proponha o roteiro do refrão: que cena em cada compasso e por quê."
+- **Analisar um quadro de mangá:** "Você é um diretor de animação de mangá. Analise este quadro para separá-lo em camadas e animá-lo. Responda só com um JSON: lista de elementos, da frente para o fundo, cada um com `label`, `box_2d` ([y0, x0, y1, x1] em milésimos), `profundidade` (1–5), `movimento` (uma frase) e `partes_moveis`. No máximo 6 elementos, sem a moldura. Depois: `plano`, `emocao`, `intensidade` (1–5), `direcao_da_acao` e `ponto_de_impacto` ([y, x])."
 - **Crítica de render:** "Este é um trecho de um clipe. O objetivo é <…>. Aponte os 5 momentos mais fracos, do pior para o menos pior, com tempo, o problema e uma correção. Critérios: sincronia com a batida, leitura da letra, variedade, energia coerente com a música."
