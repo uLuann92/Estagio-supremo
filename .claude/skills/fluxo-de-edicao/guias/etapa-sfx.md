@@ -62,3 +62,13 @@ O Claude lê essa lista, mais a ideia e o storyboard de cada animação. Não pr
   - "troca o sfx07": outro som do mesmo papel;
   - "sfx03 um frame antes".
   - Se a pessoa ajustar o nível direto no programa e aprovar assim, anote a diferença: é aprendizado para o perfil.
+
+## 5. Sobre música (clipe musical)
+Quando o vídeo é uma música, ela é a protagonista do som. O efeito sonoro só apoia.
+- **Poucos.** Um punhado por seção, nas viradas e nos acentos que a imagem criou: o whoosh da transição, o impacto na entrada do refrão, o riser na subida (se a própria batida não tiver), o som do golpe que aparece na cena.
+- **Não empilhar grave sobre o bumbo nem sobre o 808:** embola e estoura. O impacto por cima da música é mais médio e agudo; o peso já vem da batida.
+- **Som com nota** (riser afinado, sino) precisa combinar com o tom da música. Na dúvida, use som de ruído (whoosh, impacto seco), que não tem nota.
+- **No tempo da grade:** o pico cai no frame do acento, pela grade da etapa de música.
+- **O nível é medido contra a música**, não contra uma voz falada: o efeito fica audível sem competir. Música masterizada não tem folga: confira o pico real depois de somar (`etapa-finalizar.md` §2).
+- **A música não se mexe:** nada de abaixar, cortar ou equalizar a faixa para caber efeito, salvo pedido da pessoa.
+- **Segundo olhar:** ele ouve. Crítica de um trecho perguntando só onde um efeito sonoro briga com a música, onde sobra e onde falta.

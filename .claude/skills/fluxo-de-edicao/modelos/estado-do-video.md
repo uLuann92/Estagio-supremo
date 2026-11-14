@@ -27,6 +27,25 @@ Cada vídeo tem um arquivo de estado em `_CLAUDE/projeto.json`. É a memória do
 }
 ```
 
+No clipe musical, os blocos `transcricao`, `notas_edicao`, `cortes`, `motions` e `camera` dão lugar a:
+
+```json
+{
+  "musica": { "arquivo": "...", "fps": 23.976, "bpm": 140, "offset": 0.213, "leitura": "metade", "compassos": 96,
+              "secoes": [ { "nome": "refrao1", "compasso_ini": 17, "compasso_fim": 24, "energia": 5 } ],
+              "testes": { "clique": "ok em <data>", "karaoke": "ok em <data>" },
+              "arquivos": { "batidas": "...", "letra_por_palavra": "...", "mapa": "..." } },
+  "cenas": { "indice": "...", "total": 842, "herois": ["c0412", "c0388"] },
+  "roteiro": { "itens": [ { "id": "rt017", "compasso": 17, "cena": "c0412", "apice_no_tempo": 1, "letra": "bloco_destaque", "fx": ["flash_forte", "punch"], "status": "aprovado" } ] },
+  "montagem": { "versao": 1, "segmentos": [ { "id": "s001", "cena": "c0412", "inicio": 12.50, "fim": 14.21, "frame_seq": 0, "velocidade": 1.0 } ] },
+  "letra": { "secoes": [ { "id": "lt03", "secao": "refrao1", "render": { "arquivo": "...", "versao": 2 } } ] },
+  "efeitos": { "base": {}, "destaques": [ { "id": "fx07", "compasso": 33, "tempo": 1, "tipo": "congelamento", "forca": "forte" } ] },
+  "segundo_olhar": [ { "id": "so03", "etapa": "roteiro", "uso": "parecer", "arquivo": "_CLAUDE/segundo-olhar/roteiro_refrao1_01.md", "resultado": "adotei 2 de 5; 1 divergência decidida por <nome>" } ]
+}
+```
+
+- Tempos na música ficam em **compasso e tempo** (e em frames, calculados pela grade). Segundos soltos, só no tempo do arquivo de origem das cenas.
+- O bloco `segundo_olhar` existe em qualquer tipo de vídeo, quando o Gemini está ligado.
 - Status de etapa: `pendente`, `em_andamento`, `aguardando_aprovacao`, `aguardando_<pessoa>`, `concluido`, `nao_precisa`.
 - Tempos de corte e marcadores ficam no **tempo do arquivo de origem** (não da sequência): sobrevivem a novas versões do corte.
 - Ids estáveis (`s001`, `mo04`, `cam07`, `sfx12`): é por eles que a pessoa pede ajustes.

@@ -33,3 +33,14 @@ Cada regra com o número medido e de onde veio ("entradas em ~15 frames, `expo.o
 
 ## 5. Conferir com a pessoa
 Mostre a síntese em linguagem simples, com 3–5 frases do tipo "seus vídeos preferidos fazem X". Ela confirma, corrige ou acrescenta. O perfil é dela; as referências só ajudam a dizer em palavras o que ela já sente.
+
+## 6. Com o segundo olhar (se estiver ligado)
+O Claude mede, mas não assiste. O Gemini assiste, com som (`segundo-olhar.md`).
+- **Antes de medir:** ele assiste a cada referência inteira e descreve, com tempos, o que se vê e se ouve (pergunta-base no `segundo-olhar.md` §9). Peça descrição, não julgamento.
+- **Use a descrição para saber onde medir:** "a câmera dá um tranco em 0:07" vira uma medida de escala naquele trecho. O que ele descreve e a medida não confirma, não entra no perfil.
+- **Detalhe rápido** (um flash, a entrada de uma palavra): reenvie só aquele trecho com fps alto.
+- **Na síntese:** peça a ele, separado, as 5 características que definem o estilo do conjunto. Compare com a sua síntese e mostre à pessoa os dois pensamentos.
+- A ficha de cada referência guarda as duas coisas: "o que se sente" (dele, conferido) e "quanto" (medido).
+
+## 7. Referências de clipe musical
+O que medir a mais (corte × batida, duração dos planos por seção, a letra, os efeitos, a escalada) está em `clipe-musical.md` §4. O perfil ganha `estilo-letra.md`, `estilo-efeitos.md` e `estilo-ritmo.md` (`../modelos/perfil.md`).

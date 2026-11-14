@@ -67,3 +67,13 @@ Os bons costumes que fazem um fluxo de edição com o Claude funcionar vídeo ap
 | sfx, aplicar aprendizados | o mais capaz | médio | Gosto dentro de regras claras |
 
 - Trocar de modelo logo depois do `/clear` não custa nada. No meio de uma conversa longa, a troca reprocessa tudo.
+- No clipe musical: música e cenas são quase tudo script (intermediário, médio); roteiro, letra e efeitos pedem o mais capaz, com esforço alto; montagem e finalizar, o mais capaz com esforço médio.
+
+## 12. Dois pensamentos valem mais que um (se a pessoa quiser)
+- O Claude não assiste a vídeo nem ouve áudio: lê quadros e números. Um modelo que assiste com som (o Gemini) vê o que escapa: ritmo, sincronia sentida, cansaço, o momento morto.
+- **Pensar separado, depois comparar.** O Claude grava a proposta dele antes de perguntar. Quem lê a opinião do outro primeiro acaba concordando.
+- **Medida vale mais que impressão; impressão diz onde medir.** O que o segundo olhar afirma sobre a mídia é conferido com um quadro ou um script antes de virar mudança.
+- **A divergência de gosto é da pessoa.** O Claude mostra os dois lados, curto, e ela escolhe. A escolha vira aprendizado.
+- **Com dose.** Nas decisões caras de errar (referências, o plano, o render do gancho ou do refrão, o vídeo final). Não em toda mensagem.
+- **É envio a um serviço externo:** só com o "sim" da pessoa, sabendo o que sai do computador.
+- Detalhes em `segundo-olhar.md`.

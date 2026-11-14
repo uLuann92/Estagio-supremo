@@ -22,6 +22,9 @@ Fase atual: <0–7> · Atualizado em <data>
 - Animação: <sim/não, ferramenta, densidade>
 - Câmera: <…>
 - Som: <biblioteca, fonte, música>
+- Clipe musical (se for o caso): <faixas separadas sim/não; letra escrita; origem e direitos do material; taxa de quadros; quanta letra na tela; onde os efeitos são feitos>
+- Finalização: <quem faz; o que o fluxo cuida; extras>
+- Segundo olhar: <ligado nas etapas-chave | só quando pedir | desligado>; modelo capaz <…>, modelo leve <…>; pode enviar <…>; não pode <…>; chave testada em <data>
 - Revisões: <em quais etapas>
 - Nomes: prefixo <…>; skill mestra /<…>
 

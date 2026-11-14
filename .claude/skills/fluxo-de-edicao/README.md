@@ -6,10 +6,20 @@ Ela não é um prompt mágico e não entrega o meu fluxo pronto. Ela conversa co
 
 O ponto de partida é um fluxo de 8 etapas que eu uso nos meus vídeos, com os bons costumes de animação e de fluxo que aprendi testando: curvas, ritmo, câmera, sincronia de som, as armadilhas do HyperFrames e do XML do Premiere. Sem a minha identidade visual: o estilo é o seu.
 
+## Nesta versão (adaptada)
+Esta cópia parte da skill original de Lucas Leite ([LeiteZ/fluxo-de-edicao](https://github.com/LeiteZ/fluxo-de-edicao), licença MIT) e acrescenta:
+
+- **Clipe musical com letra na tela** (rap geek, AMV, lyric video): um segundo fluxo de referência, em que tudo se alinha pela batida e pela letra cantada. Etapas novas: música, cenas, roteiro, montagem, letra, efeitos.
+- **Segundo olhar com o Google Gemini** (duplo pensamento): o Gemini assiste ao vídeo com som e dá um parecer independente; o Claude confere, compara com o próprio e mostra a você onde os dois concordam e onde não. Opcional, com um script pronto (`ferramentas/gemini.py`).
+- **Etapa finalizar**, para a edição sair completa: acabamento da imagem, áudio final, exportação, conferência automática do arquivo e extras (legenda, capa, créditos).
+
+O estilo de um canal de que você gosta não vem pronto aqui: ele é **medido** nos trechos de referência que você juntar, e a identidade visual é a sua.
+
 ## O que você precisa
 - Assinatura do Claude (Pro ou superior).
 - [Claude Code](https://claude.com/claude-code) instalado no computador.
 - O resto (Python, FFmpeg, transcrição, HyperFrames…) a própria skill confere e instala com você, explicando cada passo.
+- Para o segundo olhar (opcional): uma chave do Google Gemini, guardada por você na variável de ambiente `GEMINI_API_KEY`. A skill explica como criar.
 
 ## Como instalar
 Abra o Claude Code e cole:
@@ -24,6 +34,8 @@ Ou, pelo terminal:
 git clone https://github.com/LeiteZ/fluxo-de-edicao ~/.claude/skills/fluxo-de-edicao
 ```
 
+Os comandos acima instalam a skill **original**. Para instalar **esta versão adaptada**, copie a pasta `fluxo-de-edicao` deste repositório (em `.claude/skills/`) para `~/.claude/skills/` no seu computador.
+
 ## Como usar
 No Claude Code, digite:
 
@@ -34,7 +46,7 @@ No Claude Code, digite:
 Ela começa a te guiar:
 
 1. **Ambiente:** confere o que já está instalado.
-2. **Entrevista:** tipo de vídeo, formato, programa de edição (ou nenhum), transcrição, animação, câmera e som.
+2. **Entrevista:** tipo de vídeo, formato, programa de edição (ou nenhum), transcrição ou música, animação, câmera, som, finalização e o segundo olhar.
 3. **Referências:** você junta trechos de vídeos de que gosta, e ela analisa e cria o seu perfil de estilo.
 4. **Plano do fluxo:** as etapas, adaptadas para você.
 5. **As skills:** ela escreve uma por etapa, mais uma skill mestra que te guia pelo fluxo e um caderno de aprendizados.
@@ -57,10 +69,11 @@ Esqueceu o nome? Digite `/` para ver a lista de skills, ou pergunte ao Claude qu
 | `SKILL.md` | O roteiro da conversa |
 | `guias/` | O conhecimento: princípios do fluxo, decisões, análise de referências, ofício de animação, HyperFrames, entrega no programa de edição e o ofício de cada etapa |
 | `modelos/` | Os esqueletos das skills, do perfil e do estado do vídeo |
+| `ferramentas/` | O script do segundo olhar (`gemini.py`), que conversa com o Gemini |
 
 Tudo em texto. Leia, mude, adapte.
 
 ## Licença
 MIT. Use, mude e compartilhe à vontade.
 
-Feito por Lucas Leite.
+Skill original feita por Lucas Leite. Esta versão foi adaptada a partir dela.

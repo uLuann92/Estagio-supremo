@@ -9,7 +9,8 @@ Siga esta ordem. Para cada decisão: explique as opções em poucas linhas, dê 
 - Detalhes de cada caminho: `entrega-no-editor.md`.
 
 ## 2. Tipo de vídeo e formato
-- Tipo: apresentador falando para a câmera, tutorial com gravação de tela, vídeo narrado (só voz sobre imagens), reels/shorts, podcast em vídeo, outro.
+- Tipo: apresentador falando para a câmera, tutorial com gravação de tela, vídeo narrado (só voz sobre imagens), reels/shorts, podcast em vídeo, **clipe musical com letra na tela** (rap geek, AMV, lyric video), outro.
+- **Se for clipe musical:** a base deixa de ser a fala e passa a ser a música. Leia `clipe-musical.md` e faça as decisões do §2 de lá no lugar das decisões 4 (transcrição), 5 (notas faladas) e 6 (cortes) daqui. As decisões 7, 8 e 9 continuam valendo, lidas como letra, efeitos e som.
 - Formato: horizontal 16:9, vertical 9:16, quadrado. Resolução e taxa de quadros da câmera dela (24, 25, 29,97, 30, 60). Use sempre a taxa real do material; 29,97 é diferente de 30 e o erro aparece como descompasso no fim.
 - Duração típica. Vídeos longos se beneficiam de trabalhar por trecho.
 
@@ -53,5 +54,19 @@ Sugira o costume de deixar instruções faladas para o editor durante a gravaç�
 - Em que etapas a pessoa quer revisar no programa (ex.: depois dos cortes, das animações, da câmera e do som) e quais aprova só pelo chat (ex.: o plano das animações).
 - Como ela prefere devolver correções: pelo chat, citando o tempo ou o número do item ("mo04 mais lento"), ou com marcadores no próprio programa.
 
-## 11. Nome e comandos
+## 11. Finalização (o que faz a edição ser completa)
+- Quem cuida do acabamento: a pessoa, no programa dela, ou o fluxo (`etapa-finalizar.md`): igualar e estilizar a imagem, o áudio final, a exportação e a conferência.
+- Mesmo quem finaliza à mão ganha com a **conferência** automática do arquivo exportado (sincronia, quadros pretos, volume, texto).
+- Extras: legenda `.srt`, quadros para a capa, versão vertical curta, créditos, capítulos. Só o que ela vai usar.
+
+## 12. Segundo olhar (o Gemini junto com o Claude)
+Leia `segundo-olhar.md` antes de explicar.
+- **O que é, em duas frases:** o Claude não assiste a vídeo nem ouve áudio; o Gemini, sim. Com ele ligado, as decisões importantes passam por dois pensamentos independentes, e a pessoa vê onde concordam e onde não.
+- **O que custa:** uma chave do Google (existe plano gratuito com limite; pesquise o estado atual), alguns minutos a mais nas etapas em que entra, e o envio de arquivos ao Google.
+- **Quanto usar:** nas etapas-chave (sugestão), só quando ela pedir, ou nunca.
+- **O que pode ser enviado:** referências, material bruto, renders, a música. Anote o que ela autorizou; material ainda não lançado merece a pergunta por projeto.
+- **Modelos:** um mais capaz para parecer e crítica, um mais leve para olhar e catalogar. Escolha pela lista do `gemini.py modelos`, na hora.
+- Se ela não quiser agora, o fluxo é montado sem ele. Dá para ligar depois com `/fluxo-de-edicao`.
+
+## 13. Nome e comandos
 - Prefixo das skills (ex.: `edit-` gera `/edit-cortes`) e nome da skill mestra (ex.: `/editar`). Sem acento e sem espaço.

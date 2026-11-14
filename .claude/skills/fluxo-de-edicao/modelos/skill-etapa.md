@@ -36,6 +36,15 @@ Se a etapa anterior não estiver `concluido`, pare e sugira terminá-la.
 2. <…>
 3. Entrega conforme o caminho escolhido (programa ou vídeo pronto). **Primeira vez de todas:** arquivo de teste curto, <nome> confere, anotar no arquivo de validação, e só então seguir.
 
+## Segundo olhar
+<Só se o segundo olhar foi ligado para esta etapa; senão, apague a seção.>
+- **Quando:** <ex.: depois do meu rascunho do plano, antes de mostrar a <nome>; depois do render do gancho>.
+- **Uso:** <olhar | parecer independente | crítica> com o modelo <capaz | leve>.
+- **O que mandar:** <arquivos, proxy, trecho e fps>.
+- **Pergunta-base:** <a pergunta desta etapa, já com o critério e o trecho do perfil a anexar>.
+- **O que conferir na resposta:** <ex.: todo tempo citado, com um quadro>.
+Seguir o protocolo da seção 6 das regras comuns.
+
 ## Resumo no chat
 Curto: o que foi feito, o que precisa da atenção de <nome>, o caminho da entrega. Marque a etapa como `aguardando_aprovacao`.
 

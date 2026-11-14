@@ -25,6 +25,7 @@ Antes de tudo, leia `regras-comuns.md` (nesta pasta), uma vez por sessão.
    - <nome> pediu outra etapa ou um trecho ("sim, até 3:00"): abra essa etapa e passe o trecho.
 4. **Uma etapa por vez.** Não encadear etapas sozinho e não dar `/clear` (isso é sempre de <nome>).
 5. **Modelo:** lembre, numa linha, o modelo sugerido para a etapa. Trocar logo depois do `/clear` não custa nada.
+6. **Segundo olhar:** <só se foi ligado> diga, numa linha, se a etapa que vai abrir usa o Gemini. <nome> pode pedir a qualquer hora: "pede um segundo olhar nisso" (seção 6 das regras comuns).
 
 ## /<skill mestra> aprendizados
 Siga a seção 5 das regras comuns.

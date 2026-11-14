@@ -43,3 +43,10 @@ O formato que funcionou no fluxo de referência é o **FCP 7 XML (xmeml)**, impo
 - **Revisão:** a pessoa assiste e pede pelo chat, citando o tempo ("em 01:12 tira essa frase") ou o número do item. O Claude converte o tempo do vídeo para o tempo do arquivo original pela lista de cortes.
 - **Rascunho rápido:** para revisar, renderize em resolução menor; o final sai na resolução cheia.
 - Cada ajuste é um render novo: agrupe vários pedidos antes de renderizar.
+- O render final, o acabamento e a conferência do arquivo são da etapa de finalizar (`etapa-finalizar.md`).
+
+## Clipe musical (qualquer caminho)
+- **A música é uma faixa só, inteira, do frame 0 ao fim**, em A1. Nunca cortada junto com as cenas: as cenas é que se encaixam nela.
+- **Marcadores de seção e de compasso** na linha do tempo (os compassos numerados, ao menos o primeiro de cada grupo de 4). É por eles que a pessoa aponta.
+- **Trilhas sugeridas:** V1 cenas; V2 cenas sobrepostas e pré-renders de efeito; V3 flashes e camadas de cor; V4 letra; V5 luz e partículas; A1 música; abaixo, os efeitos sonoros.
+- **Velocidade e rampa:** teste o que atravessa o formato antes de usar (`etapa-cenas.md`, parte B, §5).

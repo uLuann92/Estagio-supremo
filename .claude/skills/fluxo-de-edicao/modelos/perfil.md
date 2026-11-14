@@ -12,6 +12,10 @@ Cada regra do perfil traz o número e a origem ("medido nas refs 02 e 05", "pedi
 | `estilo-camera.md` | escala do plano fechado, força do punch, aproximação lenta (quanto), quanto movimento no gancho e no corpo, se trava no rosto | motion-mapa, câmera |
 | `estilo-cortes.md` | ar entre as frases, folga nas bordas, o que fazer com hesitação, como a pessoa costuma gravar | cortes |
 | `estilo-som.md` | densidade de som por trecho, peso, sons favoritos, níveis por categoria | sfx |
+| `estilo-ritmo.md` (clipe musical) | cortes por compasso em cada seção, duração dos planos, quanto corte cai na batida, uso de rajada e de congelamento, como a escalada cresce até o último refrão | roteiro, montagem |
+| `estilo-letra.md` (clipe musical) | quanta letra aparece, as formas preferidas por seção, a forma do refrão, palavras por tela, frames de entrada e saída, onde fica no quadro, como destaca a palavra-chave, tratamento por voz, caixa alta ou não | roteiro, letra |
+| `estilo-efeitos.md` (clipe musical) | repertório de efeitos, dose por seção, força do punch e da tremida, flashes (cor, opacidade, limite), transições preferidas, o que nunca usar | roteiro, efeitos |
+| `look.md` (se o fluxo finaliza) | contraste, cor dominante, grão, vinheta, barras, variação por seção; alvo de volume e formato de exportação | finalizar |
 | `catalogo.md` | padrões de animação que já funcionaram (repertório, nunca obrigação) | motion-mapa |
 | `referencias/` e `analises/` | os trechos de referência, as fichas e a síntese | quando for revisar o estilo |
 | peças-base (opcional) | o visual dos elementos que se repetem (CSS) e o movimento deles (JS) | motion-render |
