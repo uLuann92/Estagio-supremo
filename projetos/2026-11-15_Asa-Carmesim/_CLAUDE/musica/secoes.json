@@ -1,0 +1,80 @@
+[
+ {
+  "nome": "intro",
+  "compasso_ini": 1,
+  "compasso_fim": 17,
+  "voz_entra_em": 1.84
+ },
+ {
+  "nome": "pre_hook_1",
+  "compasso_ini": 18,
+  "compasso_fim": 28,
+  "voz_entra_em": 30.1
+ },
+ {
+  "nome": "hook_1",
+  "compasso_ini": 29,
+  "compasso_fim": 56,
+  "voz_entra_em": 48.68
+ },
+ {
+  "nome": "verso_1",
+  "compasso_ini": 57,
+  "compasso_fim": 81,
+  "voz_entra_em": 99.08
+ },
+ {
+  "nome": "pre_hook_2",
+  "compasso_ini": 82,
+  "compasso_fim": 90,
+  "voz_entra_em": 143.06
+ },
+ {
+  "nome": "hook_2",
+  "compasso_ini": 91,
+  "compasso_fim": 114,
+  "voz_entra_em": 158.44
+ },
+ {
+  "nome": "verso_2",
+  "compasso_ini": 115,
+  "compasso_fim": 137,
+  "voz_entra_em": 202.02
+ },
+ {
+  "nome": "ponte",
+  "compasso_ini": 138,
+  "compasso_fim": 149,
+  "voz_entra_em": 242.36
+ },
+ {
+  "nome": "quebra_1",
+  "compasso_ini": 150,
+  "compasso_fim": 150,
+  "voz_entra_em": 264.34
+ },
+ {
+  "nome": "verso_3",
+  "compasso_ini": 151,
+  "compasso_fim": 175,
+  "voz_entra_em": 266.0
+ },
+ {
+  "nome": "quebra_2",
+  "compasso_ini": 176,
+  "compasso_fim": 183,
+  "voz_entra_em": 309.64
+ },
+ {
+  "nome": "hook_final",
+  "compasso_ini": 184,
+  "compasso_fim": 208,
+  "voz_entra_em": 322.8
+ },
+ {
+  "nome": "outro",
+  "compasso_ini": 209,
+  "compasso_fim": 216,
+  "voz_entra_em": 367.1
+ }
+]

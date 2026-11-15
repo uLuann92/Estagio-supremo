@@ -14,7 +14,7 @@ Fase atual: 5 (skills escritas com escolhas-padrão; falta a fase 3, referência
 - Tipo e formato: clipe musical com letra na tela, imagem de **quadros de mangá animados**; 16:9, 1920×1080, 24 fps **(padrão)**
 - Pastas: projeto em `projetos/AAAA-MM-DD_Nome/` com `Musica/`, `Paginas/`, `Docs/`, `Renders/` e `_CLAUDE/`; ferramentas em `edicao/`
 - Música: mixagem final em WAV ou MP3 (Suno); faixas separadas se houver; a letra escrita é a verdade da grafia
-- Alinhamento da letra: a escolher e testar na primeira música (na nuvem não há GPU nem acesso ao Hugging Face)
+- Alinhamento da letra: Demucs (voz isolada) + stable-ts `medium` (alinhamento forçado), em CPU
 - Animação: HyperFrames (HTML/CSS/GSAP), versão fixada por vídeo
 - Mangá animado: preto e branco com acento de cor; balões saem (a letra da música ocupa o lugar); fundo limpo pelo modelo de imagem do Gemini; máscaras por diferença, com conferência **(padrão)**
 - Efeitos: queimados no render **(padrão, por não haver programa de edição)**
@@ -49,8 +49,17 @@ Fase atual: 5 (skills escritas com escolhas-padrão; falta a fase 3, referência
 - `edicao/scripts/musica.py`: `grade`, `clique`, `mapa` (testado numa batida sintética de 140 BPM: andamento exato, início com erro abaixo de 5 ms, primeiro tempo certo).
 - `.claude/skills/fluxo-de-edicao/ferramentas/gemini.py` e `painel.py` (testados com a API real e num quadro de teste).
 
+- `edicao/scripts/grade_variavel.py`: grade para música com andamento que varia (testada na Asa Carmesim: mix e instrumental coincidem).
+- `edicao/scripts/separar_voz.py` (Demucs) e `edicao/scripts/alinhar_letra.py` (alinhamento forçado com stable-ts, modelo `medium`): rodam em CPU na nuvem; conferidos contra os tempos do Gemini.
+- `edicao/scripts/karaoke.py`: o teste do karaokê.
+
 ## Scripts que faltam (nascem no primeiro vídeo)
-- alinhamento da letra e karaokê; índice de quadros; montagem final com FFmpeg; conferência do arquivo; legenda `.srt`.
+- índice de quadros; montagem final com FFmpeg; conferência do arquivo; legenda `.srt`.
+
+## Aprendido no primeiro vídeo
+- Faixa do Suno: o andamento varia (135 a 137 BPM). Usar a grade variável quando o resíduo do `musica.py grade` vier alto.
+- Na nuvem dá para baixar os modelos do Demucs e do Whisper: separação e alinhamento rodam aqui (CPU, alguns minutos).
+- Para tempo de linha da letra, o `gemini-4-argon` ficou a ~0,2 s do alinhador; o `gemini-pro-latest` inventou tempos. O Gemini serve de conferência, não de fonte.
 
 ## Próximo passo
 A pessoa manda: a música, a letra, as páginas do mangá e os links das referências. Depois, `/clipe` na pasta do projeto.
