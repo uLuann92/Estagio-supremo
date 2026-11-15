@@ -1,0 +1,163 @@
+{
+  "bpm_estimado": 135,
+  "bpm_alternativo": 67.5,
+  "tom_e_clima": "Trap/R&B épico e melancólico com estética de anime, alternando entre balada íntima no piano e refrões grandiosos com 808 pesado e vocais rasgados.",
+  "secoes": [
+    {
+      "nome": "intro",
+      "inicio": 0.0,
+      "fim": 29.8,
+      "energia": 1,
+      "descricao": "Piano melancólico e pads atmosféricos acompanham uma voz suave e emotiva, com um pico de intensidade vocal em 'coração' (0:14) antes de voltar à calma."
+    },
+    {
+      "nome": "pre_hook_1",
+      "inicio": 29.8,
+      "fim": 49.0,
+      "energia": 3,
+      "descricao": "Entra um beat contido com sussurros rítmicos ('puxa, puxa') e percussão leve, crescendo em tensão até um agudo potente e rasgado em 'brilhar'."
+    },
+    {
+      "nome": "hook_1",
+      "inicio": 49.0,
+      "fim": 98.5,
+      "energia": 5,
+      "descricao": "Drop explosivo com 808 pesado, hi-hats de trap e sintetizadores largos, com vocais melódicos no topo e efeitos de stutter rítmico nas rimas finais ('-sim, -sim', '-fim, -fim')."
+    },
+    {
+      "nome": "verso_1",
+      "inicio": 98.5,
+      "fim": 143.0,
+      "energia": 3,
+      "descricao": "O beat de trap segue de forma mais limpa e espaçada para dar foco ao flow de rap melódico, subindo a intensidade e as dobras vocais a partir da metade do verso."
+    },
+    {
+      "nome": "pre_hook_2",
+      "inicio": 143.0,
+      "fim": 158.8,
+      "energia": 2,
+      "descricao": "A bateria cai quase totalmente no início para destacar os sussurros 'puxa, puxa' e reconstrói a tensão rapidamente com um riser até o grito em 'apagar'."
+    },
+    {
+      "nome": "hook_2",
+      "inicio": 158.8,
+      "fim": 202.0,
+      "energia": 5,
+      "descricao": "Retorno do refrão completo com máxima pressão sonora, ad-libs agudos de fundo e os mesmos cortes rítmicos de repetição de sílabas na segunda metade."
+    },
+    {
+      "nome": "verso_2",
+      "inicio": 202.0,
+      "fim": 243.5,
+      "energia": 3,
+      "descricao": "Começa com um flow super picotado e percussivo sobre batida seca, ganha melodia e peso no meio, e desacelera drasticamente na última frase quando a bateria some."
+    },
+    {
+      "nome": "ponte",
+      "inicio": 243.5,
+      "fim": 264.5,
+      "energia": 2,
+      "descricao": "Apenas piano, ambiência e voz limpa e vulnerável, criando um contraste íntimo que explode em um grito rasgado e longo em 'Mas quer saber da real?'."
+    },
+    {
+      "nome": "quebra_1",
+      "inicio": 264.5,
+      "fim": 266.5,
+      "energia": 5,
+      "descricao": "Pausa brusca no instrumental para o grito agressivo e gaguejado 'M-M-MAS QUE SE FODA!' que serve de gatilho para o drop."
+    },
+    {
+      "nome": "verso_3",
+      "inicio": 266.5,
+      "fim": 309.0,
+      "energia": 5,
+      "descricao": "O trecho mais agressivo da faixa, com beat pesado e contínuo e entrega vocal rasgada de alta octanagem do início ao fim."
+    },
+    {
+      "nome": "quebra_2",
+      "inicio": 309.0,
+      "fim": 323.0,
+      "energia": 4,
+      "descricao": "Clímax vocal com melismas de R&B altíssimos e sustentados ('ma-a-ais... Nunca mais!') sobre acordes grandiosos antes do último refrão."
+    },
+    {
+      "nome": "hook_final",
+      "inicio": 323.0,
+      "fim": 365.0,
+      "energia": 5,
+      "descricao": "Último refrão com todas as camadas instrumentais, coros e ad-libs em potência máxima, fechando com os stutters vocais e iniciando o fade da bateria."
+    },
+    {
+      "nome": "outro",
+      "inicio": 365.0,
+      "fim": 381.4,
+      "energia": 1,
+      "descricao": "O beat desaparece e restam apenas as notas soltas de piano e a voz sussurrada e íntima encerrando a narrativa até o silêncio."
+    }
+  ],
+  "acentos": [
+    {
+      "tempo": 13.5,
+      "o_que": "Pico vocal rasgado e dramático em 'do meu coração' dentro da intro calma"
+    },
+    {
+      "tempo": 29.8,
+      "o_que": "Entrada percussiva dos sussurros 'Puxa, puxa, puxa' marcando o início do pré-refrão"
+    },
+    {
+      "tempo": 49.0,
+      "o_que": "Primeiro grande drop do refrão com entrada de 808 pesado em 'E se o céu cair'"
+    },
+    {
+      "tempo": 86.0,
+      "o_que": "Efeito de stutter/glitch rítmico na voz em 'Carmesim, -sim, -sim' acompanhando a bateria"
+    },
+    {
+      "tempo": 143.0,
+      "o_que": "Queda brusca da bateria (drop out) voltando para o sussurro seco 'Puxa, puxa, puxa'"
+    },
+    {
+      "tempo": 158.8,
+      "o_que": "Segundo drop explosivo do refrão após o grito em 'apagar'"
+    },
+    {
+      "tempo": 202.0,
+      "o_que": "Mudança brusca para flow staccato/picotado no início do Verso 2"
+    },
+    {
+      "tempo": 238.0,
+      "o_que": "Corte total da bateria deixando a voz e o piano sozinhos na transição para a ponte"
+    },
+    {
+      "tempo": 259.0,
+      "o_que": "Grito agudo e sustentado em 'Mas quer saber da real?' preparando a quebra"
+    },
+    {
+      "tempo": 264.8,
+      "o_que": "Grito agressivo no peito 'M-M-MAS QUE SE FODA!' seguido imediatamente pelo beat pesado do Verso 3"
+    },
+    {
+      "tempo": 309.0,
+      "o_que": "Entrada do high note run épico de R&B ('ma-a-ais') após o fim do Verso 3"
+    },
+    {
+      "tempo": 323.0,
+      "o_que": "Drop do refrão final após o agudo 'Nunca mais!'"
+    }
+  ],
+  "diferencas_da_letra": [
+    {
+      "tempo": 86.0,
+      "trecho": "Nos refrões (1:26, 3:08, 5:52), as sílabas finais '-sim', '-fim' e '-mim' são repetidas mais vezes (cerca de 5 a 6 repetições rápidas em efeito de stutter) do que as duas repetições indicadas no texto."
+    },
+    {
+      "tempo": 101.0,
+      "trecho": "No início do Verso 1, o 'af' escrito no fim da linha 'até o meu tempo acabar af' soa apenas como um suspiro/ad-lib ('ah/uh') de transição e não uma palavra pronunciada."
+    },
+    {
+      "tempo": 362.0,
+      "trecho": "No final do último refrão (6:02), os ad-libs entre parênteses como '(dizer que sim!)' se prolongam em ecos suaves que fazem a ponte direta para o Outro."
+    }
+  ],
+  "vozes": "Soa como um único vocalista masculino (ou timbres tenores muito próximos gerados/produzidos no mesmo perfil) que alterna entre três registros principais: voz suave e soprosa de R&B (intro, ponte, outro), rap melódico cadenciado (versos 1 e 2) e drive/grito rasgado de rock/trap metal (pré-refrões, refrões, quebra e verso 3), apoiado por extensas camadas de dobras, harmonias e ad-libs."
+}

@@ -1,0 +1,29 @@
+{
+  "projeto": "2026-11-15_Asa-Carmesim",
+  "nome": "Asa Carmesim",
+  "perfil": "padrao",
+  "criado_em": "2026-11-15T19:57:05+00:00",
+  "video": {
+    "fps": 24,
+    "largura": 1920,
+    "altura": 1080
+  },
+  "ferramentas": {
+    "hyperframes": "0.9.45"
+  },
+  "etapas": {
+    "iniciar": "concluido",
+    "musica": "pendente",
+    "paineis": "pendente",
+    "roteiro": "pendente",
+    "animar": "pendente",
+    "letra": "pendente",
+    "efeitos": "pendente",
+    "sfx": "pendente",
+    "finalizar": "pendente"
+  },
+  "pendencias": [],
+  "atualizado": {
+    "iniciar": "2026-11-15T19:57:57+00:00"
+  }
+}
