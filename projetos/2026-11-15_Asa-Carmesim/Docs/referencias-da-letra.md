@@ -14,7 +14,7 @@ Cada linha aponta a obra provável e a imagem que casaria. 'Confiança' é o qua
 | 15 | Death Note | o caderno; escrever o nome | alta |
 | 19, 51, 96 | Jujutsu Kaisen | vermelho + azul (Gojo) | alta |
 | 20, 52, 97 | Jujutsu Kaisen | Vazio Infinito / roxo | alta |
-| 22, 54, 99 | Fairy Tail (Erza) ou imagem própria do clipe | a 'asa carmesim': decidir com o usuário quem é | a confirmar |
+| 22, 54, 99 | Fairy Tail (Erza Scarlet) | a Erza é a 'Asa Carmesim' (confirmado pelo usuário em 15/11); pesquisa em `Docs/pesquisa/erza-scarlet.md` | confirmada |
 | 23, 55, 100 | One Piece | os cálices de saquê (juramento de irmãos) | média |
 | 24, 56, 101 | One Piece | declarar guerra ao mundo (Enies Lobby) | média |
 | 26 | Death Note | escrever no caderno; tempo de vida | média |

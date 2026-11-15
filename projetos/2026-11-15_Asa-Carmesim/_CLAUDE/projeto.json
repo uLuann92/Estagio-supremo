@@ -40,7 +40,8 @@
   ],
   "atualizado": {
     "iniciar": "2026-11-15T19:57:57+00:00",
-    "musica": "2026-11-15T20:12:59+00:00"
+    "musica": "2026-11-15T20:12:59+00:00",
+    "briefing": "2026-11-15T20:56:35+00:00"
   },
   "musica": {
     "arquivo": "Musica/Asa_Carmesim.mp3",
@@ -67,5 +68,8 @@
       "clique": "aguardando o usuário",
       "karaoke": "aguardando o usuário"
     }
+  },
+  "briefing": {
+    "asa_carmesim": "Erza Scarlet (Fairy Tail), confirmado pelo usuário"
   }
 }

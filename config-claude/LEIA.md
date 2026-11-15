@@ -6,6 +6,7 @@ Dois arquivos para a pasta `~/.claude/` do seu computador (no Windows: `C:\Users
 |---|---|
 | `CLAUDE.md` | `~/.claude/CLAUDE.md` (se já existir um, junte o conteúdo) |
 | `mcp/high_effort_bridge.py` | `~/.claude/mcp/high_effort_bridge.py` |
+| `mcp/fetch_media_refs.py` | `~/.claude/mcp/fetch_media_refs.py` |
 
 ## Instalar (uma vez)
 1. Dependências:
@@ -17,10 +18,10 @@ pip install mcp google-genai
 ```bash
 claude mcp add --scope user gemini-bridge -- python ~/.claude/mcp/high_effort_bridge.py
 ```
-4. Conferir dentro do Claude Code com `/mcp`: o servidor `gemini-bridge` deve aparecer com 4 ferramentas.
+4. Conferir dentro do Claude Code com `/mcp`: o servidor `gemini-bridge` deve aparecer com 5 ferramentas.
 
 ## Ajustes (variáveis de ambiente opcionais)
-- `BRAIN_MODEL_ID`: fila de modelos, separados por vírgula. Padrão: `gemini-4-argon,gemini-pro-latest,gemini-flash-latest`.
+- `BRAIN_MODEL_ID`: fila de modelos, separados por vírgula. Padrão: `gemini-4-carbon,gemini-pro-latest,gemini-flash-latest`.
 - `BRAIN_ROOTS`: pastas onde a ponte pode gravar (separadas por `;`). Padrão: só a pasta em que o Claude Code foi aberto.
 
 ## Proteções da ponte

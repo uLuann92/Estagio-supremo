@@ -4,7 +4,8 @@ Precisa de: pip install mcp google-genai
 A chave vem da variável de ambiente GEMINI_API_KEY (nunca escrita em arquivo).
 
 Variáveis opcionais:
-  BRAIN_MODEL_ID   modelo(s) preferido(s), separados por vírgula. Padrão: gemini-4-argon,gemini-pro-latest,gemini-flash-latest
+  BRAIN_MODEL_ID   modelo(s) preferido(s), separados por vírgula. Padrão: gemini-4-carbon,gemini-pro-latest,gemini-flash-latest
+                   (o gemini-4-argon só entra quando a chamada passa model_id="gemini-4-argon", para tarefa mecânica)
   BRAIN_BASE_URL   endereço alternativo da API (proxy/roteador)
   BRAIN_ROOTS      pastas onde a ponte pode gravar, separadas por ; ou : (padrão: a pasta de trabalho atual)
 """
@@ -27,8 +28,9 @@ mcp = FastMCP("Gemini-DualBrain")
 
 API_KEY = os.environ.get("GEMINI_API_KEY")
 CUSTOM_BASE_URL = os.environ.get("BRAIN_BASE_URL")
+DEFAULT_MODEL = "gemini-4-carbon"
 MODELOS = [m.strip() for m in os.environ.get(
-    "BRAIN_MODEL_ID", "gemini-4-argon,gemini-pro-latest,gemini-flash-latest").split(",") if m.strip()]
+    "BRAIN_MODEL_ID", f"{DEFAULT_MODEL},gemini-pro-latest,gemini-flash-latest").split(",") if m.strip()]
 
 _client = None
 ACTIVE_CACHES = {}
@@ -45,7 +47,8 @@ def client():
     if _client is None:
         if not API_KEY:
             raise RuntimeError("Falta a variável de ambiente GEMINI_API_KEY.")
-        opts = {"base_url": CUSTOM_BASE_URL} if CUSTOM_BASE_URL else None
+        # v1beta: é onde a API aceita instrução de sistema, busca do Google e nível de raciocínio juntos
+        opts = {"base_url": CUSTOM_BASE_URL} if CUSTOM_BASE_URL else {"api_version": "v1beta"}
         _client = genai.Client(api_key=API_KEY, http_options=opts)
     return _client
 
@@ -54,23 +57,35 @@ def fila_de_modelos(pedido: str = ""):
     return ([pedido] if pedido else []) + [m for m in MODELOS if m != pedido]
 
 
-def gerar(contents, config_kwargs, model_id=""):
-    """Tenta cada modelo da fila; passa para o próximo em sobrecarga, falta de cota ou modelo inexistente."""
-    ultimo = None
-    for modelo in fila_de_modelos(model_id):
-        for tentativa in range(2):
+def gerar(contents, config_kwargs, model_id="", effort_level="HIGH", espera=300, fila=None):
+    """Tenta cada modelo da fila, com raciocínio alto por padrão.
+    Passa para o próximo modelo em sobrecarga, falta de cota ou modelo inexistente."""
+    ultimo, erros = None, []
+    for modelo in (fila or fila_de_modelos(model_id)):
+        cfg = dict(config_kwargs)
+        cfg["http_options"] = types.HttpOptions(timeout=int(espera * 1000))  # sem limite, uma chamada pode ficar presa
+        t = thinking(effort_level) if effort_level else None
+        if t is not None and "thinking_config" not in cfg:
+            cfg["thinking_config"] = t
+        for tentativa in range(3):
             try:
                 r = client().models.generate_content(
-                    model=modelo, contents=contents, config=types.GenerateContentConfig(**config_kwargs))
+                    model=modelo, contents=contents, config=types.GenerateContentConfig(**cfg))
+                if not (r.text or "").strip():
+                    raise RuntimeError("resposta vazia")
                 return modelo, r
             except Exception as e:  # noqa: BLE001 - a SDK levanta tipos diferentes por versão
                 ultimo = e
                 codigo = getattr(e, "code", None) or getattr(e, "status_code", None)
+                if "thinking" in str(e).lower() and "thinking_config" in cfg:
+                    cfg.pop("thinking_config")  # este modelo não aceita o nível pedido: segue sem
+                    continue
                 if codigo in (500, 502, 503, 504) and tentativa == 0:
                     time.sleep(4)
                     continue
+                erros.append(f"{modelo}: {str(e)[:160]}")
                 break
-    raise RuntimeError(f"Nenhum modelo respondeu ({', '.join(fila_de_modelos(model_id))}). Último erro: {ultimo}")
+    raise RuntimeError("Nenhum modelo respondeu. " + " | ".join(erros or [str(ultimo)]))
 
 
 def thinking(effort_level: str):
@@ -202,12 +217,9 @@ def cache_heavy_context(cache_name: str, file_paths: list[str], model_id: str = 
 def dual_think_high_effort(prompt: str, cache_name: str = "", model_id: str = "", effort_level: str = "HIGH") -> str:
     """Segundo pensamento do Gemini sobre um plano, um bug ou uma decisão. A resposta é opinião a conferir, não ordem."""
     cfg = {"temperature": 0.2}
-    t = thinking(effort_level)
-    if t:
-        cfg["thinking_config"] = t
     if cache_name in ACTIVE_CACHES:
         cfg["cached_content"], model_id = ACTIVE_CACHES[cache_name]
-    modelo, r = gerar(prompt, cfg, model_id)
+    modelo, r = gerar(prompt, cfg, model_id, effort_level)
     return f"[Modelo: {modelo}]\n\n{r.text}"
 
 
@@ -284,6 +296,88 @@ def gemini_direct_file_worker(task_prompt: str, input_files: list[str] | None = 
             + f"\nLidos: {len(relato)} arquivo(s). Conferência: {sintaxe}{alerta}\n\nRESUMO:\n{resumo}\n\nASSINATURAS:\n"
             + ("\n".join(sigs[:40]) if sigs else "(nenhuma detectada)")
             + "\n\nNÃO REVISADO: audite com git diff ou lendo os trechos críticos, e rode o código antes de confiar.")
+
+
+PESQUISADOR = """Você é um pesquisador especialista em animes, mangás, manhwas, jogos e engenharia. Use a busca na web.
+
+Quando o pedido for sobre um personagem, uma obra ou uma luta, entregue um dossiê em Markdown com:
+1. Lista cronológica dos eventos relevantes.
+2. Poderes e técnicas, com os nomes exatos (original e tradução usual em português).
+3. Citações marcantes: no máximo uma frase curta por cena, em paráfrase ou com poucas palavras entre aspas, com a fonte.
+4. Episódios do anime onde cada cena acontece, com o número exato e a minutagem aproximada.
+5. Capítulos do mangá/manhwa onde ficam os quadros mais icônicos, com o número exato (e o volume, se achar).
+6. Tags correspondentes no Sakugabooru (nome da obra, do personagem e dos animadores, no formato de tag do site).
+
+Regras de honestidade (valem mais que a completude):
+- Número de episódio, capítulo, volume ou minutagem só entra se uma fonte encontrada na busca o sustenta. Sem fonte, escreva "não confirmado". Nunca complete de memória sem avisar.
+- Quando as fontes divergem, mostre as duas versões.
+- Separe o que é do mangá do que é só do anime ou de filme.
+
+Formato: comece SEMPRE com a seção "## Resumo executivo" (até 12 linhas, com os números mais úteis). Depois, o dossiê completo. Responda em português do Brasil."""
+
+
+def fontes_da_busca(r):
+    """Títulos e endereços das páginas que a busca usou, sem repetição."""
+    vistos, fontes = set(), []
+    try:
+        meta = r.candidates[0].grounding_metadata
+        for ch in (meta.grounding_chunks or []) if meta else []:
+            web = getattr(ch, "web", None)
+            if web and web.uri and web.uri not in vistos:
+                vistos.add(web.uri)
+                fontes.append((web.title or "fonte", web.uri))
+    except Exception:  # noqa: BLE001
+        pass
+    return fontes
+
+
+@mcp.tool()
+def carbon_web_research(query: str, save_report_to: str = "", model_id: str = "") -> str:
+    """Pesquisa na web com o Gemini (busca do Google ligada) e monta um dossiê: eventos, técnicas, episódios,
+    capítulos e tags do Sakugabooru de um personagem, obra ou luta; ou pesquisa técnica de engenharia e jogos.
+
+    query: o que pesquisar, com o máximo de contexto (obra, personagem, cena, o que se quer achar).
+    save_report_to: se dado, grava o dossiê completo em Markdown neste caminho (com as fontes no fim) e
+                    devolve só o resumo executivo. Não sobrescreve: se o arquivo existir, grava _v02, _v03…
+    """
+    cfg = {"temperature": 0.2, "system_instruction": PESQUISADOR,
+           "tools": [types.Tool(google_search=types.GoogleSearch())]}
+    # Medido: carbon + busca + raciocínio alto pode passar de 3 min numa pergunta curta. Ordem das tentativas:
+    # carbon em raciocínio alto (até 8 min) -> carbon no nível padrão dele (até 5 min) -> a fila de reserva.
+    principal = model_id or DEFAULT_MODEL
+    nivel = "HIGH"
+    try:
+        modelo, r = gerar(query, cfg, effort_level="HIGH", espera=480, fila=[principal])
+    except Exception:  # noqa: BLE001
+        try:
+            nivel = "padrão do modelo (o nível alto estourou o tempo)"
+            modelo, r = gerar(query, cfg, effort_level="", espera=300, fila=[principal])
+        except Exception:  # noqa: BLE001
+            nivel = "padrão (reserva: o modelo principal não respondeu)"
+            modelo, r = gerar(query, cfg, model_id, effort_level="", espera=300)
+    texto = (r.text or "").strip()
+    fontes = fontes_da_busca(r)
+    bloco = "\n\n## Fontes consultadas\n" + ("\n".join(f"- [{t}]({u})" for t, u in fontes) if fontes else
+                                            "- (a busca não devolveu a lista de fontes: trate os números como não conferidos)")
+    aviso = "" if fontes else "\nATENÇÃO: sem lista de fontes; confira os números antes de usar."
+    if not save_report_to:
+        return f"[Modelo: {modelo} · raciocínio: {nivel} · {len(fontes)} fonte(s)]{aviso}\n\n{texto}{bloco}"
+    destino = os.path.abspath(os.path.expanduser(save_report_to))
+    if SEGREDOS.search(destino) or not pode_gravar(destino):
+        return f"RECUSADO: {destino} está fora das pastas permitidas (BRAIN_ROOTS ou a pasta de trabalho)."
+    base, ext = os.path.splitext(destino)
+    n = 2
+    while os.path.exists(destino):
+        destino = f"{base}_v{n:02d}{ext or '.md'}"
+        n += 1
+    os.makedirs(os.path.dirname(destino), exist_ok=True)
+    with open(destino, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(f"<!-- pesquisa: {query[:300]} · modelo: {modelo} -->\n\n{texto}{bloco}\n")
+    m = re.search(r"##\s*Resumo executivo\s*\n(.*?)(\n##\s|\Z)", texto, re.S | re.I)
+    resumo = "\n".join((m.group(1).strip() if m else texto[:900]).split("\n")[:14])
+    return (f"[Modelo: {modelo} · raciocínio: {nivel}] Dossiê gravado: {destino} ({texto.count(chr(10)) + 1} linhas, {len(fontes)} fonte(s)){aviso}"
+            f"\n\nRESUMO EXECUTIVO:\n{resumo}\n\nNÃO CONFERIDO: números de capítulo e episódio vêm da busca; "
+            "confira os que forem usados.")
 
 
 if __name__ == "__main__":
