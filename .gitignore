@@ -1,0 +1,16 @@
+# mídia de projeto: grande e com dono; não vai para o GitHub
+projetos/*/Musica/
+projetos/*/Paginas/
+projetos/*/Renders/
+projetos/*/_CLAUDE/**/*.png
+projetos/*/_CLAUDE/**/*.jpg
+projetos/*/_CLAUDE/**/*.mp4
+projetos/*/_CLAUDE/**/*.mov
+projetos/*/_CLAUDE/**/*.wav
+projetos/*/_CLAUDE/**/node_modules/
+edicao/sons/**/*.wav
+edicao/sons/**/*.mp3
+edicao/perfis/*/referencias/*.mp4
+__pycache__/
+*.bak
+.env
