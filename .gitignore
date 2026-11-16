@@ -16,7 +16,3 @@ __pycache__/
 .env
 projetos/*/_CLAUDE/**/*.mp3
 projetos/*/_CLAUDE/musica/faixas/
-# letra inédita: fica fora do GitHub até o usuário decidir
-projetos/*/Docs/letra*.md
-projetos/*/_CLAUDE/musica/letra_*.json
-projetos/*/_CLAUDE/segundo-olhar/musica_linhas_*
