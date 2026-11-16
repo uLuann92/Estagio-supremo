@@ -14,3 +14,5 @@ edicao/perfis/*/referencias/*.mp4
 __pycache__/
 *.bak
 .env
+projetos/*/_CLAUDE/**/*.mp3
+projetos/*/_CLAUDE/musica/faixas/

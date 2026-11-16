@@ -1,0 +1,6314 @@
+[
+{
+"palavra": "Acordei",
+"inicio": 1.84,
+"fim": 2.7,
+"linha": 1,
+"secao": "INTRO",
+"prob": 0.684
+},
+{
+"palavra": "chorando...",
+"inicio": 2.7,
+"fim": 4.78,
+"linha": 1,
+"secao": "INTRO",
+"prob": 0.685
+},
+{
+"palavra": "sem",
+"inicio": 4.78,
+"fim": 5.02,
+"linha": 1,
+"secao": "INTRO",
+"prob": 0.12
+},
+{
+"palavra": "lembrar",
+"inicio": 5.02,
+"fim": 5.98,
+"linha": 1,
+"secao": "INTRO",
+"prob": 0.993
+},
+{
+"palavra": "do",
+"inicio": 6.16,
+"fim": 6.26,
+"linha": 1,
+"secao": "INTRO",
+"prob": 0.968
+},
+{
+"palavra": "teu",
+"inicio": 6.26,
+"fim": 6.58,
+"linha": 1,
+"secao": "INTRO",
+"prob": 0.952
+},
+{
+"palavra": "nome",
+"inicio": 6.58,
+"fim": 7.3,
+"linha": 1,
+"secao": "INTRO",
+"prob": 0.992
+},
+{
+"palavra": "Procurando",
+"inicio": 8.24,
+"fim": 9.82,
+"linha": 2,
+"secao": "INTRO",
+"prob": 0.874
+},
+{
+"palavra": "no",
+"inicio": 9.94,
+"fim": 10.2,
+"linha": 2,
+"secao": "INTRO",
+"prob": 0.633
+},
+{
+"palavra": "crepúsculo",
+"inicio": 10.2,
+"fim": 11.46,
+"linha": 2,
+"secao": "INTRO",
+"prob": 0.948
+},
+{
+"palavra": "a",
+"inicio": 11.46,
+"fim": 11.6,
+"linha": 2,
+"secao": "INTRO",
+"prob": 0.756
+},
+{
+"palavra": "metade",
+"inicio": 11.6,
+"fim": 12.5,
+"linha": 2,
+"secao": "INTRO",
+"prob": 0.99
+},
+{
+"palavra": "do",
+"inicio": 12.5,
+"fim": 13.14,
+"linha": 2,
+"secao": "INTRO",
+"prob": 0.904
+},
+{
+"palavra": "meu",
+"inicio": 13.14,
+"fim": 13.62,
+"linha": 2,
+"secao": "INTRO",
+"prob": 0.994
+},
+{
+"palavra": "coração",
+"inicio": 13.62,
+"fim": 14.9,
+"linha": 2,
+"secao": "INTRO",
+"prob": 0.974
+},
+{
+"palavra": "Cruzei",
+"inicio": 15.56,
+"fim": 16.18,
+"linha": 3,
+"secao": "INTRO",
+"prob": 0.184
+},
+{
+"palavra": "cada",
+"inicio": 16.18,
+"fim": 16.5,
+"linha": 3,
+"secao": "INTRO",
+"prob": 0.0
+},
+{
+"palavra": "linha",
+"inicio": 16.5,
+"fim": 16.8,
+"linha": 3,
+"secao": "INTRO",
+"prob": 0.955
+},
+{
+"palavra": "do",
+"inicio": 16.8,
+"fim": 17.18,
+"linha": 3,
+"secao": "INTRO",
+"prob": 0.995
+},
+{
+"palavra": "tempo",
+"inicio": 17.18,
+"fim": 18.36,
+"linha": 3,
+"secao": "INTRO",
+"prob": 0.999
+},
+{
+"palavra": "onde",
+"inicio": 18.86,
+"fim": 19.4,
+"linha": 3,
+"secao": "INTRO",
+"prob": 0.263
+},
+{
+"palavra": "o",
+"inicio": 19.4,
+"fim": 19.78,
+"linha": 3,
+"secao": "INTRO",
+"prob": 0.994
+},
+{
+"palavra": "relógio",
+"inicio": 19.78,
+"fim": 20.64,
+"linha": 3,
+"secao": "INTRO",
+"prob": 0.995
+},
+{
+"palavra": "parou",
+"inicio": 20.64,
+"fim": 21.38,
+"linha": 3,
+"secao": "INTRO",
+"prob": 0.997
+},
+{
+"palavra": "Só",
+"inicio": 22.32,
+"fim": 22.8,
+"linha": 4,
+"secao": "INTRO",
+"prob": 0.683
+},
+{
+"palavra": "pra",
+"inicio": 22.88,
+"fim": 23.1,
+"linha": 4,
+"secao": "INTRO",
+"prob": 0.977
+},
+{
+"palavra": "chegar",
+"inicio": 23.1,
+"fim": 23.76,
+"linha": 4,
+"secao": "INTRO",
+"prob": 0.996
+},
+{
+"palavra": "no",
+"inicio": 23.76,
+"fim": 23.98,
+"linha": 4,
+"secao": "INTRO",
+"prob": 0.985
+},
+{
+"palavra": "universo",
+"inicio": 23.98,
+"fim": 24.92,
+"linha": 4,
+"secao": "INTRO",
+"prob": 0.973
+},
+{
+"palavra": "em",
+"inicio": 24.92,
+"fim": 25.24,
+"linha": 4,
+"secao": "INTRO",
+"prob": 0.93
+},
+{
+"palavra": "que",
+"inicio": 25.26,
+"fim": 25.68,
+"linha": 4,
+"secao": "INTRO",
+"prob": 0.997
+},
+{
+"palavra": "a",
+"inicio": 25.68,
+"fim": 25.86,
+"linha": 4,
+"secao": "INTRO",
+"prob": 0.987
+},
+{
+"palavra": "gente",
+"inicio": 25.86,
+"fim": 26.56,
+"linha": 4,
+"secao": "INTRO",
+"prob": 0.998
+},
+{
+"palavra": "ficou",
+"inicio": 26.56,
+"fim": 27.66,
+"linha": 4,
+"secao": "INTRO",
+"prob": 0.986
+},
+{
+"palavra": "Puxa,",
+"inicio": 30.1,
+"fim": 30.54,
+"linha": 5,
+"secao": "PRE-HOOK",
+"prob": 0.714
+},
+{
+"palavra": "puxa,",
+"inicio": 30.54,
+"fim": 30.78,
+"linha": 5,
+"secao": "PRE-HOOK",
+"prob": 0.785
+},
+{
+"palavra": "puxa",
+"inicio": 30.78,
+"fim": 30.88,
+"linha": 5,
+"secao": "PRE-HOOK",
+"prob": 0.498
+},
+{
+"palavra": "a",
+"inicio": 31.1,
+"fim": 31.1,
+"linha": 6,
+"secao": "PRE-HOOK",
+"prob": 0.004
+},
+{
+"palavra": "corda",
+"inicio": 31.1,
+"fim": 31.32,
+"linha": 6,
+"secao": "PRE-HOOK",
+"prob": 0.545
+},
+{
+"palavra": "presa",
+"inicio": 31.32,
+"fim": 31.78,
+"linha": 6,
+"secao": "PRE-HOOK",
+"prob": 0.883
+},
+{
+"palavra": "no",
+"inicio": 31.78,
+"fim": 32.0,
+"linha": 6,
+"secao": "PRE-HOOK",
+"prob": 0.983
+},
+{
+"palavra": "meu",
+"inicio": 32.0,
+"fim": 32.3,
+"linha": 6,
+"secao": "PRE-HOOK",
+"prob": 0.995
+},
+{
+"palavra": "peito",
+"inicio": 32.3,
+"fim": 32.6,
+"linha": 6,
+"secao": "PRE-HOOK",
+"prob": 0.985
+},
+{
+"palavra": "faz",
+"inicio": 32.76,
+"fim": 32.84,
+"linha": 7,
+"secao": "PRE-HOOK",
+"prob": 0.518
+},
+{
+"palavra": "um",
+"inicio": 32.84,
+"fim": 33.2,
+"linha": 7,
+"secao": "PRE-HOOK",
+"prob": 0.988
+},
+{
+"palavra": "contrato",
+"inicio": 33.2,
+"fim": 33.68,
+"linha": 7,
+"secao": "PRE-HOOK",
+"prob": 0.996
+},
+{
+"palavra": "comigo",
+"inicio": 33.68,
+"fim": 34.3,
+"linha": 7,
+"secao": "PRE-HOOK",
+"prob": 0.978
+},
+{
+"palavra": "que",
+"inicio": 34.4,
+"fim": 34.52,
+"linha": 8,
+"secao": "PRE-HOOK",
+"prob": 0.843
+},
+{
+"palavra": "eu",
+"inicio": 34.52,
+"fim": 34.88,
+"linha": 8,
+"secao": "PRE-HOOK",
+"prob": 0.989
+},
+{
+"palavra": "aceito",
+"inicio": 34.88,
+"fim": 35.28,
+"linha": 8,
+"secao": "PRE-HOOK",
+"prob": 0.988
+},
+{
+"palavra": "qualquer",
+"inicio": 35.28,
+"fim": 35.7,
+"linha": 8,
+"secao": "PRE-HOOK",
+"prob": 0.472
+},
+{
+"palavra": "jeito",
+"inicio": 35.7,
+"fim": 36.42,
+"linha": 8,
+"secao": "PRE-HOOK",
+"prob": 0.997
+},
+{
+"palavra": "Puxa,",
+"inicio": 36.74,
+"fim": 37.18,
+"linha": 9,
+"secao": "PRE-HOOK",
+"prob": 0.824
+},
+{
+"palavra": "puxa,",
+"inicio": 37.18,
+"fim": 37.44,
+"linha": 9,
+"secao": "PRE-HOOK",
+"prob": 0.991
+},
+{
+"palavra": "puxa",
+"inicio": 37.5,
+"fim": 37.88,
+"linha": 9,
+"secao": "PRE-HOOK",
+"prob": 0.994
+},
+{
+"palavra": "se",
+"inicio": 37.9,
+"fim": 38.14,
+"linha": 10,
+"secao": "PRE-HOOK",
+"prob": 0.81
+},
+{
+"palavra": "a",
+"inicio": 38.14,
+"fim": 38.28,
+"linha": 10,
+"secao": "PRE-HOOK",
+"prob": 0.991
+},
+{
+"palavra": "cidade",
+"inicio": 38.28,
+"fim": 38.76,
+"linha": 10,
+"secao": "PRE-HOOK",
+"prob": 0.911
+},
+{
+"palavra": "não",
+"inicio": 38.76,
+"fim": 39.16,
+"linha": 10,
+"secao": "PRE-HOOK",
+"prob": 0.958
+},
+{
+"palavra": "tiver",
+"inicio": 39.16,
+"fim": 39.56,
+"linha": 10,
+"secao": "PRE-HOOK",
+"prob": 0.99
+},
+{
+"palavra": "um",
+"inicio": 39.56,
+"fim": 39.94,
+"linha": 10,
+"secao": "PRE-HOOK",
+"prob": 0.917
+},
+{
+"palavra": "final",
+"inicio": 39.94,
+"fim": 40.64,
+"linha": 10,
+"secao": "PRE-HOOK",
+"prob": 0.906
+},
+{
+"palavra": "feliz",
+"inicio": 40.64,
+"fim": 41.54,
+"linha": 10,
+"secao": "PRE-HOOK",
+"prob": 0.974
+},
+{
+"palavra": "eu",
+"inicio": 41.56,
+"fim": 41.7,
+"linha": 11,
+"secao": "PRE-HOOK",
+"prob": 0.61
+},
+{
+"palavra": "te",
+"inicio": 41.7,
+"fim": 41.96,
+"linha": 11,
+"secao": "PRE-HOOK",
+"prob": 0.997
+},
+{
+"palavra": "levo",
+"inicio": 41.96,
+"fim": 42.38,
+"linha": 11,
+"secao": "PRE-HOOK",
+"prob": 0.976
+},
+{
+"palavra": "até",
+"inicio": 42.38,
+"fim": 42.72,
+"linha": 11,
+"secao": "PRE-HOOK",
+"prob": 0.992
+},
+{
+"palavra": "a",
+"inicio": 42.72,
+"fim": 43.02,
+"linha": 11,
+"secao": "PRE-HOOK",
+"prob": 0.949
+},
+{
+"palavra": "Lua",
+"inicio": 43.02,
+"fim": 44.74,
+"linha": 11,
+"secao": "PRE-HOOK",
+"prob": 0.509
+},
+{
+"palavra": "só",
+"inicio": 45.0,
+"fim": 45.28,
+"linha": 12,
+"secao": "PRE-HOOK",
+"prob": 0.797
+},
+{
+"palavra": "pra",
+"inicio": 45.28,
+"fim": 45.54,
+"linha": 12,
+"secao": "PRE-HOOK",
+"prob": 0.979
+},
+{
+"palavra": "ver",
+"inicio": 45.54,
+"fim": 45.74,
+"linha": 12,
+"secao": "PRE-HOOK",
+"prob": 0.984
+},
+{
+"palavra": "você",
+"inicio": 45.74,
+"fim": 46.22,
+"linha": 12,
+"secao": "PRE-HOOK",
+"prob": 0.993
+},
+{
+"palavra": "brilhar",
+"inicio": 46.22,
+"fim": 48.4,
+"linha": 12,
+"secao": "PRE-HOOK",
+"prob": 0.799
+},
+{
+"palavra": "E",
+"inicio": 48.68,
+"fim": 48.96,
+"linha": 13,
+"secao": "HOOK",
+"prob": 0.477
+},
+{
+"palavra": "se",
+"inicio": 48.96,
+"fim": 49.32,
+"linha": 13,
+"secao": "HOOK",
+"prob": 0.853
+},
+{
+"palavra": "o",
+"inicio": 49.32,
+"fim": 49.6,
+"linha": 13,
+"secao": "HOOK",
+"prob": 0.995
+},
+{
+"palavra": "céu",
+"inicio": 49.6,
+"fim": 49.74,
+"linha": 13,
+"secao": "HOOK",
+"prob": 0.982
+},
+{
+"palavra": "cair,",
+"inicio": 49.74,
+"fim": 50.42,
+"linha": 13,
+"secao": "HOOK",
+"prob": 0.79
+},
+{
+"palavra": "cair,",
+"inicio": 50.42,
+"fim": 50.94,
+"linha": 13,
+"secao": "HOOK",
+"prob": 0.964
+},
+{
+"palavra": "cair",
+"inicio": 50.96,
+"fim": 51.66,
+"linha": 13,
+"secao": "HOOK",
+"prob": 0.999
+},
+{
+"palavra": "cometa",
+"inicio": 51.98,
+"fim": 52.36,
+"linha": 14,
+"secao": "HOOK",
+"prob": 0.2
+},
+{
+"palavra": "cortando",
+"inicio": 52.36,
+"fim": 52.94,
+"linha": 14,
+"secao": "HOOK",
+"prob": 0.496
+},
+{
+"palavra": "a",
+"inicio": 52.94,
+"fim": 53.06,
+"linha": 14,
+"secao": "HOOK",
+"prob": 0.939
+},
+{
+"palavra": "escuridão?",
+"inicio": 53.06,
+"fim": 54.92,
+"linha": 14,
+"secao": "HOOK",
+"prob": 0.799
+},
+{
+"palavra": "Eu",
+"inicio": 55.46,
+"fim": 55.52,
+"linha": 15,
+"secao": "HOOK",
+"prob": 0.444
+},
+{
+"palavra": "escrevo",
+"inicio": 55.52,
+"fim": 56.22,
+"linha": 15,
+"secao": "HOOK",
+"prob": 0.992
+},
+{
+"palavra": "no",
+"inicio": 56.22,
+"fim": 56.6,
+"linha": 15,
+"secao": "HOOK",
+"prob": 0.955
+},
+{
+"palavra": "death",
+"inicio": 56.6,
+"fim": 57.12,
+"linha": 15,
+"secao": "HOOK",
+"prob": 0.049
+},
+{
+"palavra": "note",
+"inicio": 57.12,
+"fim": 57.74,
+"linha": 15,
+"secao": "HOOK",
+"prob": 0.905
+},
+{
+"palavra": "o",
+"inicio": 59.06,
+"fim": 59.06,
+"linha": 16,
+"secao": "HOOK",
+"prob": 0.021
+},
+{
+"palavra": "nome",
+"inicio": 59.06,
+"fim": 59.48,
+"linha": 16,
+"secao": "HOOK",
+"prob": 0.938
+},
+{
+"palavra": "de",
+"inicio": 59.48,
+"fim": 59.86,
+"linha": 16,
+"secao": "HOOK",
+"prob": 0.991
+},
+{
+"palavra": "todos",
+"inicio": 59.86,
+"fim": 60.24,
+"linha": 16,
+"secao": "HOOK",
+"prob": 0.985
+},
+{
+"palavra": "aqueles",
+"inicio": 60.24,
+"fim": 61.08,
+"linha": 16,
+"secao": "HOOK",
+"prob": 0.681
+},
+{
+"palavra": "que",
+"inicio": 61.08,
+"fim": 61.46,
+"linha": 16,
+"secao": "HOOK",
+"prob": 0.967
+},
+{
+"palavra": "vierem",
+"inicio": 61.46,
+"fim": 61.94,
+"linha": 16,
+"secao": "HOOK",
+"prob": 0.478
+},
+{
+"palavra": "mexer",
+"inicio": 61.94,
+"fim": 63.04,
+"linha": 16,
+"secao": "HOOK",
+"prob": 0.834
+},
+{
+"palavra": "conosco",
+"inicio": 63.04,
+"fim": 65.66,
+"linha": 16,
+"secao": "HOOK",
+"prob": 0.989
+},
+{
+"palavra": "não",
+"inicio": 65.98,
+"fim": 66.16,
+"linha": 17,
+"secao": "HOOK",
+"prob": 0.348
+},
+{
+"palavra": "quero",
+"inicio": 66.16,
+"fim": 66.58,
+"linha": 17,
+"secao": "HOOK",
+"prob": 0.994
+},
+{
+"palavra": "nunca",
+"inicio": 66.58,
+"fim": 67.02,
+"linha": 17,
+"secao": "HOOK",
+"prob": 0.038
+},
+{
+"palavra": "esquecer",
+"inicio": 67.02,
+"fim": 67.46,
+"linha": 17,
+"secao": "HOOK",
+"prob": 0.994
+},
+{
+"palavra": "quem",
+"inicio": 67.46,
+"fim": 67.8,
+"linha": 17,
+"secao": "HOOK",
+"prob": 0.991
+},
+{
+"palavra": "somos,",
+"inicio": 67.8,
+"fim": 68.62,
+"linha": 17,
+"secao": "HOOK",
+"prob": 0.636
+},
+{
+"palavra": "não!",
+"inicio": 68.62,
+"fim": 69.88,
+"linha": 17,
+"secao": "HOOK",
+"prob": 0.522
+},
+{
+"palavra": "Se",
+"inicio": 70.2,
+"fim": 70.2,
+"linha": 18,
+"secao": "HOOK",
+"prob": 0.101
+},
+{
+"palavra": "o",
+"inicio": 70.2,
+"fim": 70.52,
+"linha": 18,
+"secao": "HOOK",
+"prob": 0.991
+},
+{
+"palavra": "mundo",
+"inicio": 70.52,
+"fim": 71.08,
+"linha": 18,
+"secao": "HOOK",
+"prob": 0.985
+},
+{
+"palavra": "ruir,",
+"inicio": 71.08,
+"fim": 71.7,
+"linha": 18,
+"secao": "HOOK",
+"prob": 0.594
+},
+{
+"palavra": "ruir,",
+"inicio": 71.7,
+"fim": 72.34,
+"linha": 18,
+"secao": "HOOK",
+"prob": 0.982
+},
+{
+"palavra": "ruir",
+"inicio": 72.34,
+"fim": 73.0,
+"linha": 18,
+"secao": "HOOK",
+"prob": 0.998
+},
+{
+"palavra": "entre",
+"inicio": 73.24,
+"fim": 73.36,
+"linha": 19,
+"secao": "HOOK",
+"prob": 0.103
+},
+{
+"palavra": "o",
+"inicio": 73.36,
+"fim": 73.6,
+"linha": 19,
+"secao": "HOOK",
+"prob": 0.99
+},
+{
+"palavra": "vermelho",
+"inicio": 73.6,
+"fim": 74.28,
+"linha": 19,
+"secao": "HOOK",
+"prob": 0.995
+},
+{
+"palavra": "e",
+"inicio": 74.28,
+"fim": 74.28,
+"linha": 19,
+"secao": "HOOK",
+"prob": 0.207
+},
+{
+"palavra": "o",
+"inicio": 74.28,
+"fim": 74.56,
+"linha": 19,
+"secao": "HOOK",
+"prob": 0.953
+},
+{
+"palavra": "azul",
+"inicio": 74.56,
+"fim": 74.62,
+"linha": 19,
+"secao": "HOOK",
+"prob": 0.986
+},
+{
+"palavra": "no",
+"inicio": 74.62,
+"fim": 75.1,
+"linha": 19,
+"secao": "HOOK",
+"prob": 0.957
+},
+{
+"palavra": "ar",
+"inicio": 75.1,
+"fim": 76.36,
+"linha": 19,
+"secao": "HOOK",
+"prob": 0.992
+},
+{
+"palavra": "Nosso",
+"inicio": 76.62,
+"fim": 77.06,
+"linha": 20,
+"secao": "HOOK",
+"prob": 0.533
+},
+{
+"palavra": "vazio",
+"inicio": 77.06,
+"fim": 77.64,
+"linha": 20,
+"secao": "HOOK",
+"prob": 0.986
+},
+{
+"palavra": "vira",
+"inicio": 77.64,
+"fim": 78.1,
+"linha": 20,
+"secao": "HOOK",
+"prob": 0.551
+},
+{
+"palavra": "infinito",
+"inicio": 78.1,
+"fim": 79.1,
+"linha": 20,
+"secao": "HOOK",
+"prob": 0.994
+},
+{
+"palavra": "e",
+"inicio": 79.42,
+"fim": 79.58,
+"linha": 21,
+"secao": "HOOK",
+"prob": 0.557
+},
+{
+"palavra": "eu",
+"inicio": 79.58,
+"fim": 79.96,
+"linha": 21,
+"secao": "HOOK",
+"prob": 0.978
+},
+{
+"palavra": "aprendo",
+"inicio": 79.96,
+"fim": 81.08,
+"linha": 21,
+"secao": "HOOK",
+"prob": 0.989
+},
+{
+"palavra": "o",
+"inicio": 81.08,
+"fim": 81.32,
+"linha": 21,
+"secao": "HOOK",
+"prob": 0.002
+},
+{
+"palavra": "que",
+"inicio": 81.32,
+"fim": 81.5,
+"linha": 21,
+"secao": "HOOK",
+"prob": 0.945
+},
+{
+"palavra": "é",
+"inicio": 81.5,
+"fim": 81.66,
+"linha": 21,
+"secao": "HOOK",
+"prob": 0.795
+},
+{
+"palavra": "te",
+"inicio": 81.66,
+"fim": 81.98,
+"linha": 21,
+"secao": "HOOK",
+"prob": 0.585
+},
+{
+"palavra": "amar!",
+"inicio": 81.98,
+"fim": 84.0,
+"linha": 21,
+"secao": "HOOK",
+"prob": 0.843
+},
+{
+"palavra": "Oh,",
+"inicio": 84.3,
+"fim": 84.4,
+"linha": 22,
+"secao": "HOOK",
+"prob": 0.33
+},
+{
+"palavra": "minha",
+"inicio": 84.4,
+"fim": 84.66,
+"linha": 22,
+"secao": "HOOK",
+"prob": 0.444
+},
+{
+"palavra": "Asa",
+"inicio": 84.66,
+"fim": 85.04,
+"linha": 22,
+"secao": "HOOK",
+"prob": 0.447
+},
+{
+"palavra": "Carmesim,",
+"inicio": 85.04,
+"fim": 85.84,
+"linha": 22,
+"secao": "HOOK",
+"prob": 0.177
+},
+{
+"palavra": "-sim,",
+"inicio": 85.84,
+"fim": 86.08,
+"linha": 22,
+"secao": "HOOK",
+"prob": 0.32
+},
+{
+"palavra": "-sim",
+"inicio": 86.08,
+"fim": 86.86,
+"linha": 22,
+"secao": "HOOK",
+"prob": 0.459
+},
+{
+"palavra": "divide",
+"inicio": 87.82,
+"fim": 87.82,
+"linha": 23,
+"secao": "HOOK",
+"prob": 0.0
+},
+{
+"palavra": "esse",
+"inicio": 87.82,
+"fim": 87.82,
+"linha": 23,
+"secao": "HOOK",
+"prob": 0.011
+},
+{
+"palavra": "cálice",
+"inicio": 87.84,
+"fim": 88.48,
+"linha": 23,
+"secao": "HOOK",
+"prob": 0.408
+},
+{
+"palavra": "até",
+"inicio": 88.48,
+"fim": 88.84,
+"linha": 23,
+"secao": "HOOK",
+"prob": 0.972
+},
+{
+"palavra": "o",
+"inicio": 88.84,
+"fim": 89.12,
+"linha": 23,
+"secao": "HOOK",
+"prob": 0.989
+},
+{
+"palavra": "fim,",
+"inicio": 89.12,
+"fim": 89.5,
+"linha": 23,
+"secao": "HOOK",
+"prob": 0.639
+},
+{
+"palavra": "-fim,",
+"inicio": 89.5,
+"fim": 89.88,
+"linha": 23,
+"secao": "HOOK",
+"prob": 0.455
+},
+{
+"palavra": "-fim",
+"inicio": 89.88,
+"fim": 90.08,
+"linha": 23,
+"secao": "HOOK",
+"prob": 0.888
+},
+{
+"palavra": "mesmo",
+"inicio": 90.2,
+"fim": 90.48,
+"linha": 24,
+"secao": "HOOK",
+"prob": 0.658
+},
+{
+"palavra": "que",
+"inicio": 90.48,
+"fim": 90.74,
+"linha": 24,
+"secao": "HOOK",
+"prob": 0.99
+},
+{
+"palavra": "o",
+"inicio": 90.74,
+"fim": 90.94,
+"linha": 24,
+"secao": "HOOK",
+"prob": 0.975
+},
+{
+"palavra": "mar",
+"inicio": 90.94,
+"fim": 91.08,
+"linha": 24,
+"secao": "HOOK",
+"prob": 0.906
+},
+{
+"palavra": "inteiro",
+"inicio": 91.08,
+"fim": 91.66,
+"linha": 24,
+"secao": "HOOK",
+"prob": 0.996
+},
+{
+"palavra": "vire",
+"inicio": 91.66,
+"fim": 92.1,
+"linha": 24,
+"secao": "HOOK",
+"prob": 0.935
+},
+{
+"palavra": "contra",
+"inicio": 92.1,
+"fim": 92.5,
+"linha": 24,
+"secao": "HOOK",
+"prob": 0.867
+},
+{
+"palavra": "mim,",
+"inicio": 92.5,
+"fim": 92.92,
+"linha": 24,
+"secao": "HOOK",
+"prob": 0.757
+},
+{
+"palavra": "-mim,",
+"inicio": 92.92,
+"fim": 93.42,
+"linha": 24,
+"secao": "HOOK",
+"prob": 0.633
+},
+{
+"palavra": "-mim",
+"inicio": 93.42,
+"fim": 94.18,
+"linha": 24,
+"secao": "HOOK",
+"prob": 0.897
+},
+{
+"palavra": "eu",
+"inicio": 94.56,
+"fim": 94.78,
+"linha": 25,
+"secao": "HOOK",
+"prob": 0.48
+},
+{
+"palavra": "vou",
+"inicio": 94.78,
+"fim": 95.14,
+"linha": 25,
+"secao": "HOOK",
+"prob": 0.991
+},
+{
+"palavra": "dizer",
+"inicio": 95.14,
+"fim": 95.92,
+"linha": 25,
+"secao": "HOOK",
+"prob": 0.996
+},
+{
+"palavra": "que",
+"inicio": 95.92,
+"fim": 96.72,
+"linha": 25,
+"secao": "HOOK",
+"prob": 0.96
+},
+{
+"palavra": "sim",
+"inicio": 96.72,
+"fim": 97.96,
+"linha": 25,
+"secao": "HOOK",
+"prob": 0.715
+},
+{
+"palavra": "Rabisco",
+"inicio": 99.08,
+"fim": 99.4,
+"linha": 26,
+"secao": "VERSE 1",
+"prob": 0.45
+},
+{
+"palavra": "o",
+"inicio": 99.4,
+"fim": 99.52,
+"linha": 26,
+"secao": "VERSE 1",
+"prob": 0.933
+},
+{
+"palavra": "destino",
+"inicio": 99.52,
+"fim": 99.82,
+"linha": 26,
+"secao": "VERSE 1",
+"prob": 0.997
+},
+{
+"palavra": "num",
+"inicio": 99.82,
+"fim": 99.98,
+"linha": 26,
+"secao": "VERSE 1",
+"prob": 0.513
+},
+{
+"palavra": "caderno",
+"inicio": 99.98,
+"fim": 100.34,
+"linha": 26,
+"secao": "VERSE 1",
+"prob": 0.998
+},
+{
+"palavra": "até",
+"inicio": 100.34,
+"fim": 100.42,
+"linha": 26,
+"secao": "VERSE 1",
+"prob": 0.652
+},
+{
+"palavra": "o",
+"inicio": 100.42,
+"fim": 100.46,
+"linha": 26,
+"secao": "VERSE 1",
+"prob": 0.7
+},
+{
+"palavra": "meu",
+"inicio": 100.46,
+"fim": 100.58,
+"linha": 26,
+"secao": "VERSE 1",
+"prob": 0.861
+},
+{
+"palavra": "tempo",
+"inicio": 100.58,
+"fim": 100.86,
+"linha": 26,
+"secao": "VERSE 1",
+"prob": 0.999
+},
+{
+"palavra": "acabar",
+"inicio": 100.86,
+"fim": 101.58,
+"linha": 26,
+"secao": "VERSE 1",
+"prob": 0.986
+},
+{
+"palavra": "af,",
+"inicio": 101.58,
+"fim": 102.64,
+"linha": 26,
+"secao": "VERSE 1",
+"prob": 0.003
+},
+{
+"palavra": "se",
+"inicio": 102.9,
+"fim": 102.9,
+"linha": 27,
+"secao": "VERSE 1",
+"prob": 0.548
+},
+{
+"palavra": "o",
+"inicio": 102.9,
+"fim": 103.02,
+"linha": 27,
+"secao": "VERSE 1",
+"prob": 0.725
+},
+{
+"palavra": "teu",
+"inicio": 103.02,
+"fim": 103.16,
+"linha": 27,
+"secao": "VERSE 1",
+"prob": 0.974
+},
+{
+"palavra": "olhar",
+"inicio": 103.16,
+"fim": 103.3,
+"linha": 27,
+"secao": "VERSE 1",
+"prob": 0.988
+},
+{
+"palavra": "me",
+"inicio": 103.3,
+"fim": 103.46,
+"linha": 27,
+"secao": "VERSE 1",
+"prob": 0.993
+},
+{
+"palavra": "der",
+"inicio": 103.46,
+"fim": 103.58,
+"linha": 27,
+"secao": "VERSE 1",
+"prob": 0.985
+},
+{
+"palavra": "a",
+"inicio": 103.58,
+"fim": 103.68,
+"linha": 27,
+"secao": "VERSE 1",
+"prob": 0.821
+},
+{
+"palavra": "ordem,",
+"inicio": 103.68,
+"fim": 103.9,
+"linha": 27,
+"secao": "VERSE 1",
+"prob": 0.746
+},
+{
+"palavra": "ninguém",
+"inicio": 103.9,
+"fim": 104.08,
+"linha": 27,
+"secao": "VERSE 1",
+"prob": 0.934
+},
+{
+"palavra": "pode",
+"inicio": 104.08,
+"fim": 104.42,
+"linha": 27,
+"secao": "VERSE 1",
+"prob": 0.995
+},
+{
+"palavra": "me",
+"inicio": 104.42,
+"fim": 104.86,
+"linha": 27,
+"secao": "VERSE 1",
+"prob": 0.994
+},
+{
+"palavra": "parar",
+"inicio": 104.86,
+"fim": 105.76,
+"linha": 27,
+"secao": "VERSE 1",
+"prob": 0.992
+},
+{
+"palavra": "Volto",
+"inicio": 106.34,
+"fim": 106.5,
+"linha": 28,
+"secao": "VERSE 1",
+"prob": 0.509
+},
+{
+"palavra": "da",
+"inicio": 106.5,
+"fim": 106.7,
+"linha": 28,
+"secao": "VERSE 1",
+"prob": 0.968
+},
+{
+"palavra": "morte",
+"inicio": 106.7,
+"fim": 107.0,
+"linha": 28,
+"secao": "VERSE 1",
+"prob": 0.991
+},
+{
+"palavra": "em",
+"inicio": 107.0,
+"fim": 107.12,
+"linha": 28,
+"secao": "VERSE 1",
+"prob": 0.896
+},
+{
+"palavra": "silêncio",
+"inicio": 107.12,
+"fim": 107.4,
+"linha": 28,
+"secao": "VERSE 1",
+"prob": 0.993
+},
+{
+"palavra": "toda",
+"inicio": 107.4,
+"fim": 107.6,
+"linha": 28,
+"secao": "VERSE 1",
+"prob": 0.91
+},
+{
+"palavra": "vez",
+"inicio": 107.6,
+"fim": 107.82,
+"linha": 28,
+"secao": "VERSE 1",
+"prob": 0.924
+},
+{
+"palavra": "que",
+"inicio": 107.82,
+"fim": 108.08,
+"linha": 28,
+"secao": "VERSE 1",
+"prob": 0.996
+},
+{
+"palavra": "tudo",
+"inicio": 108.1,
+"fim": 108.46,
+"linha": 28,
+"secao": "VERSE 1",
+"prob": 0.997
+},
+{
+"palavra": "cai",
+"inicio": 108.46,
+"fim": 109.0,
+"linha": 28,
+"secao": "VERSE 1",
+"prob": 0.96
+},
+{
+"palavra": "segurando",
+"inicio": 109.98,
+"fim": 110.38,
+"linha": 29,
+"secao": "VERSE 1",
+"prob": 0.695
+},
+{
+"palavra": "a",
+"inicio": 110.38,
+"fim": 110.54,
+"linha": 29,
+"secao": "VERSE 1",
+"prob": 0.927
+},
+{
+"palavra": "minha",
+"inicio": 110.54,
+"fim": 110.72,
+"linha": 29,
+"secao": "VERSE 1",
+"prob": 0.994
+},
+{
+"palavra": "lâmina",
+"inicio": 110.72,
+"fim": 111.08,
+"linha": 29,
+"secao": "VERSE 1",
+"prob": 0.928
+},
+{
+"palavra": "enquanto",
+"inicio": 111.08,
+"fim": 111.4,
+"linha": 29,
+"secao": "VERSE 1",
+"prob": 0.956
+},
+{
+"palavra": "a",
+"inicio": 111.4,
+"fim": 111.64,
+"linha": 29,
+"secao": "VERSE 1",
+"prob": 0.994
+},
+{
+"palavra": "chuva",
+"inicio": 111.64,
+"fim": 111.98,
+"linha": 29,
+"secao": "VERSE 1",
+"prob": 0.998
+},
+{
+"palavra": "não",
+"inicio": 111.98,
+"fim": 112.56,
+"linha": 29,
+"secao": "VERSE 1",
+"prob": 0.977
+},
+{
+"palavra": "sai",
+"inicio": 112.56,
+"fim": 113.04,
+"linha": 29,
+"secao": "VERSE 1",
+"prob": 0.0
+},
+{
+"palavra": "marca",
+"inicio": 113.34,
+"fim": 113.56,
+"linha": 30,
+"secao": "VERSE 1",
+"prob": 0.058
+},
+{
+"palavra": "no",
+"inicio": 113.56,
+"fim": 113.68,
+"linha": 30,
+"secao": "VERSE 1",
+"prob": 0.959
+},
+{
+"palavra": "pescoço,",
+"inicio": 113.68,
+"fim": 114.1,
+"linha": 30,
+"secao": "VERSE 1",
+"prob": 0.763
+},
+{
+"palavra": "sangrando",
+"inicio": 114.1,
+"fim": 114.46,
+"linha": 30,
+"secao": "VERSE 1",
+"prob": 0.781
+},
+{
+"palavra": "no",
+"inicio": 114.46,
+"fim": 114.66,
+"linha": 30,
+"secao": "VERSE 1",
+"prob": 0.985
+},
+{
+"palavra": "meio",
+"inicio": 114.66,
+"fim": 114.86,
+"linha": 30,
+"secao": "VERSE 1",
+"prob": 0.974
+},
+{
+"palavra": "do",
+"inicio": 114.86,
+"fim": 115.1,
+"linha": 30,
+"secao": "VERSE 1",
+"prob": 0.986
+},
+{
+"palavra": "eclipse",
+"inicio": 115.1,
+"fim": 115.48,
+"linha": 30,
+"secao": "VERSE 1",
+"prob": 0.984
+},
+{
+"palavra": "duas",
+"inicio": 115.48,
+"fim": 115.78,
+"linha": 31,
+"secao": "VERSE 1",
+"prob": 0.903
+},
+{
+"palavra": "almas",
+"inicio": 115.78,
+"fim": 116.08,
+"linha": 31,
+"secao": "VERSE 1",
+"prob": 0.986
+},
+{
+"palavra": "juntas,",
+"inicio": 116.08,
+"fim": 116.52,
+"linha": 31,
+"secao": "VERSE 1",
+"prob": 0.725
+},
+{
+"palavra": "antes",
+"inicio": 116.52,
+"fim": 116.62,
+"linha": 31,
+"secao": "VERSE 1",
+"prob": 0.925
+},
+{
+"palavra": "que",
+"inicio": 116.62,
+"fim": 116.84,
+"linha": 31,
+"secao": "VERSE 1",
+"prob": 0.994
+},
+{
+"palavra": "o",
+"inicio": 116.84,
+"fim": 116.98,
+"linha": 31,
+"secao": "VERSE 1",
+"prob": 0.991
+},
+{
+"palavra": "mundo",
+"inicio": 116.98,
+"fim": 117.22,
+"linha": 31,
+"secao": "VERSE 1",
+"prob": 0.995
+},
+{
+"palavra": "inteiro",
+"inicio": 117.22,
+"fim": 117.76,
+"linha": 31,
+"secao": "VERSE 1",
+"prob": 0.937
+},
+{
+"palavra": "desabe",
+"inicio": 117.76,
+"fim": 118.3,
+"linha": 31,
+"secao": "VERSE 1",
+"prob": 0.814
+},
+{
+"palavra": "e",
+"inicio": 118.3,
+"fim": 118.7,
+"linha": 31,
+"secao": "VERSE 1",
+"prob": 0.653
+},
+{
+"palavra": "acabe",
+"inicio": 118.7,
+"fim": 119.04,
+"linha": 31,
+"secao": "VERSE 1",
+"prob": 0.976
+},
+{
+"palavra": "se",
+"inicio": 119.28,
+"fim": 119.58,
+"linha": 32,
+"secao": "VERSE 1",
+"prob": 0.704
+},
+{
+"palavra": "choveu,",
+"inicio": 119.58,
+"fim": 120.52,
+"linha": 32,
+"secao": "VERSE 1",
+"prob": 0.766
+},
+{
+"palavra": "traz",
+"inicio": 120.52,
+"fim": 120.6,
+"linha": 32,
+"secao": "VERSE 1",
+"prob": 0.467
+},
+{
+"palavra": "o",
+"inicio": 120.6,
+"fim": 120.7,
+"linha": 32,
+"secao": "VERSE 1",
+"prob": 0.817
+},
+{
+"palavra": "meu",
+"inicio": 120.7,
+"fim": 120.8,
+"linha": 32,
+"secao": "VERSE 1",
+"prob": 0.993
+},
+{
+"palavra": "chapéu",
+"inicio": 120.8,
+"fim": 121.12,
+"linha": 32,
+"secao": "VERSE 1",
+"prob": 0.995
+},
+{
+"palavra": "de",
+"inicio": 121.12,
+"fim": 121.46,
+"linha": 32,
+"secao": "VERSE 1",
+"prob": 0.995
+},
+{
+"palavra": "palha",
+"inicio": 121.46,
+"fim": 121.64,
+"linha": 32,
+"secao": "VERSE 1",
+"prob": 0.993
+},
+{
+"palavra": "pra",
+"inicio": 121.82,
+"fim": 121.92,
+"linha": 32,
+"secao": "VERSE 1",
+"prob": 0.872
+},
+{
+"palavra": "te",
+"inicio": 121.92,
+"fim": 122.28,
+"linha": 32,
+"secao": "VERSE 1",
+"prob": 0.988
+},
+{
+"palavra": "proteger",
+"inicio": 122.28,
+"fim": 123.02,
+"linha": 32,
+"secao": "VERSE 1",
+"prob": 0.997
+},
+{
+"palavra": "troca",
+"inicio": 123.32,
+"fim": 123.54,
+"linha": 33,
+"secao": "VERSE 1",
+"prob": 0.593
+},
+{
+"palavra": "justa,",
+"inicio": 123.54,
+"fim": 124.0,
+"linha": 33,
+"secao": "VERSE 1",
+"prob": 0.445
+},
+{
+"palavra": "dou",
+"inicio": 124.0,
+"fim": 124.22,
+"linha": 33,
+"secao": "VERSE 1",
+"prob": 0.412
+},
+{
+"palavra": "meu",
+"inicio": 124.22,
+"fim": 124.46,
+"linha": 33,
+"secao": "VERSE 1",
+"prob": 0.899
+},
+{
+"palavra": "braço",
+"inicio": 124.46,
+"fim": 124.74,
+"linha": 33,
+"secao": "VERSE 1",
+"prob": 0.996
+},
+{
+"palavra": "e",
+"inicio": 124.74,
+"fim": 124.88,
+"linha": 33,
+"secao": "VERSE 1",
+"prob": 0.94
+},
+{
+"palavra": "minha",
+"inicio": 124.88,
+"fim": 125.1,
+"linha": 33,
+"secao": "VERSE 1",
+"prob": 0.944
+},
+{
+"palavra": "perna",
+"inicio": 125.1,
+"fim": 125.5,
+"linha": 33,
+"secao": "VERSE 1",
+"prob": 0.969
+},
+{
+"palavra": "pra",
+"inicio": 125.5,
+"fim": 125.88,
+"linha": 33,
+"secao": "VERSE 1",
+"prob": 0.931
+},
+{
+"palavra": "te",
+"inicio": 125.88,
+"fim": 126.46,
+"linha": 33,
+"secao": "VERSE 1",
+"prob": 0.874
+},
+{
+"palavra": "ver",
+"inicio": 126.46,
+"fim": 126.8,
+"linha": 33,
+"secao": "VERSE 1",
+"prob": 0.954
+},
+{
+"palavra": "viver",
+"inicio": 126.8,
+"fim": 127.62,
+"linha": 33,
+"secao": "VERSE 1",
+"prob": 0.759
+},
+{
+"palavra": "expando",
+"inicio": 128.04,
+"fim": 128.3,
+"linha": 34,
+"secao": "VERSE 1",
+"prob": 0.079
+},
+{
+"palavra": "o",
+"inicio": 128.3,
+"fim": 128.52,
+"linha": 34,
+"secao": "VERSE 1",
+"prob": 0.525
+},
+{
+"palavra": "meu",
+"inicio": 128.52,
+"fim": 128.74,
+"linha": 34,
+"secao": "VERSE 1",
+"prob": 0.92
+},
+{
+"palavra": "domínio",
+"inicio": 128.74,
+"fim": 129.16,
+"linha": 34,
+"secao": "VERSE 1",
+"prob": 0.981
+},
+{
+"palavra": "quando",
+"inicio": 129.16,
+"fim": 129.54,
+"linha": 34,
+"secao": "VERSE 1",
+"prob": 0.749
+},
+{
+"palavra": "a",
+"inicio": 129.54,
+"fim": 129.78,
+"linha": 34,
+"secao": "VERSE 1",
+"prob": 0.995
+},
+{
+"palavra": "maldição",
+"inicio": 129.78,
+"fim": 130.32,
+"linha": 34,
+"secao": "VERSE 1",
+"prob": 0.997
+},
+{
+"palavra": "tenta",
+"inicio": 130.32,
+"fim": 130.78,
+"linha": 34,
+"secao": "VERSE 1",
+"prob": 0.997
+},
+{
+"palavra": "chegar",
+"inicio": 130.78,
+"fim": 131.3,
+"linha": 34,
+"secao": "VERSE 1",
+"prob": 0.99
+},
+{
+"palavra": "ergo",
+"inicio": 131.7,
+"fim": 131.8,
+"linha": 35,
+"secao": "VERSE 1",
+"prob": 0.406
+},
+{
+"palavra": "as",
+"inicio": 131.8,
+"fim": 131.92,
+"linha": 35,
+"secao": "VERSE 1",
+"prob": 0.994
+},
+{
+"palavra": "próprias",
+"inicio": 131.92,
+"fim": 132.36,
+"linha": 35,
+"secao": "VERSE 1",
+"prob": 0.988
+},
+{
+"palavra": "sombras",
+"inicio": 132.36,
+"fim": 133.0,
+"linha": 35,
+"secao": "VERSE 1",
+"prob": 0.987
+},
+{
+"palavra": "do",
+"inicio": 133.0,
+"fim": 133.24,
+"linha": 35,
+"secao": "VERSE 1",
+"prob": 0.952
+},
+{
+"palavra": "chão",
+"inicio": 133.24,
+"fim": 133.42,
+"linha": 35,
+"secao": "VERSE 1",
+"prob": 0.999
+},
+{
+"palavra": "só",
+"inicio": 133.42,
+"fim": 133.68,
+"linha": 35,
+"secao": "VERSE 1",
+"prob": 0.856
+},
+{
+"palavra": "pra",
+"inicio": 133.68,
+"fim": 133.92,
+"linha": 35,
+"secao": "VERSE 1",
+"prob": 0.989
+},
+{
+"palavra": "ninguém",
+"inicio": 133.92,
+"fim": 134.3,
+"linha": 35,
+"secao": "VERSE 1",
+"prob": 0.987
+},
+{
+"palavra": "te",
+"inicio": 134.3,
+"fim": 134.64,
+"linha": 35,
+"secao": "VERSE 1",
+"prob": 0.995
+},
+{
+"palavra": "tocar",
+"inicio": 134.64,
+"fim": 135.08,
+"linha": 35,
+"secao": "VERSE 1",
+"prob": 0.0
+},
+{
+"palavra": "incendeio",
+"inicio": 135.4,
+"fim": 135.88,
+"linha": 36,
+"secao": "VERSE 1",
+"prob": 0.313
+},
+{
+"palavra": "o",
+"inicio": 135.9,
+"fim": 136.06,
+"linha": 36,
+"secao": "VERSE 1",
+"prob": 0.772
+},
+{
+"palavra": "coração",
+"inicio": 136.06,
+"fim": 136.5,
+"linha": 36,
+"secao": "VERSE 1",
+"prob": 0.967
+},
+{
+"palavra": "porque",
+"inicio": 136.5,
+"fim": 136.92,
+"linha": 36,
+"secao": "VERSE 1",
+"prob": 0.715
+},
+{
+"palavra": "sentir",
+"inicio": 136.92,
+"fim": 137.38,
+"linha": 36,
+"secao": "VERSE 1",
+"prob": 0.081
+},
+{
+"palavra": "isso",
+"inicio": 137.38,
+"fim": 137.74,
+"linha": 36,
+"secao": "VERSE 1",
+"prob": 0.008
+},
+{
+"palavra": "vale",
+"inicio": 137.74,
+"fim": 138.02,
+"linha": 36,
+"secao": "VERSE 1",
+"prob": 0.734
+},
+{
+"palavra": "a",
+"inicio": 138.02,
+"fim": 138.16,
+"linha": 36,
+"secao": "VERSE 1",
+"prob": 0.97
+},
+{
+"palavra": "dor",
+"inicio": 138.16,
+"fim": 138.26,
+"linha": 36,
+"secao": "VERSE 1",
+"prob": 0.944
+},
+{
+"palavra": "somos",
+"inicio": 138.42,
+"fim": 138.68,
+"linha": 37,
+"secao": "VERSE 1",
+"prob": 0.684
+},
+{
+"palavra": "a",
+"inicio": 138.68,
+"fim": 139.08,
+"linha": 37,
+"secao": "VERSE 1",
+"prob": 0.985
+},
+{
+"palavra": "própria",
+"inicio": 139.08,
+"fim": 139.4,
+"linha": 37,
+"secao": "VERSE 1",
+"prob": 0.947
+},
+{
+"palavra": "luz",
+"inicio": 139.4,
+"fim": 139.6,
+"linha": 37,
+"secao": "VERSE 1",
+"prob": 0.966
+},
+{
+"palavra": "que",
+"inicio": 139.6,
+"fim": 139.78,
+"linha": 37,
+"secao": "VERSE 1",
+"prob": 0.852
+},
+{
+"palavra": "a",
+"inicio": 139.78,
+"fim": 139.92,
+"linha": 37,
+"secao": "VERSE 1",
+"prob": 0.975
+},
+{
+"palavra": "maldição",
+"inicio": 139.92,
+"fim": 140.52,
+"linha": 37,
+"secao": "VERSE 1",
+"prob": 0.989
+},
+{
+"palavra": "do",
+"inicio": 140.52,
+"fim": 140.84,
+"linha": 37,
+"secao": "VERSE 1",
+"prob": 0.965
+},
+{
+"palavra": "ódio",
+"inicio": 140.84,
+"fim": 141.1,
+"linha": 37,
+"secao": "VERSE 1",
+"prob": 0.993
+},
+{
+"palavra": "não",
+"inicio": 141.1,
+"fim": 141.56,
+"linha": 37,
+"secao": "VERSE 1",
+"prob": 0.658
+},
+{
+"palavra": "apagou",
+"inicio": 141.56,
+"fim": 142.8,
+"linha": 37,
+"secao": "VERSE 1",
+"prob": 0.933
+},
+{
+"palavra": "Puxa,",
+"inicio": 143.06,
+"fim": 143.48,
+"linha": 38,
+"secao": "PRE-HOOK",
+"prob": 0.647
+},
+{
+"palavra": "puxa,",
+"inicio": 143.48,
+"fim": 143.9,
+"linha": 38,
+"secao": "PRE-HOOK",
+"prob": 0.875
+},
+{
+"palavra": "puxa",
+"inicio": 143.9,
+"fim": 144.22,
+"linha": 38,
+"secao": "PRE-HOOK",
+"prob": 0.993
+},
+{
+"palavra": "a",
+"inicio": 144.26,
+"fim": 144.32,
+"linha": 39,
+"secao": "PRE-HOOK",
+"prob": 0.018
+},
+{
+"palavra": "corda",
+"inicio": 144.32,
+"fim": 144.74,
+"linha": 39,
+"secao": "PRE-HOOK",
+"prob": 0.987
+},
+{
+"palavra": "presa",
+"inicio": 144.74,
+"fim": 145.16,
+"linha": 39,
+"secao": "PRE-HOOK",
+"prob": 0.799
+},
+{
+"palavra": "no",
+"inicio": 145.16,
+"fim": 145.4,
+"linha": 39,
+"secao": "PRE-HOOK",
+"prob": 0.984
+},
+{
+"palavra": "meu",
+"inicio": 145.4,
+"fim": 145.68,
+"linha": 39,
+"secao": "PRE-HOOK",
+"prob": 0.989
+},
+{
+"palavra": "peito",
+"inicio": 145.68,
+"fim": 145.96,
+"linha": 39,
+"secao": "PRE-HOOK",
+"prob": 0.993
+},
+{
+"palavra": "faz",
+"inicio": 146.08,
+"fim": 146.24,
+"linha": 40,
+"secao": "PRE-HOOK",
+"prob": 0.874
+},
+{
+"palavra": "um",
+"inicio": 146.24,
+"fim": 146.62,
+"linha": 40,
+"secao": "PRE-HOOK",
+"prob": 0.993
+},
+{
+"palavra": "contrato",
+"inicio": 146.62,
+"fim": 147.08,
+"linha": 40,
+"secao": "PRE-HOOK",
+"prob": 0.992
+},
+{
+"palavra": "comigo",
+"inicio": 147.08,
+"fim": 147.68,
+"linha": 40,
+"secao": "PRE-HOOK",
+"prob": 0.963
+},
+{
+"palavra": "que",
+"inicio": 147.76,
+"fim": 147.94,
+"linha": 41,
+"secao": "PRE-HOOK",
+"prob": 0.881
+},
+{
+"palavra": "eu",
+"inicio": 147.94,
+"fim": 148.28,
+"linha": 41,
+"secao": "PRE-HOOK",
+"prob": 0.985
+},
+{
+"palavra": "aceito",
+"inicio": 148.28,
+"fim": 148.68,
+"linha": 41,
+"secao": "PRE-HOOK",
+"prob": 0.994
+},
+{
+"palavra": "qualquer",
+"inicio": 148.68,
+"fim": 149.04,
+"linha": 41,
+"secao": "PRE-HOOK",
+"prob": 0.351
+},
+{
+"palavra": "jeito",
+"inicio": 149.04,
+"fim": 149.52,
+"linha": 41,
+"secao": "PRE-HOOK",
+"prob": 0.995
+},
+{
+"palavra": "Puxa,",
+"inicio": 150.18,
+"fim": 150.56,
+"linha": 42,
+"secao": "PRE-HOOK",
+"prob": 0.833
+},
+{
+"palavra": "puxa,",
+"inicio": 150.56,
+"fim": 151.0,
+"linha": 42,
+"secao": "PRE-HOOK",
+"prob": 0.991
+},
+{
+"palavra": "puxa",
+"inicio": 151.0,
+"fim": 151.26,
+"linha": 42,
+"secao": "PRE-HOOK",
+"prob": 0.998
+},
+{
+"palavra": "se",
+"inicio": 151.28,
+"fim": 151.52,
+"linha": 43,
+"secao": "PRE-HOOK",
+"prob": 0.914
+},
+{
+"palavra": "a",
+"inicio": 151.52,
+"fim": 151.66,
+"linha": 43,
+"secao": "PRE-HOOK",
+"prob": 0.997
+},
+{
+"palavra": "cidade",
+"inicio": 151.66,
+"fim": 152.12,
+"linha": 43,
+"secao": "PRE-HOOK",
+"prob": 0.993
+},
+{
+"palavra": "nos",
+"inicio": 152.12,
+"fim": 152.46,
+"linha": 43,
+"secao": "PRE-HOOK",
+"prob": 0.971
+},
+{
+"palavra": "quebrar",
+"inicio": 152.46,
+"fim": 152.86,
+"linha": 43,
+"secao": "PRE-HOOK",
+"prob": 0.994
+},
+{
+"palavra": "segura",
+"inicio": 153.12,
+"fim": 153.58,
+"linha": 44,
+"secao": "PRE-HOOK",
+"prob": 0.776
+},
+{
+"palavra": "a",
+"inicio": 153.58,
+"fim": 153.58,
+"linha": 44,
+"secao": "PRE-HOOK",
+"prob": 0.346
+},
+{
+"palavra": "minha",
+"inicio": 153.58,
+"fim": 153.98,
+"linha": 44,
+"secao": "PRE-HOOK",
+"prob": 0.997
+},
+{
+"palavra": "mão",
+"inicio": 153.98,
+"fim": 154.34,
+"linha": 44,
+"secao": "PRE-HOOK",
+"prob": 0.992
+},
+{
+"palavra": "agora",
+"inicio": 154.34,
+"fim": 154.84,
+"linha": 44,
+"secao": "PRE-HOOK",
+"prob": 0.321
+},
+{
+"palavra": "deixa",
+"inicio": 154.9,
+"fim": 155.26,
+"linha": 45,
+"secao": "PRE-HOOK",
+"prob": 0.883
+},
+{
+"palavra": "a",
+"inicio": 155.26,
+"fim": 155.46,
+"linha": 45,
+"secao": "PRE-HOOK",
+"prob": 0.991
+},
+{
+"palavra": "gravidade",
+"inicio": 155.46,
+"fim": 156.22,
+"linha": 45,
+"secao": "PRE-HOOK",
+"prob": 0.96
+},
+{
+"palavra": "apagar",
+"inicio": 156.22,
+"fim": 158.22,
+"linha": 45,
+"secao": "PRE-HOOK",
+"prob": 0.988
+},
+{
+"palavra": "E",
+"inicio": 158.44,
+"fim": 158.7,
+"linha": 46,
+"secao": "HOOK",
+"prob": 0.109
+},
+{
+"palavra": "se",
+"inicio": 158.7,
+"fim": 159.1,
+"linha": 46,
+"secao": "HOOK",
+"prob": 0.787
+},
+{
+"palavra": "o",
+"inicio": 159.1,
+"fim": 159.38,
+"linha": 46,
+"secao": "HOOK",
+"prob": 0.991
+},
+{
+"palavra": "céu",
+"inicio": 159.38,
+"fim": 159.56,
+"linha": 46,
+"secao": "HOOK",
+"prob": 0.983
+},
+{
+"palavra": "cair,",
+"inicio": 159.56,
+"fim": 160.38,
+"linha": 46,
+"secao": "HOOK",
+"prob": 0.538
+},
+{
+"palavra": "cair,",
+"inicio": 160.38,
+"fim": 160.76,
+"linha": 46,
+"secao": "HOOK",
+"prob": 0.968
+},
+{
+"palavra": "cair",
+"inicio": 160.86,
+"fim": 161.52,
+"linha": 46,
+"secao": "HOOK",
+"prob": 0.993
+},
+{
+"palavra": "cometa",
+"inicio": 161.86,
+"fim": 162.16,
+"linha": 47,
+"secao": "HOOK",
+"prob": 0.136
+},
+{
+"palavra": "cortando",
+"inicio": 162.16,
+"fim": 162.74,
+"linha": 47,
+"secao": "HOOK",
+"prob": 0.842
+},
+{
+"palavra": "a",
+"inicio": 162.74,
+"fim": 162.88,
+"linha": 47,
+"secao": "HOOK",
+"prob": 0.948
+},
+{
+"palavra": "escuridão?",
+"inicio": 162.88,
+"fim": 163.8,
+"linha": 47,
+"secao": "HOOK",
+"prob": 0.798
+},
+{
+"palavra": "Eu",
+"inicio": 163.8,
+"fim": 165.3,
+"linha": 48,
+"secao": "HOOK",
+"prob": 0.015
+},
+{
+"palavra": "escrevo",
+"inicio": 165.3,
+"fim": 166.0,
+"linha": 48,
+"secao": "HOOK",
+"prob": 0.968
+},
+{
+"palavra": "na",
+"inicio": 166.0,
+"fim": 166.26,
+"linha": 48,
+"secao": "HOOK",
+"prob": 0.99
+},
+{
+"palavra": "palma",
+"inicio": 166.26,
+"fim": 166.68,
+"linha": 48,
+"secao": "HOOK",
+"prob": 0.975
+},
+{
+"palavra": "da",
+"inicio": 166.68,
+"fim": 167.0,
+"linha": 48,
+"secao": "HOOK",
+"prob": 0.99
+},
+{
+"palavra": "mão",
+"inicio": 167.0,
+"fim": 167.58,
+"linha": 48,
+"secao": "HOOK",
+"prob": 0.995
+},
+{
+"palavra": "pra",
+"inicio": 168.7,
+"fim": 168.9,
+"linha": 49,
+"secao": "HOOK",
+"prob": 0.453
+},
+{
+"palavra": "nunca",
+"inicio": 168.9,
+"fim": 169.18,
+"linha": 49,
+"secao": "HOOK",
+"prob": 0.928
+},
+{
+"palavra": "esquecer",
+"inicio": 169.18,
+"fim": 169.72,
+"linha": 49,
+"secao": "HOOK",
+"prob": 0.992
+},
+{
+"palavra": "quem",
+"inicio": 169.72,
+"fim": 169.96,
+"linha": 49,
+"secao": "HOOK",
+"prob": 0.988
+},
+{
+"palavra": "somos,",
+"inicio": 169.96,
+"fim": 170.42,
+"linha": 49,
+"secao": "HOOK",
+"prob": 0.646
+},
+{
+"palavra": "não!",
+"inicio": 170.42,
+"fim": 172.62,
+"linha": 49,
+"secao": "HOOK",
+"prob": 0.517
+},
+{
+"palavra": "Se",
+"inicio": 172.92,
+"fim": 172.92,
+"linha": 50,
+"secao": "HOOK",
+"prob": 0.74
+},
+{
+"palavra": "o",
+"inicio": 172.92,
+"fim": 173.24,
+"linha": 50,
+"secao": "HOOK",
+"prob": 0.2
+},
+{
+"palavra": "mundo",
+"inicio": 173.24,
+"fim": 173.76,
+"linha": 50,
+"secao": "HOOK",
+"prob": 0.978
+},
+{
+"palavra": "ruir,",
+"inicio": 173.76,
+"fim": 174.4,
+"linha": 50,
+"secao": "HOOK",
+"prob": 0.656
+},
+{
+"palavra": "ruir,",
+"inicio": 174.4,
+"fim": 175.02,
+"linha": 50,
+"secao": "HOOK",
+"prob": 0.979
+},
+{
+"palavra": "ruir",
+"inicio": 175.02,
+"fim": 175.66,
+"linha": 50,
+"secao": "HOOK",
+"prob": 0.995
+},
+{
+"palavra": "entre",
+"inicio": 175.86,
+"fim": 176.1,
+"linha": 51,
+"secao": "HOOK",
+"prob": 0.514
+},
+{
+"palavra": "o",
+"inicio": 176.1,
+"fim": 176.32,
+"linha": 51,
+"secao": "HOOK",
+"prob": 0.992
+},
+{
+"palavra": "vermelho",
+"inicio": 176.32,
+"fim": 176.84,
+"linha": 51,
+"secao": "HOOK",
+"prob": 0.987
+},
+{
+"palavra": "e",
+"inicio": 176.84,
+"fim": 176.84,
+"linha": 51,
+"secao": "HOOK",
+"prob": 0.551
+},
+{
+"palavra": "o",
+"inicio": 176.84,
+"fim": 177.14,
+"linha": 51,
+"secao": "HOOK",
+"prob": 0.972
+},
+{
+"palavra": "azul",
+"inicio": 177.14,
+"fim": 177.32,
+"linha": 51,
+"secao": "HOOK",
+"prob": 0.987
+},
+{
+"palavra": "no",
+"inicio": 177.32,
+"fim": 177.7,
+"linha": 51,
+"secao": "HOOK",
+"prob": 0.975
+},
+{
+"palavra": "ar",
+"inicio": 177.7,
+"fim": 178.02,
+"linha": 51,
+"secao": "HOOK",
+"prob": 0.992
+},
+{
+"palavra": "Nosso",
+"inicio": 179.32,
+"fim": 179.74,
+"linha": 52,
+"secao": "HOOK",
+"prob": 0.525
+},
+{
+"palavra": "vazio",
+"inicio": 179.74,
+"fim": 180.3,
+"linha": 52,
+"secao": "HOOK",
+"prob": 0.982
+},
+{
+"palavra": "vira",
+"inicio": 180.3,
+"fim": 180.88,
+"linha": 52,
+"secao": "HOOK",
+"prob": 0.737
+},
+{
+"palavra": "infinito",
+"inicio": 180.88,
+"fim": 181.9,
+"linha": 52,
+"secao": "HOOK",
+"prob": 0.974
+},
+{
+"palavra": "e",
+"inicio": 182.24,
+"fim": 182.24,
+"linha": 53,
+"secao": "HOOK",
+"prob": 0.658
+},
+{
+"palavra": "eu",
+"inicio": 182.24,
+"fim": 182.68,
+"linha": 53,
+"secao": "HOOK",
+"prob": 0.989
+},
+{
+"palavra": "aprendo",
+"inicio": 182.68,
+"fim": 183.76,
+"linha": 53,
+"secao": "HOOK",
+"prob": 0.96
+},
+{
+"palavra": "o",
+"inicio": 183.76,
+"fim": 183.98,
+"linha": 53,
+"secao": "HOOK",
+"prob": 0.002
+},
+{
+"palavra": "que",
+"inicio": 183.98,
+"fim": 184.18,
+"linha": 53,
+"secao": "HOOK",
+"prob": 0.821
+},
+{
+"palavra": "é",
+"inicio": 184.18,
+"fim": 184.2,
+"linha": 53,
+"secao": "HOOK",
+"prob": 0.487
+},
+{
+"palavra": "te",
+"inicio": 184.2,
+"fim": 184.66,
+"linha": 53,
+"secao": "HOOK",
+"prob": 0.507
+},
+{
+"palavra": "amar!",
+"inicio": 184.66,
+"fim": 186.8,
+"linha": 53,
+"secao": "HOOK",
+"prob": 0.637
+},
+{
+"palavra": "Oh,",
+"inicio": 187.08,
+"fim": 187.08,
+"linha": 54,
+"secao": "HOOK",
+"prob": 0.27
+},
+{
+"palavra": "minha",
+"inicio": 187.08,
+"fim": 187.22,
+"linha": 54,
+"secao": "HOOK",
+"prob": 0.914
+},
+{
+"palavra": "Asa",
+"inicio": 187.22,
+"fim": 187.74,
+"linha": 54,
+"secao": "HOOK",
+"prob": 0.527
+},
+{
+"palavra": "Carmesim,",
+"inicio": 187.74,
+"fim": 188.18,
+"linha": 54,
+"secao": "HOOK",
+"prob": 0.224
+},
+{
+"palavra": "-sim,",
+"inicio": 188.74,
+"fim": 188.94,
+"linha": 54,
+"secao": "HOOK",
+"prob": 0.127
+},
+{
+"palavra": "-sim",
+"inicio": 188.94,
+"fim": 189.6,
+"linha": 54,
+"secao": "HOOK",
+"prob": 0.417
+},
+{
+"palavra": "divide",
+"inicio": 189.74,
+"fim": 190.16,
+"linha": 55,
+"secao": "HOOK",
+"prob": 0.016
+},
+{
+"palavra": "esse",
+"inicio": 190.16,
+"fim": 190.6,
+"linha": 55,
+"secao": "HOOK",
+"prob": 0.486
+},
+{
+"palavra": "cálice",
+"inicio": 190.6,
+"fim": 191.12,
+"linha": 55,
+"secao": "HOOK",
+"prob": 0.494
+},
+{
+"palavra": "até",
+"inicio": 191.12,
+"fim": 191.46,
+"linha": 55,
+"secao": "HOOK",
+"prob": 0.959
+},
+{
+"palavra": "o",
+"inicio": 191.46,
+"fim": 191.74,
+"linha": 55,
+"secao": "HOOK",
+"prob": 0.979
+},
+{
+"palavra": "fim,",
+"inicio": 191.74,
+"fim": 192.02,
+"linha": 55,
+"secao": "HOOK",
+"prob": 0.659
+},
+{
+"palavra": "-fim,",
+"inicio": 192.06,
+"fim": 192.52,
+"linha": 55,
+"secao": "HOOK",
+"prob": 0.711
+},
+{
+"palavra": "-fim",
+"inicio": 192.52,
+"fim": 192.74,
+"linha": 55,
+"secao": "HOOK",
+"prob": 0.956
+},
+{
+"palavra": "mesmo",
+"inicio": 192.92,
+"fim": 193.1,
+"linha": 56,
+"secao": "HOOK",
+"prob": 0.906
+},
+{
+"palavra": "que",
+"inicio": 193.1,
+"fim": 193.38,
+"linha": 56,
+"secao": "HOOK",
+"prob": 0.986
+},
+{
+"palavra": "o",
+"inicio": 193.38,
+"fim": 193.52,
+"linha": 56,
+"secao": "HOOK",
+"prob": 0.991
+},
+{
+"palavra": "mar",
+"inicio": 193.52,
+"fim": 193.74,
+"linha": 56,
+"secao": "HOOK",
+"prob": 0.965
+},
+{
+"palavra": "inteiro",
+"inicio": 193.74,
+"fim": 194.28,
+"linha": 56,
+"secao": "HOOK",
+"prob": 0.998
+},
+{
+"palavra": "vire",
+"inicio": 194.28,
+"fim": 194.72,
+"linha": 56,
+"secao": "HOOK",
+"prob": 0.957
+},
+{
+"palavra": "contra",
+"inicio": 194.72,
+"fim": 195.14,
+"linha": 56,
+"secao": "HOOK",
+"prob": 0.885
+},
+{
+"palavra": "mim,",
+"inicio": 195.14,
+"fim": 195.62,
+"linha": 56,
+"secao": "HOOK",
+"prob": 0.793
+},
+{
+"palavra": "-mim,",
+"inicio": 195.62,
+"fim": 196.14,
+"linha": 56,
+"secao": "HOOK",
+"prob": 0.714
+},
+{
+"palavra": "-mim",
+"inicio": 196.14,
+"fim": 197.0,
+"linha": 56,
+"secao": "HOOK",
+"prob": 0.952
+},
+{
+"palavra": "eu",
+"inicio": 197.16,
+"fim": 197.38,
+"linha": 57,
+"secao": "HOOK",
+"prob": 0.468
+},
+{
+"palavra": "vou",
+"inicio": 197.38,
+"fim": 197.76,
+"linha": 57,
+"secao": "HOOK",
+"prob": 0.979
+},
+{
+"palavra": "dizer",
+"inicio": 197.76,
+"fim": 198.34,
+"linha": 57,
+"secao": "HOOK",
+"prob": 0.481
+},
+{
+"palavra": "que",
+"inicio": 198.34,
+"fim": 199.12,
+"linha": 57,
+"secao": "HOOK",
+"prob": 0.546
+},
+{
+"palavra": "sim",
+"inicio": 199.12,
+"fim": 200.78,
+"linha": 57,
+"secao": "HOOK",
+"prob": 0.561
+},
+{
+"palavra": "A",
+"inicio": 202.02,
+"fim": 202.32,
+"linha": 58,
+"secao": "VERSE 2",
+"prob": 0.031
+},
+{
+"palavra": "água",
+"inicio": 202.32,
+"fim": 202.44,
+"linha": 58,
+"secao": "VERSE 2",
+"prob": 0.961
+},
+{
+"palavra": "que",
+"inicio": 202.44,
+"fim": 202.62,
+"linha": 58,
+"secao": "VERSE 2",
+"prob": 0.258
+},
+{
+"palavra": "acalma",
+"inicio": 202.68,
+"fim": 203.06,
+"linha": 58,
+"secao": "VERSE 2",
+"prob": 0.765
+},
+{
+"palavra": "a",
+"inicio": 203.06,
+"fim": 203.14,
+"linha": 58,
+"secao": "VERSE 2",
+"prob": 0.044
+},
+{
+"palavra": "chama",
+"inicio": 203.14,
+"fim": 203.46,
+"linha": 58,
+"secao": "VERSE 2",
+"prob": 0.08
+},
+{
+"palavra": "na",
+"inicio": 203.46,
+"fim": 203.7,
+"linha": 58,
+"secao": "VERSE 2",
+"prob": 0.0
+},
+{
+"palavra": "dor",
+"inicio": 203.7,
+"fim": 203.8,
+"linha": 58,
+"secao": "VERSE 2",
+"prob": 0.75
+},
+{
+"palavra": "a",
+"inicio": 203.82,
+"fim": 204.04,
+"linha": 59,
+"secao": "VERSE 2",
+"prob": 0.422
+},
+{
+"palavra": "luz",
+"inicio": 204.04,
+"fim": 204.2,
+"linha": 59,
+"secao": "VERSE 2",
+"prob": 0.994
+},
+{
+"palavra": "que",
+"inicio": 204.2,
+"fim": 204.4,
+"linha": 59,
+"secao": "VERSE 2",
+"prob": 0.962
+},
+{
+"palavra": "ilumina",
+"inicio": 204.4,
+"fim": 204.64,
+"linha": 59,
+"secao": "VERSE 2",
+"prob": 0.98
+},
+{
+"palavra": "quem",
+"inicio": 204.64,
+"fim": 204.92,
+"linha": 59,
+"secao": "VERSE 2",
+"prob": 0.657
+},
+{
+"palavra": "tudo",
+"inicio": 204.92,
+"fim": 205.16,
+"linha": 59,
+"secao": "VERSE 2",
+"prob": 0.869
+},
+{
+"palavra": "apagou",
+"inicio": 205.16,
+"fim": 205.58,
+"linha": 59,
+"secao": "VERSE 2",
+"prob": 0.662
+},
+{
+"palavra": "carrego",
+"inicio": 205.78,
+"fim": 206.08,
+"linha": 60,
+"secao": "VERSE 2",
+"prob": 0.226
+},
+{
+"palavra": "esse",
+"inicio": 206.08,
+"fim": 206.32,
+"linha": 60,
+"secao": "VERSE 2",
+"prob": 0.032
+},
+{
+"palavra": "peso",
+"inicio": 206.32,
+"fim": 206.44,
+"linha": 60,
+"secao": "VERSE 2",
+"prob": 0.016
+},
+{
+"palavra": "no",
+"inicio": 206.44,
+"fim": 206.66,
+"linha": 60,
+"secao": "VERSE 2",
+"prob": 0.609
+},
+{
+"palavra": "espaço",
+"inicio": 206.66,
+"fim": 206.86,
+"linha": 60,
+"secao": "VERSE 2",
+"prob": 0.918
+},
+{
+"palavra": "sem",
+"inicio": 206.86,
+"fim": 207.1,
+"linha": 60,
+"secao": "VERSE 2",
+"prob": 0.4
+},
+{
+"palavra": "fim",
+"inicio": 207.1,
+"fim": 207.3,
+"linha": 60,
+"secao": "VERSE 2",
+"prob": 0.981
+},
+{
+"palavra": "a",
+"inicio": 207.38,
+"fim": 207.54,
+"linha": 61,
+"secao": "VERSE 2",
+"prob": 0.683
+},
+{
+"palavra": "flor",
+"inicio": 207.54,
+"fim": 207.74,
+"linha": 61,
+"secao": "VERSE 2",
+"prob": 0.993
+},
+{
+"palavra": "na",
+"inicio": 207.74,
+"fim": 207.9,
+"linha": 61,
+"secao": "VERSE 2",
+"prob": 0.779
+},
+{
+"palavra": "batalha",
+"inicio": 207.9,
+"fim": 208.24,
+"linha": 61,
+"secao": "VERSE 2",
+"prob": 0.991
+},
+{
+"palavra": "que",
+"inicio": 208.24,
+"fim": 208.5,
+"linha": 61,
+"secao": "VERSE 2",
+"prob": 0.586
+},
+{
+"palavra": "sangra",
+"inicio": 208.5,
+"fim": 208.62,
+"linha": 61,
+"secao": "VERSE 2",
+"prob": 0.285
+},
+{
+"palavra": "por",
+"inicio": 208.62,
+"fim": 208.86,
+"linha": 61,
+"secao": "VERSE 2",
+"prob": 0.005
+},
+{
+"palavra": "mim",
+"inicio": 208.86,
+"fim": 209.06,
+"linha": 61,
+"secao": "VERSE 2",
+"prob": 0.998
+},
+{
+"palavra": "carmesim,",
+"inicio": 209.12,
+"fim": 209.54,
+"linha": 62,
+"secao": "VERSE 2",
+"prob": 0.207
+},
+{
+"palavra": "teu",
+"inicio": 209.54,
+"fim": 209.64,
+"linha": 62,
+"secao": "VERSE 2",
+"prob": 0.903
+},
+{
+"palavra": "cabelo",
+"inicio": 209.68,
+"fim": 209.94,
+"linha": 62,
+"secao": "VERSE 2",
+"prob": 0.695
+},
+{
+"palavra": "brilha",
+"inicio": 209.94,
+"fim": 210.16,
+"linha": 62,
+"secao": "VERSE 2",
+"prob": 0.764
+},
+{
+"palavra": "quando",
+"inicio": 210.2,
+"fim": 210.36,
+"linha": 62,
+"secao": "VERSE 2",
+"prob": 0.957
+},
+{
+"palavra": "a",
+"inicio": 210.36,
+"fim": 210.5,
+"linha": 62,
+"secao": "VERSE 2",
+"prob": 0.96
+},
+{
+"palavra": "armadura",
+"inicio": 210.5,
+"fim": 210.8,
+"linha": 62,
+"secao": "VERSE 2",
+"prob": 0.993
+},
+{
+"palavra": "cai",
+"inicio": 210.8,
+"fim": 211.04,
+"linha": 62,
+"secao": "VERSE 2",
+"prob": 0.961
+},
+{
+"palavra": "no",
+"inicio": 211.04,
+"fim": 211.34,
+"linha": 62,
+"secao": "VERSE 2",
+"prob": 0.989
+},
+{
+"palavra": "chão",
+"inicio": 211.34,
+"fim": 212.14,
+"linha": 62,
+"secao": "VERSE 2",
+"prob": 0.997
+},
+{
+"palavra": "corto",
+"inicio": 212.7,
+"fim": 213.16,
+"linha": 63,
+"secao": "VERSE 2",
+"prob": 0.36
+},
+{
+"palavra": "o",
+"inicio": 213.16,
+"fim": 213.16,
+"linha": 63,
+"secao": "VERSE 2",
+"prob": 0.301
+},
+{
+"palavra": "próprio",
+"inicio": 213.16,
+"fim": 213.5,
+"linha": 63,
+"secao": "VERSE 2",
+"prob": 0.855
+},
+{
+"palavra": "trovão",
+"inicio": 213.54,
+"fim": 213.92,
+"linha": 63,
+"secao": "VERSE 2",
+"prob": 0.851
+},
+{
+"palavra": "em",
+"inicio": 213.92,
+"fim": 214.0,
+"linha": 63,
+"secao": "VERSE 2",
+"prob": 0.683
+},
+{
+"palavra": "dois",
+"inicio": 214.0,
+"fim": 214.18,
+"linha": 63,
+"secao": "VERSE 2",
+"prob": 0.482
+},
+{
+"palavra": "pra",
+"inicio": 214.2,
+"fim": 214.38,
+"linha": 63,
+"secao": "VERSE 2",
+"prob": 0.793
+},
+{
+"palavra": "ser",
+"inicio": 214.38,
+"fim": 214.62,
+"linha": 63,
+"secao": "VERSE 2",
+"prob": 0.945
+},
+{
+"palavra": "a",
+"inicio": 214.62,
+"fim": 215.02,
+"linha": 63,
+"secao": "VERSE 2",
+"prob": 0.021
+},
+{
+"palavra": "tua",
+"inicio": 215.02,
+"fim": 215.12,
+"linha": 63,
+"secao": "VERSE 2",
+"prob": 0.721
+},
+{
+"palavra": "proteção",
+"inicio": 215.12,
+"fim": 215.8,
+"linha": 63,
+"secao": "VERSE 2",
+"prob": 0.994
+},
+{
+"palavra": "sem",
+"inicio": 216.1,
+"fim": 216.1,
+"linha": 64,
+"secao": "VERSE 2",
+"prob": 0.566
+},
+{
+"palavra": "muralha,",
+"inicio": 216.1,
+"fim": 216.64,
+"linha": 64,
+"secao": "VERSE 2",
+"prob": 0.657
+},
+{
+"palavra": "piso",
+"inicio": 216.64,
+"fim": 216.98,
+"linha": 64,
+"secao": "VERSE 2",
+"prob": 0.846
+},
+{
+"palavra": "no",
+"inicio": 216.98,
+"fim": 217.2,
+"linha": 64,
+"secao": "VERSE 2",
+"prob": 0.976
+},
+{
+"palavra": "mundo",
+"inicio": 217.2,
+"fim": 217.5,
+"linha": 64,
+"secao": "VERSE 2",
+"prob": 0.993
+},
+{
+"palavra": "inteiro",
+"inicio": 217.5,
+"fim": 217.94,
+"linha": 64,
+"secao": "VERSE 2",
+"prob": 0.994
+},
+{
+"palavra": "se",
+"inicio": 217.94,
+"fim": 218.18,
+"linha": 64,
+"secao": "VERSE 2",
+"prob": 0.802
+},
+{
+"palavra": "tentarem",
+"inicio": 218.18,
+"fim": 218.92,
+"linha": 64,
+"secao": "VERSE 2",
+"prob": 0.639
+},
+{
+"palavra": "te",
+"inicio": 218.92,
+"fim": 219.28,
+"linha": 64,
+"secao": "VERSE 2",
+"prob": 0.028
+},
+{
+"palavra": "prender",
+"inicio": 219.28,
+"fim": 219.62,
+"linha": 64,
+"secao": "VERSE 2",
+"prob": 0.99
+},
+{
+"palavra": "meu",
+"inicio": 219.66,
+"fim": 219.86,
+"linha": 65,
+"secao": "VERSE 2",
+"prob": 0.806
+},
+{
+"palavra": "cachecol,",
+"inicio": 219.86,
+"fim": 220.52,
+"linha": 65,
+"secao": "VERSE 2",
+"prob": 0.417
+},
+{
+"palavra": "te",
+"inicio": 220.52,
+"fim": 220.72,
+"linha": 65,
+"secao": "VERSE 2",
+"prob": 0.009
+},
+{
+"palavra": "enrola",
+"inicio": 220.72,
+"fim": 221.14,
+"linha": 65,
+"secao": "VERSE 2",
+"prob": 0.986
+},
+{
+"palavra": "no",
+"inicio": 221.14,
+"fim": 221.46,
+"linha": 65,
+"secao": "VERSE 2",
+"prob": 0.99
+},
+{
+"palavra": "frio",
+"inicio": 221.46,
+"fim": 221.72,
+"linha": 65,
+"secao": "VERSE 2",
+"prob": 0.997
+},
+{
+"palavra": "pra",
+"inicio": 221.72,
+"fim": 221.96,
+"linha": 65,
+"secao": "VERSE 2",
+"prob": 0.662
+},
+{
+"palavra": "você",
+"inicio": 221.96,
+"fim": 222.3,
+"linha": 65,
+"secao": "VERSE 2",
+"prob": 0.991
+},
+{
+"palavra": "se",
+"inicio": 222.3,
+"fim": 222.62,
+"linha": 65,
+"secao": "VERSE 2",
+"prob": 0.993
+},
+{
+"palavra": "aquecer",
+"inicio": 222.62,
+"fim": 223.16,
+"linha": 65,
+"secao": "VERSE 2",
+"prob": 0.888
+},
+{
+"palavra": "mesmo",
+"inicio": 223.36,
+"fim": 223.5,
+"linha": 66,
+"secao": "VERSE 2",
+"prob": 0.842
+},
+{
+"palavra": "que",
+"inicio": 223.5,
+"fim": 223.7,
+"linha": 66,
+"secao": "VERSE 2",
+"prob": 0.989
+},
+{
+"palavra": "a",
+"inicio": 223.7,
+"fim": 223.78,
+"linha": 66,
+"secao": "VERSE 2",
+"prob": 0.994
+},
+{
+"palavra": "noite",
+"inicio": 223.78,
+"fim": 224.06,
+"linha": 66,
+"secao": "VERSE 2",
+"prob": 0.994
+},
+{
+"palavra": "te",
+"inicio": 224.06,
+"fim": 224.42,
+"linha": 66,
+"secao": "VERSE 2",
+"prob": 0.91
+},
+{
+"palavra": "mude,",
+"inicio": 224.42,
+"fim": 224.88,
+"linha": 66,
+"secao": "VERSE 2",
+"prob": 0.73
+},
+{
+"palavra": "nunca",
+"inicio": 224.88,
+"fim": 225.1,
+"linha": 66,
+"secao": "VERSE 2",
+"prob": 0.968
+},
+{
+"palavra": "volto",
+"inicio": 225.44,
+"fim": 225.54,
+"linha": 66,
+"secao": "VERSE 2",
+"prob": 0.917
+},
+{
+"palavra": "atrás",
+"inicio": 225.54,
+"fim": 225.86,
+"linha": 66,
+"secao": "VERSE 2",
+"prob": 0.976
+},
+{
+"palavra": "na",
+"inicio": 225.86,
+"fim": 226.2,
+"linha": 66,
+"secao": "VERSE 2",
+"prob": 0.169
+},
+{
+"palavra": "palavra",
+"inicio": 226.2,
+"fim": 226.84,
+"linha": 66,
+"secao": "VERSE 2",
+"prob": 0.991
+},
+{
+"palavra": "te",
+"inicio": 227.1,
+"fim": 227.28,
+"linha": 67,
+"secao": "VERSE 2",
+"prob": 0.733
+},
+{
+"palavra": "carrego",
+"inicio": 227.28,
+"fim": 227.78,
+"linha": 67,
+"secao": "VERSE 2",
+"prob": 0.852
+},
+{
+"palavra": "numa",
+"inicio": 227.78,
+"fim": 228.14,
+"linha": 67,
+"secao": "VERSE 2",
+"prob": 0.955
+},
+{
+"palavra": "caixa",
+"inicio": 228.18,
+"fim": 228.58,
+"linha": 67,
+"secao": "VERSE 2",
+"prob": 0.998
+},
+{
+"palavra": "até",
+"inicio": 228.58,
+"fim": 228.92,
+"linha": 67,
+"secao": "VERSE 2",
+"prob": 0.783
+},
+{
+"palavra": "o",
+"inicio": 228.92,
+"fim": 229.12,
+"linha": 67,
+"secao": "VERSE 2",
+"prob": 0.961
+},
+{
+"palavra": "sol",
+"inicio": 229.12,
+"fim": 229.38,
+"linha": 67,
+"secao": "VERSE 2",
+"prob": 0.751
+},
+{
+"palavra": "limpar",
+"inicio": 229.38,
+"fim": 229.94,
+"linha": 67,
+"secao": "VERSE 2",
+"prob": 0.061
+},
+{
+"palavra": "a",
+"inicio": 229.94,
+"fim": 230.02,
+"linha": 67,
+"secao": "VERSE 2",
+"prob": 0.954
+},
+{
+"palavra": "estrada",
+"inicio": 230.02,
+"fim": 230.38,
+"linha": 67,
+"secao": "VERSE 2",
+"prob": 0.996
+},
+{
+"palavra": "não",
+"inicio": 230.42,
+"fim": 230.64,
+"linha": 68,
+"secao": "VERSE 2",
+"prob": 0.848
+},
+{
+"palavra": "tenho",
+"inicio": 230.64,
+"fim": 231.02,
+"linha": 68,
+"secao": "VERSE 2",
+"prob": 0.982
+},
+{
+"palavra": "mais",
+"inicio": 231.02,
+"fim": 231.5,
+"linha": 68,
+"secao": "VERSE 2",
+"prob": 0.995
+},
+{
+"palavra": "inimigos",
+"inicio": 231.5,
+"fim": 232.14,
+"linha": 68,
+"secao": "VERSE 2",
+"prob": 0.994
+},
+{
+"palavra": "quando",
+"inicio": 232.14,
+"fim": 232.46,
+"linha": 68,
+"secao": "VERSE 2",
+"prob": 0.079
+},
+{
+"palavra": "acordo",
+"inicio": 232.46,
+"fim": 232.96,
+"linha": 68,
+"secao": "VERSE 2",
+"prob": 0.903
+},
+{
+"palavra": "do",
+"inicio": 232.96,
+"fim": 233.3,
+"linha": 68,
+"secao": "VERSE 2",
+"prob": 0.942
+},
+{
+"palavra": "teu",
+"inicio": 233.3,
+"fim": 233.52,
+"linha": 68,
+"secao": "VERSE 2",
+"prob": 0.99
+},
+{
+"palavra": "lado",
+"inicio": 233.52,
+"fim": 233.9,
+"linha": 68,
+"secao": "VERSE 2",
+"prob": 0.996
+},
+{
+"palavra": "todo",
+"inicio": 234.22,
+"fim": 234.3,
+"linha": 69,
+"secao": "VERSE 2",
+"prob": 0.78
+},
+{
+"palavra": "meu",
+"inicio": 234.3,
+"fim": 234.68,
+"linha": 69,
+"secao": "VERSE 2",
+"prob": 0.706
+},
+{
+"palavra": "odio",
+"inicio": 234.68,
+"fim": 235.0,
+"linha": 69,
+"secao": "VERSE 2",
+"prob": 0.506
+},
+{
+"palavra": "ficou",
+"inicio": 235.0,
+"fim": 235.46,
+"linha": 69,
+"secao": "VERSE 2",
+"prob": 0.956
+},
+{
+"palavra": "lá",
+"inicio": 235.46,
+"fim": 235.82,
+"linha": 69,
+"secao": "VERSE 2",
+"prob": 0.85
+},
+{
+"palavra": "atrás",
+"inicio": 235.82,
+"fim": 237.26,
+"linha": 69,
+"secao": "VERSE 2",
+"prob": 0.798
+},
+{
+"palavra": "mesmo",
+"inicio": 237.82,
+"fim": 237.82,
+"linha": 70,
+"secao": "VERSE 2",
+"prob": 0.904
+},
+{
+"palavra": "que",
+"inicio": 237.82,
+"fim": 238.24,
+"linha": 70,
+"secao": "VERSE 2",
+"prob": 0.956
+},
+{
+"palavra": "passem",
+"inicio": 238.24,
+"fim": 238.6,
+"linha": 70,
+"secao": "VERSE 2",
+"prob": 0.825
+},
+{
+"palavra": "mil",
+"inicio": 238.6,
+"fim": 238.8,
+"linha": 70,
+"secao": "VERSE 2",
+"prob": 0.971
+},
+{
+"palavra": "anos",
+"inicio": 238.8,
+"fim": 239.22,
+"linha": 70,
+"secao": "VERSE 2",
+"prob": 0.995
+},
+{
+"palavra": "após",
+"inicio": 239.22,
+"fim": 239.74,
+"linha": 70,
+"secao": "VERSE 2",
+"prob": 0.98
+},
+{
+"palavra": "o",
+"inicio": 239.74,
+"fim": 239.94,
+"linha": 70,
+"secao": "VERSE 2",
+"prob": 0.985
+},
+{
+"palavra": "fim",
+"inicio": 239.94,
+"fim": 240.1,
+"linha": 70,
+"secao": "VERSE 2",
+"prob": 0.997
+},
+{
+"palavra": "do",
+"inicio": 240.1,
+"fim": 240.4,
+"linha": 70,
+"secao": "VERSE 2",
+"prob": 0.996
+},
+{
+"palavra": "passado",
+"inicio": 240.4,
+"fim": 241.14,
+"linha": 70,
+"secao": "VERSE 2",
+"prob": 0.881
+},
+{
+"palavra": "Você",
+"inicio": 242.36,
+"fim": 244.26,
+"linha": 71,
+"secao": "BRIDGE",
+"prob": 0.406
+},
+{
+"palavra": "é",
+"inicio": 244.26,
+"fim": 244.5,
+"linha": 71,
+"secao": "BRIDGE",
+"prob": 0.957
+},
+{
+"palavra": "o",
+"inicio": 244.5,
+"fim": 244.7,
+"linha": 71,
+"secao": "BRIDGE",
+"prob": 0.993
+},
+{
+"palavra": "fogo",
+"inicio": 244.7,
+"fim": 245.18,
+"linha": 71,
+"secao": "BRIDGE",
+"prob": 0.988
+},
+{
+"palavra": "que",
+"inicio": 245.22,
+"fim": 245.54,
+"linha": 71,
+"secao": "BRIDGE",
+"prob": 0.942
+},
+{
+"palavra": "move",
+"inicio": 245.54,
+"fim": 245.78,
+"linha": 71,
+"secao": "BRIDGE",
+"prob": 0.943
+},
+{
+"palavra": "esse",
+"inicio": 246.0,
+"fim": 246.1,
+"linha": 71,
+"secao": "BRIDGE",
+"prob": 0.878
+},
+{
+"palavra": "castelo",
+"inicio": 246.1,
+"fim": 246.94,
+"linha": 71,
+"secao": "BRIDGE",
+"prob": 0.995
+},
+{
+"palavra": "no",
+"inicio": 247.18,
+"fim": 247.28,
+"linha": 71,
+"secao": "BRIDGE",
+"prob": 0.918
+},
+{
+"palavra": "frio",
+"inicio": 247.28,
+"fim": 247.5,
+"linha": 71,
+"secao": "BRIDGE",
+"prob": 0.997
+},
+{
+"palavra": "porque",
+"inicio": 247.52,
+"fim": 247.84,
+"linha": 72,
+"secao": "BRIDGE",
+"prob": 0.812
+},
+{
+"palavra": "a",
+"inicio": 247.84,
+"fim": 248.0,
+"linha": 72,
+"secao": "BRIDGE",
+"prob": 0.972
+},
+{
+"palavra": "tua",
+"inicio": 248.0,
+"fim": 248.18,
+"linha": 72,
+"secao": "BRIDGE",
+"prob": 0.948
+},
+{
+"palavra": "voz",
+"inicio": 248.18,
+"fim": 248.42,
+"linha": 72,
+"secao": "BRIDGE",
+"prob": 0.998
+},
+{
+"palavra": "me",
+"inicio": 248.42,
+"fim": 248.74,
+"linha": 72,
+"secao": "BRIDGE",
+"prob": 0.98
+},
+{
+"palavra": "alcançou",
+"inicio": 248.74,
+"fim": 249.32,
+"linha": 72,
+"secao": "BRIDGE",
+"prob": 0.992
+},
+{
+"palavra": "no",
+"inicio": 249.32,
+"fim": 249.54,
+"linha": 72,
+"secao": "BRIDGE",
+"prob": 0.973
+},
+{
+"palavra": "fundo",
+"inicio": 249.56,
+"fim": 249.88,
+"linha": 72,
+"secao": "BRIDGE",
+"prob": 0.999
+},
+{
+"palavra": "do",
+"inicio": 249.96,
+"fim": 250.36,
+"linha": 72,
+"secao": "BRIDGE",
+"prob": 0.99
+},
+{
+"palavra": "meu",
+"inicio": 250.36,
+"fim": 250.64,
+"linha": 72,
+"secao": "BRIDGE",
+"prob": 0.996
+},
+{
+"palavra": "vazio...",
+"inicio": 250.64,
+"fim": 251.14,
+"linha": 72,
+"secao": "BRIDGE",
+"prob": 0.659
+},
+{
+"palavra": "Mesmo",
+"inicio": 251.16,
+"fim": 251.54,
+"linha": 73,
+"secao": "BRIDGE",
+"prob": 0.567
+},
+{
+"palavra": "nascendo",
+"inicio": 251.54,
+"fim": 252.38,
+"linha": 73,
+"secao": "BRIDGE",
+"prob": 0.953
+},
+{
+"palavra": "sem",
+"inicio": 252.38,
+"fim": 252.72,
+"linha": 73,
+"secao": "BRIDGE",
+"prob": 0.571
+},
+{
+"palavra": "dom",
+"inicio": 252.72,
+"fim": 252.92,
+"linha": 73,
+"secao": "BRIDGE",
+"prob": 0.215
+},
+{
+"palavra": "nesse",
+"inicio": 252.92,
+"fim": 253.3,
+"linha": 73,
+"secao": "BRIDGE",
+"prob": 0.915
+},
+{
+"palavra": "terreno",
+"inicio": 253.32,
+"fim": 254.14,
+"linha": 73,
+"secao": "BRIDGE",
+"prob": 0.993
+},
+{
+"palavra": "sem",
+"inicio": 254.14,
+"fim": 254.44,
+"linha": 73,
+"secao": "BRIDGE",
+"prob": 0.538
+},
+{
+"palavra": "cor",
+"inicio": 254.44,
+"fim": 254.66,
+"linha": 73,
+"secao": "BRIDGE",
+"prob": 0.92
+},
+{
+"palavra": "meu",
+"inicio": 254.68,
+"fim": 254.94,
+"linha": 74,
+"secao": "BRIDGE",
+"prob": 0.073
+},
+{
+"palavra": "grimório",
+"inicio": 254.94,
+"fim": 255.5,
+"linha": 74,
+"secao": "BRIDGE",
+"prob": 0.449
+},
+{
+"palavra": "de",
+"inicio": 255.5,
+"fim": 255.84,
+"linha": 74,
+"secao": "BRIDGE",
+"prob": 0.992
+},
+{
+"palavra": "cinco",
+"inicio": 255.84,
+"fim": 256.22,
+"linha": 74,
+"secao": "BRIDGE",
+"prob": 0.686
+},
+{
+"palavra": "folhas",
+"inicio": 256.22,
+"fim": 256.68,
+"linha": 74,
+"secao": "BRIDGE",
+"prob": 0.988
+},
+{
+"palavra": "nunca",
+"inicio": 256.68,
+"fim": 257.1,
+"linha": 74,
+"secao": "BRIDGE",
+"prob": 0.93
+},
+{
+"palavra": "desistiu",
+"inicio": 257.1,
+"fim": 257.8,
+"linha": 74,
+"secao": "BRIDGE",
+"prob": 0.983
+},
+{
+"palavra": "do",
+"inicio": 257.8,
+"fim": 257.98,
+"linha": 74,
+"secao": "BRIDGE",
+"prob": 0.973
+},
+{
+"palavra": "amor",
+"inicio": 257.98,
+"fim": 258.22,
+"linha": 74,
+"secao": "BRIDGE",
+"prob": 0.994
+},
+{
+"palavra": "Mas",
+"inicio": 258.28,
+"fim": 258.46,
+"linha": 75,
+"secao": "BRIDGE",
+"prob": 0.145
+},
+{
+"palavra": "quer",
+"inicio": 258.46,
+"fim": 258.74,
+"linha": 75,
+"secao": "BRIDGE",
+"prob": 0.919
+},
+{
+"palavra": "saber",
+"inicio": 258.74,
+"fim": 260.46,
+"linha": 75,
+"secao": "BRIDGE",
+"prob": 0.967
+},
+{
+"palavra": "da",
+"inicio": 260.46,
+"fim": 262.16,
+"linha": 75,
+"secao": "BRIDGE",
+"prob": 0.079
+},
+{
+"palavra": "real?",
+"inicio": 262.16,
+"fim": 264.22,
+"linha": 75,
+"secao": "BRIDGE",
+"prob": 0.16
+},
+{
+"palavra": "M-M-MAS",
+"inicio": 264.34,
+"fim": 264.6,
+"linha": 76,
+"secao": "Sudden Break | Raw Aggressive Chest Scream",
+"prob": 0.348
+},
+{
+"palavra": "QUE",
+"inicio": 264.6,
+"fim": 264.86,
+"linha": 76,
+"secao": "Sudden Break | Raw Aggressive Chest Scream",
+"prob": 0.98
+},
+{
+"palavra": "SE",
+"inicio": 264.88,
+"fim": 265.32,
+"linha": 76,
+"secao": "Sudden Break | Raw Aggressive Chest Scream",
+"prob": 0.919
+},
+{
+"palavra": "FODA!",
+"inicio": 265.32,
+"fim": 266.0,
+"linha": 76,
+"secao": "Sudden Break | Raw Aggressive Chest Scream",
+"prob": 0.366
+},
+{
+"palavra": "Q-Q-Que",
+"inicio": 266.0,
+"fim": 266.06,
+"linha": 77,
+"secao": "VERSE 3",
+"prob": 0.454
+},
+{
+"palavra": "se",
+"inicio": 266.06,
+"fim": 266.2,
+"linha": 77,
+"secao": "VERSE 3",
+"prob": 0.953
+},
+{
+"palavra": "foda",
+"inicio": 266.2,
+"fim": 266.32,
+"linha": 77,
+"secao": "VERSE 3",
+"prob": 0.628
+},
+{
+"palavra": "o",
+"inicio": 266.32,
+"fim": 266.56,
+"linha": 77,
+"secao": "VERSE 3",
+"prob": 0.054
+},
+{
+"palavra": "impossível,",
+"inicio": 266.56,
+"fim": 267.12,
+"linha": 77,
+"secao": "VERSE 3",
+"prob": 0.698
+},
+{
+"palavra": "minha",
+"inicio": 267.12,
+"fim": 267.28,
+"linha": 77,
+"secao": "VERSE 3",
+"prob": 0.241
+},
+{
+"palavra": "espada",
+"inicio": 267.28,
+"fim": 267.72,
+"linha": 77,
+"secao": "VERSE 3",
+"prob": 0.994
+},
+{
+"palavra": "vai",
+"inicio": 267.72,
+"fim": 268.04,
+"linha": 77,
+"secao": "VERSE 3",
+"prob": 0.971
+},
+{
+"palavra": "rasgar",
+"inicio": 268.04,
+"fim": 268.5,
+"linha": 77,
+"secao": "VERSE 3",
+"prob": 0.993
+},
+{
+"palavra": "o",
+"inicio": 268.5,
+"fim": 268.8,
+"linha": 77,
+"secao": "VERSE 3",
+"prob": 0.989
+},
+{
+"palavra": "céu!",
+"inicio": 268.8,
+"fim": 268.9,
+"linha": 77,
+"secao": "VERSE 3",
+"prob": 0.579
+},
+{
+"palavra": "Não",
+"inicio": 268.9,
+"fim": 269.14,
+"linha": 78,
+"secao": "VERSE 3",
+"prob": 0.003
+},
+{
+"palavra": "há",
+"inicio": 269.14,
+"fim": 269.14,
+"linha": 78,
+"secao": "VERSE 3",
+"prob": 0.183
+},
+{
+"palavra": "gravidade",
+"inicio": 269.14,
+"fim": 269.96,
+"linha": 78,
+"secao": "VERSE 3",
+"prob": 0.926
+},
+{
+"palavra": "no",
+"inicio": 269.96,
+"fim": 270.26,
+"linha": 78,
+"secao": "VERSE 3",
+"prob": 0.643
+},
+{
+"palavra": "mundo",
+"inicio": 270.26,
+"fim": 270.58,
+"linha": 78,
+"secao": "VERSE 3",
+"prob": 0.956
+},
+{
+"palavra": "que",
+"inicio": 270.58,
+"fim": 271.02,
+"linha": 78,
+"secao": "VERSE 3",
+"prob": 0.005
+},
+{
+"palavra": "segure",
+"inicio": 271.02,
+"fim": 271.22,
+"linha": 78,
+"secao": "VERSE 3",
+"prob": 0.55
+},
+{
+"palavra": "o",
+"inicio": 271.22,
+"fim": 271.3,
+"linha": 78,
+"secao": "VERSE 3",
+"prob": 0.976
+},
+{
+"palavra": "que",
+"inicio": 271.34,
+"fim": 271.66,
+"linha": 78,
+"secao": "VERSE 3",
+"prob": 0.986
+},
+{
+"palavra": "é",
+"inicio": 271.66,
+"fim": 271.88,
+"linha": 78,
+"secao": "VERSE 3",
+"prob": 0.982
+},
+{
+"palavra": "meu",
+"inicio": 271.88,
+"fim": 272.06,
+"linha": 78,
+"secao": "VERSE 3",
+"prob": 0.989
+},
+{
+"palavra": "e",
+"inicio": 272.06,
+"fim": 272.34,
+"linha": 78,
+"secao": "VERSE 3",
+"prob": 0.956
+},
+{
+"palavra": "teu!",
+"inicio": 272.34,
+"fim": 272.44,
+"linha": 78,
+"secao": "VERSE 3",
+"prob": 0.718
+},
+{
+"palavra": "Eu",
+"inicio": 272.44,
+"fim": 272.68,
+"linha": 79,
+"secao": "VERSE 3",
+"prob": 0.777
+},
+{
+"palavra": "atravessei",
+"inicio": 272.68,
+"fim": 273.38,
+"linha": 79,
+"secao": "VERSE 3",
+"prob": 0.772
+},
+{
+"palavra": "as",
+"inicio": 273.38,
+"fim": 273.64,
+"linha": 79,
+"secao": "VERSE 3",
+"prob": 0.882
+},
+{
+"palavra": "doze",
+"inicio": 273.9,
+"fim": 274.0,
+"linha": 79,
+"secao": "VERSE 3",
+"prob": 0.785
+},
+{
+"palavra": "casas,",
+"inicio": 274.0,
+"fim": 274.56,
+"linha": 79,
+"secao": "VERSE 3",
+"prob": 0.513
+},
+{
+"palavra": "queimei",
+"inicio": 274.56,
+"fim": 274.84,
+"linha": 79,
+"secao": "VERSE 3",
+"prob": 0.805
+},
+{
+"palavra": "o",
+"inicio": 274.84,
+"fim": 274.94,
+"linha": 79,
+"secao": "VERSE 3",
+"prob": 0.833
+},
+{
+"palavra": "meu",
+"inicio": 274.94,
+"fim": 275.12,
+"linha": 79,
+"secao": "VERSE 3",
+"prob": 0.998
+},
+{
+"palavra": "cosmo",
+"inicio": 275.12,
+"fim": 275.54,
+"linha": 79,
+"secao": "VERSE 3",
+"prob": 0.866
+},
+{
+"palavra": "no",
+"inicio": 275.54,
+"fim": 275.82,
+"linha": 79,
+"secao": "VERSE 3",
+"prob": 0.814
+},
+{
+"palavra": "breu,",
+"inicio": 275.82,
+"fim": 275.98,
+"linha": 79,
+"secao": "VERSE 3",
+"prob": 0.344
+},
+{
+"palavra": "Pra",
+"inicio": 275.98,
+"fim": 276.2,
+"linha": 80,
+"secao": "VERSE 3",
+"prob": 0.591
+},
+{
+"palavra": "juntar",
+"inicio": 276.2,
+"fim": 276.64,
+"linha": 80,
+"secao": "VERSE 3",
+"prob": 0.987
+},
+{
+"palavra": "cada",
+"inicio": 276.64,
+"fim": 277.08,
+"linha": 80,
+"secao": "VERSE 3",
+"prob": 0.977
+},
+{
+"palavra": "fragmento",
+"inicio": 277.08,
+"fim": 277.92,
+"linha": 80,
+"secao": "VERSE 3",
+"prob": 0.979
+},
+{
+"palavra": "dentro",
+"inicio": 277.92,
+"fim": 278.28,
+"linha": 80,
+"secao": "VERSE 3",
+"prob": 0.873
+},
+{
+"palavra": "desse",
+"inicio": 278.28,
+"fim": 278.72,
+"linha": 80,
+"secao": "VERSE 3",
+"prob": 0.904
+},
+{
+"palavra": "abraço",
+"inicio": 278.72,
+"fim": 279.28,
+"linha": 80,
+"secao": "VERSE 3",
+"prob": 0.982
+},
+{
+"palavra": "teu!",
+"inicio": 279.28,
+"fim": 279.52,
+"linha": 80,
+"secao": "VERSE 3",
+"prob": 0.624
+},
+{
+"palavra": "Mesmo",
+"inicio": 279.54,
+"fim": 279.9,
+"linha": 81,
+"secao": "VERSE 3",
+"prob": 0.994
+},
+{
+"palavra": "que",
+"inicio": 279.9,
+"fim": 280.06,
+"linha": 81,
+"secao": "VERSE 3",
+"prob": 0.982
+},
+{
+"palavra": "eu",
+"inicio": 280.06,
+"fim": 280.26,
+"linha": 81,
+"secao": "VERSE 3",
+"prob": 0.902
+},
+{
+"palavra": "perca",
+"inicio": 280.26,
+"fim": 280.5,
+"linha": 81,
+"secao": "VERSE 3",
+"prob": 0.962
+},
+{
+"palavra": "o",
+"inicio": 280.5,
+"fim": 280.84,
+"linha": 81,
+"secao": "VERSE 3",
+"prob": 0.996
+},
+{
+"palavra": "controle,",
+"inicio": 280.84,
+"fim": 281.5,
+"linha": 81,
+"secao": "VERSE 3",
+"prob": 0.021
+},
+{
+"palavra": "conte",
+"inicio": 281.5,
+"fim": 281.5,
+"linha": 81,
+"secao": "VERSE 3",
+"prob": 0.001
+},
+{
+"palavra": "de",
+"inicio": 281.5,
+"fim": 281.76,
+"linha": 81,
+"secao": "VERSE 3",
+"prob": 0.915
+},
+{
+"palavra": "mil",
+"inicio": 281.76,
+"fim": 282.08,
+"linha": 81,
+"secao": "VERSE 3",
+"prob": 0.535
+},
+{
+"palavra": "menos",
+"inicio": 282.08,
+"fim": 282.54,
+"linha": 81,
+"secao": "VERSE 3",
+"prob": 0.804
+},
+{
+"palavra": "sete,",
+"inicio": 282.54,
+"fim": 282.96,
+"linha": 81,
+"secao": "VERSE 3",
+"prob": 0.675
+},
+{
+"palavra": "Se",
+"inicio": 283.18,
+"fim": 283.18,
+"linha": 82,
+"secao": "VERSE 3",
+"prob": 0.147
+},
+{
+"palavra": "morrer",
+"inicio": 283.18,
+"fim": 283.62,
+"linha": 82,
+"secao": "VERSE 3",
+"prob": 0.971
+},
+{
+"palavra": "aqui",
+"inicio": 283.74,
+"fim": 283.84,
+"linha": 82,
+"secao": "VERSE 3",
+"prob": 0.841
+},
+{
+"palavra": "for",
+"inicio": 283.84,
+"fim": 284.12,
+"linha": 82,
+"secao": "VERSE 3",
+"prob": 0.831
+},
+{
+"palavra": "real,",
+"inicio": 284.12,
+"fim": 284.88,
+"linha": 82,
+"secao": "VERSE 3",
+"prob": 0.71
+},
+{
+"palavra": "minha",
+"inicio": 284.88,
+"fim": 284.98,
+"linha": 82,
+"secao": "VERSE 3",
+"prob": 0.945
+},
+{
+"palavra": "espada",
+"inicio": 284.98,
+"fim": 285.56,
+"linha": 82,
+"secao": "VERSE 3",
+"prob": 0.985
+},
+{
+"palavra": "não",
+"inicio": 285.56,
+"fim": 285.88,
+"linha": 82,
+"secao": "VERSE 3",
+"prob": 0.791
+},
+{
+"palavra": "se",
+"inicio": 285.88,
+"fim": 286.12,
+"linha": 82,
+"secao": "VERSE 3",
+"prob": 0.956
+},
+{
+"palavra": "esquece!",
+"inicio": 286.12,
+"fim": 286.42,
+"linha": 82,
+"secao": "VERSE 3",
+"prob": 0.59
+},
+{
+"palavra": "Não",
+"inicio": 286.42,
+"fim": 286.72,
+"linha": 83,
+"secao": "VERSE 3",
+"prob": 0.68
+},
+{
+"palavra": "existe",
+"inicio": 286.72,
+"fim": 287.16,
+"linha": 83,
+"secao": "VERSE 3",
+"prob": 0.99
+},
+{
+"palavra": "troca",
+"inicio": 287.16,
+"fim": 287.58,
+"linha": 83,
+"secao": "VERSE 3",
+"prob": 0.685
+},
+{
+"palavra": "equivalente",
+"inicio": 287.58,
+"fim": 288.44,
+"linha": 83,
+"secao": "VERSE 3",
+"prob": 0.958
+},
+{
+"palavra": "pro",
+"inicio": 288.48,
+"fim": 288.66,
+"linha": 83,
+"secao": "VERSE 3",
+"prob": 0.72
+},
+{
+"palavra": "que",
+"inicio": 288.66,
+"fim": 288.96,
+"linha": 83,
+"secao": "VERSE 3",
+"prob": 0.985
+},
+{
+"palavra": "você",
+"inicio": 288.96,
+"fim": 289.4,
+"linha": 83,
+"secao": "VERSE 3",
+"prob": 0.98
+},
+{
+"palavra": "faz",
+"inicio": 289.4,
+"fim": 289.78,
+"linha": 83,
+"secao": "VERSE 3",
+"prob": 0.995
+},
+{
+"palavra": "eu",
+"inicio": 289.78,
+"fim": 290.0,
+"linha": 83,
+"secao": "VERSE 3",
+"prob": 0.006
+},
+{
+"palavra": "sentir,",
+"inicio": 290.0,
+"fim": 290.72,
+"linha": 83,
+"secao": "VERSE 3",
+"prob": 0.273
+},
+{
+"palavra": "Nem",
+"inicio": 290.74,
+"fim": 290.84,
+"linha": 84,
+"secao": "VERSE 3",
+"prob": 0.564
+},
+{
+"palavra": "que",
+"inicio": 290.84,
+"fim": 291.08,
+"linha": 84,
+"secao": "VERSE 3",
+"prob": 0.979
+},
+{
+"palavra": "eu",
+"inicio": 291.08,
+"fim": 291.26,
+"linha": 84,
+"secao": "VERSE 3",
+"prob": 0.98
+},
+{
+"palavra": "caia",
+"inicio": 291.26,
+"fim": 291.5,
+"linha": 84,
+"secao": "VERSE 3",
+"prob": 0.973
+},
+{
+"palavra": "sete",
+"inicio": 291.5,
+"fim": 291.96,
+"linha": 84,
+"secao": "VERSE 3",
+"prob": 0.861
+},
+{
+"palavra": "vezes,",
+"inicio": 291.96,
+"fim": 292.4,
+"linha": 84,
+"secao": "VERSE 3",
+"prob": 0.771
+},
+{
+"palavra": "o",
+"inicio": 292.4,
+"fim": 292.64,
+"linha": 84,
+"secao": "VERSE 3",
+"prob": 0.429
+},
+{
+"palavra": "instinto",
+"inicio": 292.64,
+"fim": 293.02,
+"linha": 84,
+"secao": "VERSE 3",
+"prob": 0.983
+},
+{
+"palavra": "faz",
+"inicio": 293.06,
+"fim": 293.5,
+"linha": 84,
+"secao": "VERSE 3",
+"prob": 0.962
+},
+{
+"palavra": "eu",
+"inicio": 293.5,
+"fim": 293.82,
+"linha": 84,
+"secao": "VERSE 3",
+"prob": 0.191
+},
+{
+"palavra": "ressurgir!",
+"inicio": 293.82,
+"fim": 294.52,
+"linha": 84,
+"secao": "VERSE 3",
+"prob": 0.69
+},
+{
+"palavra": "Atiro",
+"inicio": 294.52,
+"fim": 295.02,
+"linha": 85,
+"secao": "VERSE 3",
+"prob": 0.011
+},
+{
+"palavra": "a",
+"inicio": 295.02,
+"fim": 295.28,
+"linha": 85,
+"secao": "VERSE 3",
+"prob": 0.934
+},
+{
+"palavra": "última",
+"inicio": 295.28,
+"fim": 295.54,
+"linha": 85,
+"secao": "VERSE 3",
+"prob": 0.647
+},
+{
+"palavra": "energia",
+"inicio": 295.54,
+"fim": 296.26,
+"linha": 85,
+"secao": "VERSE 3",
+"prob": 0.991
+},
+{
+"palavra": "bem",
+"inicio": 296.26,
+"fim": 296.64,
+"linha": 85,
+"secao": "VERSE 3",
+"prob": 0.808
+},
+{
+"palavra": "na",
+"inicio": 296.64,
+"fim": 296.9,
+"linha": 85,
+"secao": "VERSE 3",
+"prob": 0.902
+},
+{
+"palavra": "ponta",
+"inicio": 296.9,
+"fim": 297.24,
+"linha": 85,
+"secao": "VERSE 3",
+"prob": 0.985
+},
+{
+"palavra": "do",
+"inicio": 297.24,
+"fim": 297.52,
+"linha": 85,
+"secao": "VERSE 3",
+"prob": 0.984
+},
+{
+"palavra": "meu",
+"inicio": 297.52,
+"fim": 297.78,
+"linha": 85,
+"secao": "VERSE 3",
+"prob": 0.998
+},
+{
+"palavra": "dedo,",
+"inicio": 297.78,
+"fim": 298.12,
+"linha": 85,
+"secao": "VERSE 3",
+"prob": 0.884
+},
+{
+"palavra": "Porque",
+"inicio": 298.12,
+"fim": 298.44,
+"linha": 86,
+"secao": "VERSE 3",
+"prob": 0.824
+},
+{
+"palavra": "a",
+"inicio": 298.44,
+"fim": 298.62,
+"linha": 86,
+"secao": "VERSE 3",
+"prob": 0.925
+},
+{
+"palavra": "chama",
+"inicio": 298.62,
+"fim": 298.94,
+"linha": 86,
+"secao": "VERSE 3",
+"prob": 0.815
+},
+{
+"palavra": "dessa",
+"inicio": 298.94,
+"fim": 299.34,
+"linha": 86,
+"secao": "VERSE 3",
+"prob": 0.952
+},
+{
+"palavra": "guilda",
+"inicio": 299.34,
+"fim": 299.8,
+"linha": 86,
+"secao": "VERSE 3",
+"prob": 0.935
+},
+{
+"palavra": "já",
+"inicio": 299.8,
+"fim": 300.16,
+"linha": 86,
+"secao": "VERSE 3",
+"prob": 0.857
+},
+{
+"palavra": "queimou",
+"inicio": 300.16,
+"fim": 300.62,
+"linha": 86,
+"secao": "VERSE 3",
+"prob": 0.805
+},
+{
+"palavra": "todo",
+"inicio": 300.62,
+"fim": 300.92,
+"linha": 86,
+"secao": "VERSE 3",
+"prob": 0.972
+},
+{
+"palavra": "o",
+"inicio": 300.92,
+"fim": 301.1,
+"linha": 86,
+"secao": "VERSE 3",
+"prob": 0.519
+},
+{
+"palavra": "meu",
+"inicio": 301.1,
+"fim": 301.32,
+"linha": 86,
+"secao": "VERSE 3",
+"prob": 0.998
+},
+{
+"palavra": "medo!",
+"inicio": 301.32,
+"fim": 301.4,
+"linha": 86,
+"secao": "VERSE 3",
+"prob": 0.705
+},
+{
+"palavra": "Se",
+"inicio": 301.56,
+"fim": 301.6,
+"linha": 87,
+"secao": "VERSE 3",
+"prob": 0.678
+},
+{
+"palavra": "amar",
+"inicio": 301.6,
+"fim": 301.9,
+"linha": 87,
+"secao": "VERSE 3",
+"prob": 0.54
+},
+{
+"palavra": "você",
+"inicio": 301.9,
+"fim": 302.2,
+"linha": 87,
+"secao": "VERSE 3",
+"prob": 0.981
+},
+{
+"palavra": "for",
+"inicio": 302.2,
+"fim": 302.5,
+"linha": 87,
+"secao": "VERSE 3",
+"prob": 0.075
+},
+{
+"palavra": "meu",
+"inicio": 302.5,
+"fim": 302.76,
+"linha": 87,
+"secao": "VERSE 3",
+"prob": 0.844
+},
+{
+"palavra": "pecado,",
+"inicio": 302.76,
+"fim": 303.36,
+"linha": 87,
+"secao": "VERSE 3",
+"prob": 0.421
+},
+{
+"palavra": "carrego",
+"inicio": 303.36,
+"fim": 303.9,
+"linha": 87,
+"secao": "VERSE 3",
+"prob": 0.576
+},
+{
+"palavra": "a",
+"inicio": 303.9,
+"fim": 304.08,
+"linha": 87,
+"secao": "VERSE 3",
+"prob": 0.814
+},
+{
+"palavra": "marca",
+"inicio": 304.08,
+"fim": 304.38,
+"linha": 87,
+"secao": "VERSE 3",
+"prob": 0.98
+},
+{
+"palavra": "do",
+"inicio": 304.38,
+"fim": 304.76,
+"linha": 87,
+"secao": "VERSE 3",
+"prob": 0.994
+},
+{
+"palavra": "Dragão,",
+"inicio": 304.76,
+"fim": 305.4,
+"linha": 87,
+"secao": "VERSE 3",
+"prob": 0.372
+},
+{
+"palavra": "Porque",
+"inicio": 305.5,
+"fim": 305.5,
+"linha": 88,
+"secao": "VERSE 3",
+"prob": 0.006
+},
+{
+"palavra": "a",
+"inicio": 305.5,
+"fim": 305.62,
+"linha": 88,
+"secao": "VERSE 3",
+"prob": 0.91
+},
+{
+"palavra": "tua",
+"inicio": 305.62,
+"fim": 306.02,
+"linha": 88,
+"secao": "VERSE 3",
+"prob": 0.71
+},
+{
+"palavra": "primavera",
+"inicio": 306.02,
+"fim": 306.88,
+"linha": 88,
+"secao": "VERSE 3",
+"prob": 0.954
+},
+{
+"palavra": "trouxe",
+"inicio": 306.88,
+"fim": 307.3,
+"linha": 88,
+"secao": "VERSE 3",
+"prob": 0.966
+},
+{
+"palavra": "música",
+"inicio": 307.3,
+"fim": 307.9,
+"linha": 88,
+"secao": "VERSE 3",
+"prob": 0.897
+},
+{
+"palavra": "pra",
+"inicio": 307.9,
+"fim": 308.14,
+"linha": 88,
+"secao": "VERSE 3",
+"prob": 0.842
+},
+{
+"palavra": "escuridão",
+"inicio": 308.14,
+"fim": 309.06,
+"linha": 88,
+"secao": "VERSE 3",
+"prob": 0.998
+},
+{
+"palavra": "ma-a-ais...",
+"inicio": 309.64,
+"fim": 310.66,
+"linha": 89,
+"secao": "Sudden Break | Soaring Emotional R&B High Note Run",
+"prob": 0.307
+},
+{
+"palavra": "(ooh-yeah,",
+"inicio": 316.02,
+"fim": 317.5,
+"linha": 89,
+"secao": "Sudden Break | Soaring Emotional R&B High Note Run",
+"prob": 0.066
+},
+{
+"palavra": "aah-aah-aah!)",
+"inicio": 317.5,
+"fim": 319.5,
+"linha": 89,
+"secao": "Sudden Break | Soaring Emotional R&B High Note Run",
+"prob": 0.456
+},
+{
+"palavra": "Nunca",
+"inicio": 319.5,
+"fim": 320.56,
+"linha": 90,
+"secao": "Sudden Break | Soaring Emotional R&B High Note Run",
+"prob": 0.54
+},
+{
+"palavra": "ma-a-ais!",
+"inicio": 320.56,
+"fim": 322.8,
+"linha": 90,
+"secao": "Sudden Break | Soaring Emotional R&B High Note Run",
+"prob": 0.408
+},
+{
+"palavra": "E",
+"inicio": 322.8,
+"fim": 322.92,
+"linha": 91,
+"secao": "FINAL HOOK",
+"prob": 0.047
+},
+{
+"palavra": "se",
+"inicio": 322.92,
+"fim": 323.28,
+"linha": 91,
+"secao": "FINAL HOOK",
+"prob": 0.849
+},
+{
+"palavra": "o",
+"inicio": 323.28,
+"fim": 323.52,
+"linha": 91,
+"secao": "FINAL HOOK",
+"prob": 0.99
+},
+{
+"palavra": "céu",
+"inicio": 323.52,
+"fim": 323.66,
+"linha": 91,
+"secao": "FINAL HOOK",
+"prob": 0.984
+},
+{
+"palavra": "cair,",
+"inicio": 323.66,
+"fim": 324.42,
+"linha": 91,
+"secao": "FINAL HOOK",
+"prob": 0.895
+},
+{
+"palavra": "cair,",
+"inicio": 324.42,
+"fim": 324.98,
+"linha": 91,
+"secao": "FINAL HOOK",
+"prob": 0.973
+},
+{
+"palavra": "cair",
+"inicio": 324.98,
+"fim": 325.62,
+"linha": 91,
+"secao": "FINAL HOOK",
+"prob": 0.998
+},
+{
+"palavra": "cometa",
+"inicio": 325.74,
+"fim": 326.28,
+"linha": 92,
+"secao": "FINAL HOOK",
+"prob": 0.11
+},
+{
+"palavra": "cortando",
+"inicio": 326.28,
+"fim": 326.86,
+"linha": 92,
+"secao": "FINAL HOOK",
+"prob": 0.874
+},
+{
+"palavra": "a",
+"inicio": 326.86,
+"fim": 326.98,
+"linha": 92,
+"secao": "FINAL HOOK",
+"prob": 0.968
+},
+{
+"palavra": "escuridão?",
+"inicio": 326.98,
+"fim": 327.94,
+"linha": 92,
+"secao": "FINAL HOOK",
+"prob": 0.83
+},
+{
+"palavra": "(a",
+"inicio": 327.94,
+"fim": 328.26,
+"linha": 92,
+"secao": "FINAL HOOK",
+"prob": 0.382
+},
+{
+"palavra": "escuridão!)",
+"inicio": 328.26,
+"fim": 329.18,
+"linha": 92,
+"secao": "FINAL HOOK",
+"prob": 0.922
+},
+{
+"palavra": "Eu",
+"inicio": 329.5,
+"fim": 329.5,
+"linha": 93,
+"secao": "FINAL HOOK",
+"prob": 0.011
+},
+{
+"palavra": "escrevo",
+"inicio": 329.5,
+"fim": 330.08,
+"linha": 93,
+"secao": "FINAL HOOK",
+"prob": 0.491
+},
+{
+"palavra": "na",
+"inicio": 330.08,
+"fim": 330.34,
+"linha": 93,
+"secao": "FINAL HOOK",
+"prob": 0.981
+},
+{
+"palavra": "palma",
+"inicio": 330.34,
+"fim": 330.76,
+"linha": 93,
+"secao": "FINAL HOOK",
+"prob": 0.974
+},
+{
+"palavra": "da",
+"inicio": 330.76,
+"fim": 331.08,
+"linha": 93,
+"secao": "FINAL HOOK",
+"prob": 0.994
+},
+{
+"palavra": "mão",
+"inicio": 331.08,
+"fim": 331.44,
+"linha": 93,
+"secao": "FINAL HOOK",
+"prob": 0.986
+},
+{
+"palavra": "pra",
+"inicio": 332.68,
+"fim": 332.98,
+"linha": 94,
+"secao": "FINAL HOOK",
+"prob": 0.257
+},
+{
+"palavra": "nunca",
+"inicio": 332.98,
+"fim": 333.2,
+"linha": 94,
+"secao": "FINAL HOOK",
+"prob": 0.749
+},
+{
+"palavra": "esquecer",
+"inicio": 333.2,
+"fim": 333.7,
+"linha": 94,
+"secao": "FINAL HOOK",
+"prob": 0.976
+},
+{
+"palavra": "quem",
+"inicio": 333.7,
+"fim": 333.98,
+"linha": 94,
+"secao": "FINAL HOOK",
+"prob": 0.965
+},
+{
+"palavra": "somos,",
+"inicio": 333.98,
+"fim": 334.86,
+"linha": 94,
+"secao": "FINAL HOOK",
+"prob": 0.77
+},
+{
+"palavra": "não!",
+"inicio": 334.86,
+"fim": 336.58,
+"linha": 94,
+"secao": "FINAL HOOK",
+"prob": 0.469
+},
+{
+"palavra": "Se",
+"inicio": 336.72,
+"fim": 336.86,
+"linha": 95,
+"secao": "FINAL HOOK",
+"prob": 0.735
+},
+{
+"palavra": "o",
+"inicio": 336.86,
+"fim": 337.08,
+"linha": 95,
+"secao": "FINAL HOOK",
+"prob": 0.058
+},
+{
+"palavra": "mundo",
+"inicio": 337.08,
+"fim": 337.7,
+"linha": 95,
+"secao": "FINAL HOOK",
+"prob": 0.968
+},
+{
+"palavra": "ruir,",
+"inicio": 337.7,
+"fim": 338.36,
+"linha": 95,
+"secao": "FINAL HOOK",
+"prob": 0.715
+},
+{
+"palavra": "ruir,",
+"inicio": 338.36,
+"fim": 338.92,
+"linha": 95,
+"secao": "FINAL HOOK",
+"prob": 0.985
+},
+{
+"palavra": "ruir",
+"inicio": 339.0,
+"fim": 339.58,
+"linha": 95,
+"secao": "FINAL HOOK",
+"prob": 0.996
+},
+{
+"palavra": "entre",
+"inicio": 339.84,
+"fim": 340.0,
+"linha": 96,
+"secao": "FINAL HOOK",
+"prob": 0.437
+},
+{
+"palavra": "o",
+"inicio": 340.0,
+"fim": 340.2,
+"linha": 96,
+"secao": "FINAL HOOK",
+"prob": 0.992
+},
+{
+"palavra": "vermelho",
+"inicio": 340.2,
+"fim": 340.84,
+"linha": 96,
+"secao": "FINAL HOOK",
+"prob": 0.997
+},
+{
+"palavra": "e",
+"inicio": 340.84,
+"fim": 340.84,
+"linha": 96,
+"secao": "FINAL HOOK",
+"prob": 0.425
+},
+{
+"palavra": "o",
+"inicio": 340.84,
+"fim": 341.0,
+"linha": 96,
+"secao": "FINAL HOOK",
+"prob": 0.984
+},
+{
+"palavra": "azul",
+"inicio": 341.0,
+"fim": 341.26,
+"linha": 96,
+"secao": "FINAL HOOK",
+"prob": 0.978
+},
+{
+"palavra": "no",
+"inicio": 341.26,
+"fim": 341.68,
+"linha": 96,
+"secao": "FINAL HOOK",
+"prob": 0.953
+},
+{
+"palavra": "ar",
+"inicio": 341.68,
+"fim": 342.0,
+"linha": 96,
+"secao": "FINAL HOOK",
+"prob": 0.995
+},
+{
+"palavra": "Nosso",
+"inicio": 343.2,
+"fim": 343.7,
+"linha": 97,
+"secao": "FINAL HOOK",
+"prob": 0.549
+},
+{
+"palavra": "vazio",
+"inicio": 343.7,
+"fim": 344.34,
+"linha": 97,
+"secao": "FINAL HOOK",
+"prob": 0.499
+},
+{
+"palavra": "vira",
+"inicio": 344.34,
+"fim": 344.72,
+"linha": 97,
+"secao": "FINAL HOOK",
+"prob": 0.777
+},
+{
+"palavra": "infinito",
+"inicio": 344.72,
+"fim": 345.74,
+"linha": 97,
+"secao": "FINAL HOOK",
+"prob": 0.995
+},
+{
+"palavra": "e",
+"inicio": 346.24,
+"fim": 346.24,
+"linha": 98,
+"secao": "FINAL HOOK",
+"prob": 0.394
+},
+{
+"palavra": "eu",
+"inicio": 346.24,
+"fim": 346.56,
+"linha": 98,
+"secao": "FINAL HOOK",
+"prob": 0.989
+},
+{
+"palavra": "aprendo",
+"inicio": 346.56,
+"fim": 347.68,
+"linha": 98,
+"secao": "FINAL HOOK",
+"prob": 0.989
+},
+{
+"palavra": "o",
+"inicio": 347.68,
+"fim": 347.96,
+"linha": 98,
+"secao": "FINAL HOOK",
+"prob": 0.003
+},
+{
+"palavra": "que",
+"inicio": 347.96,
+"fim": 348.02,
+"linha": 98,
+"secao": "FINAL HOOK",
+"prob": 0.892
+},
+{
+"palavra": "é",
+"inicio": 348.02,
+"fim": 348.24,
+"linha": 98,
+"secao": "FINAL HOOK",
+"prob": 0.972
+},
+{
+"palavra": "te",
+"inicio": 348.24,
+"fim": 348.56,
+"linha": 98,
+"secao": "FINAL HOOK",
+"prob": 0.892
+},
+{
+"palavra": "amar!",
+"inicio": 348.56,
+"fim": 349.2,
+"linha": 98,
+"secao": "FINAL HOOK",
+"prob": 0.493
+},
+{
+"palavra": "(o",
+"inicio": 349.2,
+"fim": 349.68,
+"linha": 98,
+"secao": "FINAL HOOK",
+"prob": 0.151
+},
+{
+"palavra": "que",
+"inicio": 349.68,
+"fim": 349.74,
+"linha": 98,
+"secao": "FINAL HOOK",
+"prob": 0.825
+},
+{
+"palavra": "é",
+"inicio": 349.74,
+"fim": 349.82,
+"linha": 98,
+"secao": "FINAL HOOK",
+"prob": 0.995
+},
+{
+"palavra": "te",
+"inicio": 349.82,
+"fim": 350.28,
+"linha": 98,
+"secao": "FINAL HOOK",
+"prob": 0.996
+},
+{
+"palavra": "amar!)",
+"inicio": 350.28,
+"fim": 350.84,
+"linha": 98,
+"secao": "FINAL HOOK",
+"prob": 0.705
+},
+{
+"palavra": "Oh,",
+"inicio": 350.96,
+"fim": 351.04,
+"linha": 99,
+"secao": "FINAL HOOK",
+"prob": 0.167
+},
+{
+"palavra": "minha",
+"inicio": 351.04,
+"fim": 351.2,
+"linha": 99,
+"secao": "FINAL HOOK",
+"prob": 0.944
+},
+{
+"palavra": "Asa",
+"inicio": 351.2,
+"fim": 351.74,
+"linha": 99,
+"secao": "FINAL HOOK",
+"prob": 0.437
+},
+{
+"palavra": "Carmesim,",
+"inicio": 351.74,
+"fim": 352.44,
+"linha": 99,
+"secao": "FINAL HOOK",
+"prob": 0.07
+},
+{
+"palavra": "-sim,",
+"inicio": 352.46,
+"fim": 352.72,
+"linha": 99,
+"secao": "FINAL HOOK",
+"prob": 0.351
+},
+{
+"palavra": "-sim",
+"inicio": 352.72,
+"fim": 353.52,
+"linha": 99,
+"secao": "FINAL HOOK",
+"prob": 0.635
+},
+{
+"palavra": "divide",
+"inicio": 353.62,
+"fim": 354.12,
+"linha": 100,
+"secao": "FINAL HOOK",
+"prob": 0.079
+},
+{
+"palavra": "esse",
+"inicio": 354.12,
+"fim": 354.5,
+"linha": 100,
+"secao": "FINAL HOOK",
+"prob": 0.449
+},
+{
+"palavra": "cálice",
+"inicio": 354.5,
+"fim": 355.06,
+"linha": 100,
+"secao": "FINAL HOOK",
+"prob": 0.237
+},
+{
+"palavra": "até",
+"inicio": 355.06,
+"fim": 355.44,
+"linha": 100,
+"secao": "FINAL HOOK",
+"prob": 0.979
+},
+{
+"palavra": "o",
+"inicio": 355.44,
+"fim": 355.76,
+"linha": 100,
+"secao": "FINAL HOOK",
+"prob": 0.986
+},
+{
+"palavra": "fim,",
+"inicio": 355.76,
+"fim": 356.02,
+"linha": 100,
+"secao": "FINAL HOOK",
+"prob": 0.633
+},
+{
+"palavra": "-fim,",
+"inicio": 356.02,
+"fim": 356.34,
+"linha": 100,
+"secao": "FINAL HOOK",
+"prob": 0.614
+},
+{
+"palavra": "-fim",
+"inicio": 356.42,
+"fim": 356.66,
+"linha": 100,
+"secao": "FINAL HOOK",
+"prob": 0.945
+},
+{
+"palavra": "mesmo",
+"inicio": 356.76,
+"fim": 357.02,
+"linha": 101,
+"secao": "FINAL HOOK",
+"prob": 0.729
+},
+{
+"palavra": "que",
+"inicio": 357.02,
+"fim": 357.32,
+"linha": 101,
+"secao": "FINAL HOOK",
+"prob": 0.984
+},
+{
+"palavra": "o",
+"inicio": 357.32,
+"fim": 357.44,
+"linha": 101,
+"secao": "FINAL HOOK",
+"prob": 0.993
+},
+{
+"palavra": "mar",
+"inicio": 357.44,
+"fim": 357.68,
+"linha": 101,
+"secao": "FINAL HOOK",
+"prob": 0.945
+},
+{
+"palavra": "inteiro",
+"inicio": 357.68,
+"fim": 358.22,
+"linha": 101,
+"secao": "FINAL HOOK",
+"prob": 0.997
+},
+{
+"palavra": "vire",
+"inicio": 358.22,
+"fim": 358.66,
+"linha": 101,
+"secao": "FINAL HOOK",
+"prob": 0.749
+},
+{
+"palavra": "contra",
+"inicio": 358.66,
+"fim": 359.08,
+"linha": 101,
+"secao": "FINAL HOOK",
+"prob": 0.945
+},
+{
+"palavra": "mim,",
+"inicio": 359.08,
+"fim": 359.58,
+"linha": 101,
+"secao": "FINAL HOOK",
+"prob": 0.792
+},
+{
+"palavra": "-mim,",
+"inicio": 359.58,
+"fim": 360.06,
+"linha": 101,
+"secao": "FINAL HOOK",
+"prob": 0.673
+},
+{
+"palavra": "-mim",
+"inicio": 360.06,
+"fim": 360.8,
+"linha": 101,
+"secao": "FINAL HOOK",
+"prob": 0.973
+},
+{
+"palavra": "eu",
+"inicio": 361.08,
+"fim": 361.32,
+"linha": 102,
+"secao": "FINAL HOOK",
+"prob": 0.253
+},
+{
+"palavra": "vou",
+"inicio": 361.32,
+"fim": 361.62,
+"linha": 102,
+"secao": "FINAL HOOK",
+"prob": 0.992
+},
+{
+"palavra": "dizer",
+"inicio": 361.62,
+"fim": 362.42,
+"linha": 102,
+"secao": "FINAL HOOK",
+"prob": 0.994
+},
+{
+"palavra": "que",
+"inicio": 362.42,
+"fim": 363.04,
+"linha": 102,
+"secao": "FINAL HOOK",
+"prob": 0.964
+},
+{
+"palavra": "sim",
+"inicio": 363.04,
+"fim": 364.6,
+"linha": 102,
+"secao": "FINAL HOOK",
+"prob": 0.811
+},
+{
+"palavra": "(dizer",
+"inicio": 364.6,
+"fim": 365.78,
+"linha": 102,
+"secao": "FINAL HOOK",
+"prob": 0.547
+},
+{
+"palavra": "que",
+"inicio": 365.78,
+"fim": 366.38,
+"linha": 102,
+"secao": "FINAL HOOK",
+"prob": 0.997
+},
+{
+"palavra": "sim!)",
+"inicio": 366.38,
+"fim": 367.1,
+"linha": 102,
+"secao": "FINAL HOOK",
+"prob": 0.537
+},
+{
+"palavra": "Te",
+"inicio": 367.1,
+"fim": 367.68,
+"linha": 103,
+"secao": "OUTRO",
+"prob": 0.137
+},
+{
+"palavra": "encontrei",
+"inicio": 367.68,
+"fim": 368.58,
+"linha": 103,
+"secao": "OUTRO",
+"prob": 0.987
+},
+{
+"palavra": "na",
+"inicio": 368.58,
+"fim": 369.0,
+"linha": 103,
+"secao": "OUTRO",
+"prob": 0.971
+},
+{
+"palavra": "escadaria...",
+"inicio": 375.28,
+"fim": 376.14,
+"linha": 103,
+"secao": "OUTRO",
+"prob": 0.016
+},
+{
+"palavra": "Qual",
+"inicio": 376.14,
+"fim": 376.14,
+"linha": 104,
+"secao": "OUTRO",
+"prob": 0.0
+},
+{
+"palavra": "é",
+"inicio": 376.14,
+"fim": 376.74,
+"linha": 104,
+"secao": "OUTRO",
+"prob": 0.027
+},
+{
+"palavra": "o",
+"inicio": 376.74,
+"fim": 376.74,
+"linha": 104,
+"secao": "OUTRO",
+"prob": 0.384
+},
+{
+"palavra": "seu",
+"inicio": 376.74,
+"fim": 376.74,
+"linha": 104,
+"secao": "OUTRO",
+"prob": 0.731
+},
+{
+"palavra": "nome?",
+"inicio": 378.32,
+"fim": 379.08,
+"linha": 104,
+"secao": "OUTRO",
+"prob": 0.07
+}
+]

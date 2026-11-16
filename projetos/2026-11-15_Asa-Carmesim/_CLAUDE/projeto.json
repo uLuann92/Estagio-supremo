@@ -1,0 +1,75 @@
+{
+  "projeto": "2026-11-15_Asa-Carmesim",
+  "nome": "Asa Carmesim",
+  "perfil": "padrao",
+  "criado_em": "2026-11-15T19:57:05+00:00",
+  "video": {
+    "fps": 24,
+    "largura": 1920,
+    "altura": 1080
+  },
+  "ferramentas": {
+    "hyperframes": "0.9.45"
+  },
+  "etapas": {
+    "iniciar": "concluido",
+    "musica": "aguardando_aprovacao",
+    "paineis": "pendente",
+    "roteiro": "pendente",
+    "animar": "pendente",
+    "letra": "pendente",
+    "efeitos": "pendente",
+    "sfx": "pendente",
+    "finalizar": "pendente"
+  },
+  "pendencias": [
+    {
+      "id": "p01",
+      "etapa": "paineis",
+      "texto": "Origem das páginas: o usuário pediu download automático; o fluxo não baixa de sites de scan. Decidir de onde vêm as imagens.",
+      "criada_em": "2026-11-15T20:12:59+00:00",
+      "resolvida": false
+    },
+    {
+      "id": "p02",
+      "etapa": "roteiro",
+      "texto": "Referências dão quase nenhuma letra na tela: decidir quanto de letra aparece. Confirmar o mapa Docs/referencias-da-letra.md e quem é a Asa Carmesim.",
+      "criada_em": "2026-11-15T20:12:59+00:00",
+      "resolvida": false
+    }
+  ],
+  "atualizado": {
+    "iniciar": "2026-11-15T19:57:57+00:00",
+    "musica": "2026-11-15T20:12:59+00:00",
+    "briefing": "2026-11-15T20:56:35+00:00"
+  },
+  "musica": {
+    "arquivo": "Musica/Asa_Carmesim.mp3",
+    "duracao": 381.67,
+    "fps": 24,
+    "grade": "variavel",
+    "bpm_de": 134.7,
+    "bpm_ate": 137.2,
+    "por_compasso": 4,
+    "compassos": 216,
+    "leitura": "135 (a metade, 67,5, fica para o usuário decidir pelo clique)",
+    "arquivos": {
+      "batidas": "_CLAUDE/musica/batidas.json",
+      "secoes": "_CLAUDE/musica/secoes.json",
+      "letra_por_palavra": "_CLAUDE/musica/letra_por_palavra.json",
+      "mapa": "_CLAUDE/musica/mapa.md",
+      "voz": "_CLAUDE/musica/faixas/voz.wav"
+    },
+    "conferencias": {
+      "grade": "mix x instrumental: 90% das batidas a menos de 13 ms; drops de grave no tempo 1",
+      "letra": "alinhador x Gemini: mediana 0,23 s; 5 linhas para conferir (48, 71, 89, 104)"
+    },
+    "testes": {
+      "clique": "aguardando o usuário",
+      "karaoke": "aguardando o usuário"
+    }
+  },
+  "briefing": {
+    "asa_carmesim": "Erza Scarlet (Fairy Tail), confirmado pelo usuário"
+  }
+}

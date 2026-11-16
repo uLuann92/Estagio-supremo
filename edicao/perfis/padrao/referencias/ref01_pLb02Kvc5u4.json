@@ -1,0 +1,25 @@
+{
+  "titulo_ou_tema": "Música 'A Canção do Sol' (aparece na tela em 00:16), sobre os personagens Yoriichi Tsugikuni e Kokushibo/Michikatsu de Demon Slayer (Kimetsu no Yaiba).",
+  "fonte_da_imagem": "Misto, composto majoritariamente (cerca de 75%) por quadros do mangá de Demon Slayer recortados, parcialmente coloridos e compostos sobre fundos criados/renderizados (céu, chamas, lua, floresta), e cerca de 25% por cenas do anime e fan animations.",
+  "tratamento_dos_quadros": [
+    "00:01 - Quadro de mangá de Yoriichi criança recortado em camadas sobre um fundo de céu com pássaros voando; cor vermelha adicionada apenas nos olhos e na marca da testa, com movimento de cabelo por deformação (puppet/mesh warp) e zoom out suave.",
+    "00:06 - Dois recortes de mangá (Yoriichi e Michikatsu de costas) afastando-se horizontalmente com paralaxe sobre um fundo de vídeo de fogo intenso e fagulhas subindo.",
+    "00:43 - Close nos seis olhos de Kokushibo do mangá; os olhos são coloridos de amarelo com brilho (glow), lágrimas azuis animadas escorrem e a câmera faz um leve movimento com partículas escuras."
+  ],
+  "cortes": "Na introdução de guitarra (00:00-00:15) e nos refrões (01:25-01:55, 03:30-04:29), os cortes são rápidos, trocando a cada batida ou meio compasso. Nos versos mais calmos (00:18-00:31, 02:13-02:35), os planos duram de 2 a 4 segundos (1 a 2 compassos). As transições usam flashes brancos e amarelos, whip pans (chicotes horizontais/verticais com desfoque de movimento), zoom in/out contínuo entre cenas e máscaras (como abrir de olhos em 01:05 ou barras pretas inclinadas em 02:13).",
+  "impacto": [
+    "00:02 - Entrada da bateria e guitarra pesada: flash branco, inversão de cor (negativo) no personagem ao fundo, cor roxa isolada nos olhos do personagem da frente e tremida de câmera (shake) sincronizada com a caixa.",
+    "01:24 - Entrada do refrão ('Ó Lua'): explosão de fogo cobrindo a tela, flash amarelo intenso, zoom rápido e forte shake na imagem de Yoriichi.",
+    "04:26 - Clímax final do refrão: efeito de impacto Frame-by-Frame (impact frames) em preto e branco de alto contraste com linhas de velocidade e inversão de cores enquanto Yoriichi desfere o golpe."
+  ],
+  "letra_na_tela": "O vídeo quase não utiliza letra na tela (kinetic typography tradicional). As únicas ocorrências de texto são: o título 'A Canção do Sol' em fonte cursiva preta sobre fundo branco em 00:16; caracteres japoneses ('この世') nas laterais e a palavra 'TODO' em fonte sem serifa branca nas barras superior e inferior entre 02:49 e 02:51 (repetindo os kanjis em 03:02 e 03:10); e a última palavra da música, 'CHAMAS', que aparece centralizada no final (04:30) em fonte sem serifa maiúscula, cor laranja/dourada com brilho, saindo em fade out.",
+  "cor_e_acabamento": "Paleta fortemente contrastada: os quadros de mangá mantêm o preto e branco com dessaturação, aplicando cor seletiva (splash color) quase exclusivamente em vermelho vivo (marcas de caçador, olhos, sangue), amarelo/laranja (fogo, sol, olhos de Kokushibo) e roxo/azul pontual. Uso intenso de glow/bloom nas fontes de luz (sol, lua, lâminas e olhos), vinheta escura ou esfumaçada nas bordas, aberração cromática nos impactos e sobreposição constante de partículas de brasa e poeira.",
+  "estrutura": "Começa com uma intro instrumental de rock (00:00-00:17) que funciona como um AMV/MMV rápido apresentando a dualidade dos irmãos em cortes secos no ritmo da guitarra, encerrando no título em fundo branco. Os versos (00:18, 02:13) desaceleram o ritmo de edição, usando fundos mais escuros ou brancos minimalistas, barras cinematográficas inclinadas e foco em expressões faciais e narrativa (morte da família, velhice). Os pré-refrões aumentam a frequência de cortes e introduzem cenas de combate. Os refrões (01:24, 03:30) explodem em cor amarela/laranja com cenas de anime/fan-animation de fogo, cortes rápidos e brilho estourado. O final (04:02-04:38) prolonga o último refrão com coros, intercalando golpes de espada, impact frames em P&B e termina com a palavra 'CHAMAS' em tela preta e fade out do instrumental.",
+  "5_marcas_do_estilo": [
+    "Colorização seletiva (splash color) em vermelho e amarelo brilhante sobre recortes de mangá em preto e branco.",
+    "Ausência quase total de legendas/letras na tela, focando 100% na narrativa visual (estilo MMV/AMV puro).",
+    "Composição de recortes de mangá sobre fundos animados tridimensionais ou de vídeo (mar de fogo, céu com sol/lua) com muitas partículas de brasa.",
+    "Animação de partes específicas dos quadros estáticos (cabelos e roupas) usando deformação de malha (puppet pin/liquify) combinada com câmera 3D.",
+    "Contraste visual temático constante entre luz estourada (sol/fogo dourado para Yoriichi) e escuridão/alto contraste (noite/lua/roxo/vermelho para Kokushibo)."
+  ]
+}

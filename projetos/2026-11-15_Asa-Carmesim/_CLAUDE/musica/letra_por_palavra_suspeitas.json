@@ -1,0 +1,26 @@
+[
+ {
+  "linha": 89,
+  "inicio": 309.64,
+  "texto": "ma-a-ais... (ooh-yeah, aah-aah-aah!)",
+  "motivo": "confiança baixa (0.28), linha esticada demais"
+ },
+ {
+  "linha": 104,
+  "inicio": 376.14,
+  "texto": "Qual é o seu nome?",
+  "motivo": "confiança baixa (0.24), palavras espremidas"
+ },
+ {
+  "linha": 48,
+  "inicio": 163.8,
+  "texto": "",
+  "motivo": "alinhador 1,4 s antes do Gemini"
+ },
+ {
+  "linha": 71,
+  "inicio": 242.36,
+  "texto": "",
+  "motivo": "alinhador 1,7 s antes do Gemini (há um \"hmm\" antes da linha)"
+ }
+]
