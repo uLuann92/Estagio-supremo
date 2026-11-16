@@ -7,6 +7,14 @@ Variáveis opcionais:
   BRAIN_MODEL_ID   modelo(s) preferido(s), separados por vírgula. Padrão: gemini-4-carbon,gemini-pro-latest,gemini-flash-latest
                    (o gemini-4-argon só entra quando a chamada passa model_id="gemini-4-argon", para tarefa mecânica)
   BRAIN_BASE_URL   endereço alternativo da API (proxy/roteador)
+
+Vertex AI (para usar os créditos do Google Cloud): liga sozinha quando USE_VERTEX_AI="true" OU quando existe o
+arquivo ~/.claude/vertex-key.json (no Windows: C:\\Users\\<você>\\.claude\\vertex-key.json). O próprio script aponta
+GOOGLE_APPLICATION_CREDENTIALS para esse arquivo, sem depender do terminal. O projeto vem do campo "project_id"
+do arquivo (ou de GCP_PROJECT_ID); a região começa em GCP_LOCATION (padrão "global") e cai para "us-central1"
+quando o modelo pede região. Se a Vertex falhar e houver GEMINI_API_KEY, a chamada segue pela chave do AI Studio,
+e a resposta diz por onde foi.
+  Teste rápido:  python high_effort_bridge.py --teste
   BRAIN_ROOTS      pastas onde a ponte pode gravar, separadas por ; ou : (padrão: a pasta de trabalho atual)
 """
 import ast
@@ -33,6 +41,77 @@ MODELOS = [m.strip() for m in os.environ.get(
     "BRAIN_MODEL_ID", f"{DEFAULT_MODEL},gemini-pro-latest,gemini-flash-latest").split(",") if m.strip()]
 
 _client = None
+
+# ---------- Vertex AI ----------
+VERTEX_KEY = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS") or os.path.join(
+    os.path.expanduser("~"), ".claude", "vertex-key.json")
+if not os.path.isfile(VERTEX_KEY):
+    VERTEX_KEY = os.path.join(os.path.expanduser("~"), ".claude", "vertex-key.json")
+USE_VERTEX = os.environ.get("USE_VERTEX_AI", "").strip().lower() in ("true", "1", "yes", "sim") or os.path.isfile(VERTEX_KEY)
+VERTEX_AVISO = ""
+VERTEX_PROJECT = ""
+if USE_VERTEX:
+    if os.path.isfile(VERTEX_KEY):
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = VERTEX_KEY  # definido aqui, sem depender do terminal
+        try:
+            with open(VERTEX_KEY, encoding="utf-8") as _f:
+                _conta = json.load(_f)
+            # o projeto da própria chave vale mais que a variável: é o que a conta de serviço realmente alcança
+            VERTEX_PROJECT = _conta.get("project_id", "")
+            if _conta.get("type") != "service_account":
+                VERTEX_AVISO = f"o arquivo {VERTEX_KEY} não é uma chave de conta de serviço (type={_conta.get('type')!r})"
+        except Exception as _e:  # noqa: BLE001
+            VERTEX_AVISO = f"não consegui ler {VERTEX_KEY}: {_e}"
+    else:
+        VERTEX_AVISO = f"USE_VERTEX_AI está ligado, mas o arquivo {VERTEX_KEY} não existe"
+    _env_proj = os.environ.get("GCP_PROJECT_ID", "").strip()
+    if not VERTEX_PROJECT:
+        VERTEX_PROJECT = _env_proj
+    elif _env_proj and _env_proj != VERTEX_PROJECT:
+        VERTEX_AVISO = (VERTEX_AVISO + "; " if VERTEX_AVISO else "") + (
+            f"GCP_PROJECT_ID={_env_proj!r} difere do project_id da chave ({VERTEX_PROJECT!r}); usando o da chave")
+    if not VERTEX_PROJECT:
+        VERTEX_AVISO = (VERTEX_AVISO + "; " if VERTEX_AVISO else "") + "sem projeto (GCP_PROJECT_ID ou project_id na chave)"
+VERTEX_OK = USE_VERTEX and bool(VERTEX_PROJECT) and os.path.isfile(VERTEX_KEY)
+VERTEX_LOCAIS = []
+for _l in (os.environ.get("GCP_LOCATION", "").strip() or "global", "global", "us-central1"):
+    if _l and _l not in VERTEX_LOCAIS:
+        VERTEX_LOCAIS.append(_l)
+_vertex_clients = {}
+ULTIMA_ROTA = ""
+
+
+def vertex_client(local):
+    """Cliente da Vertex AI para uma região (um por região, criado na primeira vez)."""
+    if local not in _vertex_clients:
+        _vertex_clients[local] = genai.Client(vertexai=True, project=VERTEX_PROJECT, location=local)
+    return _vertex_clients[local]
+
+
+def rotas():
+    """Por onde tentar, em ordem: Vertex em cada região, depois a chave do AI Studio (se existir)."""
+    r = [("Vertex AI/" + l, (lambda l=l: vertex_client(l))) for l in VERTEX_LOCAIS] if VERTEX_OK else []
+    if API_KEY:
+        r.append(("AI Studio (chave)", client))
+    if not r:
+        raise RuntimeError("Sem credencial: " + (VERTEX_AVISO or "falta GEMINI_API_KEY ou a chave da Vertex AI."))
+    return r
+
+
+def erro_de_autenticacao(e):
+    """A credencial em si falhou (chave revogada, conta inexistente, sem permissão): não adianta outra região."""
+    t = str(e).lower()
+    codigo = getattr(e, "code", None) or getattr(e, "status_code", None)
+    return codigo in (401, 403) or any(p in t for p in (
+        "invalid_grant", "unauthenticated", "permission_denied", "permission denied", "defaultcredentialserror",
+        "could not automatically determine credentials", "billing", "api has not been used", "is disabled"))
+
+
+def erro_de_regiao(e):
+    """O erro indica que o modelo não existe/não é servido nesta região (vale tentar outra)?"""
+    t = str(e).lower()
+    codigo = getattr(e, "code", None) or getattr(e, "status_code", None)
+    return codigo in (400, 404) and any(p in t for p in ("location", "region", "not found", "not supported", "unsupported"))
 ACTIVE_CACHES = {}
 
 MIDIA = {".mp4", ".mkv", ".mov", ".webm", ".mp3", ".wav", ".flac", ".m4a", ".png", ".jpg", ".jpeg", ".webp", ".pdf"}
@@ -40,6 +119,11 @@ MIDIA = {".mp4", ".mkv", ".mov", ".webm", ".mp3", ".wav", ".flac", ".m4a", ".png
 SEGREDOS = re.compile(r"(^|[\\/])(\.env(\..*)?|.*\.pem|.*\.key|id_rsa.*|id_ed25519.*|credentials.*|.*\.p12|.*\.pfx|"
                       r"\.npmrc|\.netrc|secrets?\..*)$", re.I)
 LIMITE_TEXTO = 1_500_000  # caracteres por arquivo de texto
+LIMITE_EMBUTIDO = 18 * 1024 * 1024  # mídia até este tamanho vai embutida no pedido (Vertex AI)
+MIMES = {".mp4": "video/mp4", ".mkv": "video/x-matroska", ".mov": "video/quicktime", ".webm": "video/webm",
+         ".mp3": "audio/mpeg", ".wav": "audio/wav", ".flac": "audio/flac", ".m4a": "audio/mp4",
+         ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp",
+         ".pdf": "application/pdf"}
 
 
 def client():
@@ -60,32 +144,47 @@ def fila_de_modelos(pedido: str = ""):
 def gerar(contents, config_kwargs, model_id="", effort_level="HIGH", espera=300, fila=None):
     """Tenta cada modelo da fila, com raciocínio alto por padrão.
     Passa para o próximo modelo em sobrecarga, falta de cota ou modelo inexistente."""
+    global ULTIMA_ROTA
     ultimo, erros = None, []
+    caminhos = rotas()
+    vertex_morta = False
     for modelo in (fila or fila_de_modelos(model_id)):
-        cfg = dict(config_kwargs)
-        cfg["http_options"] = types.HttpOptions(timeout=int(espera * 1000))  # sem limite, uma chamada pode ficar presa
-        t = thinking(effort_level) if effort_level else None
-        if t is not None and "thinking_config" not in cfg:
-            cfg["thinking_config"] = t
-        for tentativa in range(3):
-            try:
-                r = client().models.generate_content(
-                    model=modelo, contents=contents, config=types.GenerateContentConfig(**cfg))
-                if not (r.text or "").strip():
-                    raise RuntimeError("resposta vazia")
-                return modelo, r
-            except Exception as e:  # noqa: BLE001 - a SDK levanta tipos diferentes por versão
-                ultimo = e
-                codigo = getattr(e, "code", None) or getattr(e, "status_code", None)
-                if "thinking" in str(e).lower() and "thinking_config" in cfg:
-                    cfg.pop("thinking_config")  # este modelo não aceita o nível pedido: segue sem
-                    continue
-                if codigo in (500, 502, 503, 504) and tentativa == 0:
-                    time.sleep(4)
-                    continue
-                erros.append(f"{modelo}: {str(e)[:160]}")
-                break
-    raise RuntimeError("Nenhum modelo respondeu. " + " | ".join(erros or [str(ultimo)]))
+        for nome_rota, pegar in caminhos:
+            if vertex_morta and nome_rota.startswith("Vertex"):
+                continue
+            if nome_rota.startswith("Vertex") and any(hasattr(c, "uri") and hasattr(c, "state") for c in
+                                                      (contents if isinstance(contents, list) else [])):
+                continue  # arquivo enviado pela Files API do AI Studio não existe na Vertex
+            cfg = dict(config_kwargs)
+            cfg["http_options"] = types.HttpOptions(timeout=int(espera * 1000))  # sem limite, a chamada pode ficar presa
+            t = thinking(effort_level) if effort_level else None
+            if t is not None and "thinking_config" not in cfg:
+                cfg["thinking_config"] = t
+            for tentativa in range(3):
+                try:
+                    r = pegar().models.generate_content(
+                        model=modelo, contents=contents, config=types.GenerateContentConfig(**cfg))
+                    if not (r.text or "").strip():
+                        raise RuntimeError("resposta vazia")
+                    ULTIMA_ROTA = nome_rota
+                    return f"{modelo} via {nome_rota}", r
+                except Exception as e:  # noqa: BLE001 - a SDK levanta tipos diferentes por versão
+                    ultimo = e
+                    codigo = getattr(e, "code", None) or getattr(e, "status_code", None)
+                    if "thinking" in str(e).lower() and "thinking_config" in cfg:
+                        cfg.pop("thinking_config")  # este modelo não aceita o nível pedido: segue sem
+                        continue
+                    if codigo in (500, 502, 503, 504) and tentativa == 0:
+                        time.sleep(4)
+                        continue
+                    erros.append(f"{modelo} via {nome_rota}: {str(e)[:150]}")
+                    if nome_rota.startswith("Vertex") and erro_de_autenticacao(e):
+                        vertex_morta = True  # credencial ruim: pula a Vertex no resto desta chamada
+                        erros[-1] += " [autenticação/permissão: Vertex desligada nesta chamada]"
+                    elif nome_rota.startswith("Vertex") and erro_de_regiao(e):
+                        erros[-1] += " [região: tentando a próxima]"
+                    break  # próxima rota (outra região ou a chave do AI Studio) antes de trocar de modelo
+    raise RuntimeError("Nenhum modelo respondeu. " + " | ".join(erros[-6:] or [str(ultimo)]))
 
 
 def thinking(effort_level: str):
@@ -125,6 +224,17 @@ def montar_partes(caminhos):
             continue
         ext = os.path.splitext(c)[1].lower()
         if ext in MIDIA:
+            tamanho = os.path.getsize(c)
+            if VERTEX_OK and tamanho <= LIMITE_EMBUTIDO:
+                # a Vertex não tem a Files API: a mídia vai embutida no pedido (serve também para o AI Studio)
+                with open(c, "rb") as fh:
+                    partes.append(types.Part.from_bytes(data=fh.read(), mime_type=MIMES.get(ext, "application/octet-stream")))
+                relato.append(f"mídia embutida: {c} ({tamanho / 1e6:.1f} MB)")
+                continue
+            if not API_KEY:
+                relato.append(f"GRANDE DEMAIS para a Vertex sem bucket ({tamanho / 1e6:.0f} MB > "
+                              f"{LIMITE_EMBUTIDO / 1e6:.0f} MB) e não há GEMINI_API_KEY para enviar pelo AI Studio: {c}")
+                continue
             f = client().files.upload(file=c)
             while f.state.name == "PROCESSING":
                 time.sleep(2)
@@ -133,7 +243,7 @@ def montar_partes(caminhos):
                 relato.append(f"FALHOU no processamento: {c}")
                 continue
             partes.append(f)
-            relato.append(f"mídia: {c}")
+            relato.append(f"mídia: {c}" + (" (enviada pelo AI Studio: grande demais para embutir na Vertex)" if VERTEX_OK else ""))
         else:
             try:
                 with open(c, "r", encoding="utf-8", errors="replace") as fh:
@@ -188,8 +298,9 @@ def assinaturas(caminho: str, codigo: str):
 @mcp.tool()
 def check_active_models() -> str:
     """Lista os modelos que a chave alcança. Estar na lista não garante cota: teste com uma pergunta curta."""
-    nomes = [m.name.replace("models/", "") for m in client().models.list()]
-    return "Fila configurada: " + ", ".join(MODELOS) + "\nModelos na chave:\n" + "\n".join(f"- {n}" for n in nomes)
+    nome_rota, pegar = rotas()[0]
+    nomes = [m.name.split("/")[-1] for m in pegar().models.list()]
+    return f"Rota: {nome_rota}" + (f" (aviso: {VERTEX_AVISO})" if VERTEX_AVISO else "") + "\nFila configurada: " + ", ".join(MODELOS) + "\nModelos na chave:\n" + "\n".join(f"- {n}" for n in nomes)
 
 
 @mcp.tool()
@@ -202,7 +313,7 @@ def cache_heavy_context(cache_name: str, file_paths: list[str], model_id: str = 
     ultimo = None
     for modelo in fila_de_modelos(model_id):
         try:
-            cache = client().caches.create(model=modelo, config=types.CreateCachedContentConfig(
+            cache = rotas()[0][1]().caches.create(model=modelo, config=types.CreateCachedContentConfig(
                 contents=partes, ttl=f"{ttl_minutes * 60}s",
                 system_instruction="Você analisa mídia e código para um editor de vídeo e desenvolvedor. "
                                    "Tempos que você citar são aproximados; diga quando não tiver certeza."))
@@ -380,5 +491,28 @@ def carbon_web_research(query: str, save_report_to: str = "", model_id: str = ""
             "confira os que forem usados.")
 
 
+def autoteste():
+    """Mostra por onde a ponte vai e faz uma chamada mínima. Nunca imprime o conteúdo de chave alguma."""
+    print("Vertex AI:", "LIGADA" if VERTEX_OK else ("pedida, mas incompleta" if USE_VERTEX else "desligada"))
+    if USE_VERTEX:
+        print("  arquivo da chave:", VERTEX_KEY, "(existe)" if os.path.isfile(VERTEX_KEY) else "(NÃO existe)")
+        print("  projeto:", VERTEX_PROJECT or "(nenhum)")
+        print("  regiões, em ordem:", ", ".join(VERTEX_LOCAIS))
+        if VERTEX_AVISO:
+            print("  AVISO:", VERTEX_AVISO)
+    print("Chave do AI Studio (GEMINI_API_KEY):", "definida" if API_KEY else "ausente")
+    print("Fila de modelos:", ", ".join(MODELOS))
+    try:
+        quem, r = gerar("Responda só com a palavra: funcionando", {"temperature": 0}, effort_level="", espera=90)
+        print(f"RESPONDEU: {quem} -> {(r.text or '').strip()[:60]}")
+    except Exception as e:  # noqa: BLE001
+        print("FALHOU:", str(e)[:900])
+        raise SystemExit(1)
+
+
 if __name__ == "__main__":
-    mcp.run()
+    import sys
+    if "--teste" in sys.argv:
+        autoteste()
+    else:
+        mcp.run()
